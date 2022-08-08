@@ -4,10 +4,7 @@ import {
 
 /** @type {import('vite').UserConfig} */
 const config = {
-	plugins: [sveltekit()],
-	ssr: {
-		noExternal: ['chart.js'],
-	}
+	plugins: [sveltekit()]
 };
 
 export default config;

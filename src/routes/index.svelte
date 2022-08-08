@@ -3,7 +3,7 @@
   import arrowRight from "svelte-awesome/icons/arrowRight";
   import { onMount } from "svelte";
   import { browser } from "$app/env";
-  import { Chart, registerables } from "chart.js";
+  import Chart from "chart.js/auto";
   import { BigNumber, ethers } from "ethers";
 
   const provider = new ethers.providers.JsonRpcProvider();
@@ -30,7 +30,6 @@
     adamBalance = ethers.utils.formatEther(adamHexBalance);
   }
 
-  Chart.register(...registerables);
   let firstSplit: HTMLCanvasElement,
     secondSplit: HTMLCanvasElement,
     thirdSplit: HTMLCanvasElement;
