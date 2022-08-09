@@ -5,6 +5,7 @@
   import { browser } from "$app/env";
   import Chart from "chart.js/auto";
   import { BigNumber, ethers } from "ethers";
+  import Doughnut from "$lib/Doughnut.svelte";
 
   const provider = new ethers.providers.JsonRpcProvider();
   const signer = provider.getSigner();
@@ -30,20 +31,7 @@
     adamBalance = ethers.utils.formatEther(adamHexBalance);
   }
 
-  let firstSplit: HTMLCanvasElement,
-    secondSplit: HTMLCanvasElement,
-    thirdSplit: HTMLCanvasElement;
-
-  let firstSplitData = {
-    labels: ["Chris"],
-    datasets: [
-      {
-        data: [100],
-        backgroundColor: ["#46BFBD"],
-        hoverBackgroundColor: ["#5AD3D1"],
-      },
-    ],
-  };
+  let secondSplit: HTMLCanvasElement, thirdSplit: HTMLCanvasElement;
 
   let secondSplitData = {
     labels: ["Adam", "Chris", "Nik"],
@@ -70,11 +58,6 @@
   onMount(() => {
     setBalance();
     if (browser) {
-      new Chart(firstSplit, {
-        type: "doughnut",
-        data: firstSplitData,
-      });
-
       new Chart(secondSplit, {
         type: "doughnut",
         data: secondSplitData,
@@ -99,7 +82,7 @@
       </div>
       <div class="mt-3 sm:pr-8">
         <h3>No cap</h3>
-        <canvas bind:this={firstSplit} />
+        <Doughnut data={{ labels: ["Chris"], splits: [100] }} />
       </div>
     </li>
     <li class="relative mb-6 sm:mb-0">
