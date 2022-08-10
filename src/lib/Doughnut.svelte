@@ -1,7 +1,8 @@
 <script lang="ts">
     export let data;
 
-    import Chart from "chart.js/auto";
+    import { Chart } from "chart.js";
+
     import { onMount } from "svelte";
 
     let canvas: HTMLCanvasElement;
