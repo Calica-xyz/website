@@ -11,27 +11,33 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "devDependencies": {
+    "@coinbase/wallet-sdk": "^3.4.0",
     "@playwright/test": "^1.22.2",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/adapter-static": "^1.0.0-next.38",
     "@sveltejs/kit": "next",
+    "@walletconnect/web3-provider": "^1.8.0",
     "autoprefixer": "^10.4.7",
     "chart.js": "^3.9.0",
     "flowbite": "^1.5.1",
     "flowbite-svelte": "^0.22.29",
     "postcss": "^8.4.14",
     "postcss-load-config": "^4.0.1",
+    "rollup-plugin-polyfill-node": "^0.10.2",
     "svelte": "^3.44.0",
     "svelte-awesome": "^3.0.0",
     "svelte-check": "^2.7.1",
+    "svelte-ethers-store": "^2.5.6",
     "svelte-preprocess": "^4.10.7",
     "tailwindcss": "^3.1.5",
     "tslib": "^2.3.1",
     "typescript": "^4.7.4",
-    "vite": "^3.0.0"
+    "vite": "^3.0.0",
+    "web3modal": "^1.9.8"
   },
   "type": "module",
   "dependencies": {
-    "ethers": "^5.6.9"
+    "ethers": "^5.6.9",
+    "svelte-web3": "^3.5.1"
   }
 }

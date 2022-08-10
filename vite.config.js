@@ -4,7 +4,12 @@ import {
 
 /** @type {import('vite').UserConfig} */
 const config = {
-	plugins: [sveltekit()]
+	plugins: [
+		sveltekit()
+	],
+	define: {
+		global: {}
+	}
 };
 
 export default config;
