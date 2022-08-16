@@ -3,6 +3,7 @@
     import Web3Modal from "web3modal";
     import WalletConnectProvider from "@walletconnect/web3-provider/dist/umd/index.min";
     import { defaultEvmStores } from "svelte-ethers-store";
+    import { Button } from "flowbite-svelte";
 
     let initialized = false;
 
@@ -11,7 +12,12 @@
             walletconnect: {
                 package: WalletConnectProvider,
                 options: {
-                    rpc: "https://polygon-mainnet.g.alchemy.com/v2/D3r6W3lvGMg5c0ekMvjKn1tTfApYr7i4",
+                    rpc: {
+                        80001: "https://polygon-mumbai.g.alchemy.com/v2/Jy4dLs8B7WeUuDz0_JSX0nA6afDFbn15",
+                        5: "https://eth-goerli.g.alchemy.com/v2/yYo5kcYx2vcUabvDNi0WT2NptWfInm6w",
+                        1: "https://eth-mainnet.g.alchemy.com/v2/oJmRebz4u9HB7tRb9p2SkXjgNY9YiE0B",
+                        137: "https://polygon-mainnet.g.alchemy.com/v2/D3r6W3lvGMg5c0ekMvjKn1tTfApYr7i4",
+                    },
                 },
             },
         };
@@ -34,10 +40,7 @@
 </script>
 
 {#if initialized}
-    <button
-        on:click={initializeWeb3}
-        type="button"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        >Connect Wallet
-    </button>
+    <div class="grid h-screen place-items-center">
+        <Button on:click={initializeWeb3} class="">Connect Wallet</Button>
+    </div>
 {/if}

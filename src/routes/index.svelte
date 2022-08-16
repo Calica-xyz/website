@@ -1,6 +1,12 @@
-<script lang="ts">
-  import Doughnut from "../lib/Doughnut.svelte";
+<script>
+    import { signerAddress } from "svelte-ethers-store";
+    import Loader from "$lib/Components/Loader.svelte";
+
+    import { onMount } from "svelte";
+
+    onMount(() => {
+        window.location.href = "/my-contracts/" + $signerAddress;
+    });
 </script>
 
-<h1>Hi</h1>
-<!-- <Doughnut data={{ labels: ["Chris"], splits: [100] }} /> -->
+<Loader />
