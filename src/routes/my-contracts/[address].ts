@@ -16,7 +16,7 @@ export async function GET({ params }) {
 
     let filter = contract.filters.ContractDeployed(params.address, null, null);
     let events = await contract.queryFilter(filter);
-
+ 
     let deployedContracts = [];
     for (let event of events) {
         deployedContracts.push({
@@ -26,6 +26,8 @@ export async function GET({ params }) {
             chain: "maticmum"
         });
     }
+
+    deployedContracts = deployedContracts.filter((v,i,a)=>a.findIndex(v2=>(v2.cloneAddress===v.cloneAddress))===i)
 
     return {
         status: 200,

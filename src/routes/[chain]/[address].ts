@@ -89,9 +89,9 @@ async function getWithdrawalData(contract) {
 
     for (let withdrawalEvent of withdrawalEvents) {
         retEvents.push({
-            amount: withdrawalEvent.args.amount,
+            amount: convertWei(withdrawalEvent.args.amount),
             account: withdrawalEvent.args.account,
-            timestamp: withdrawalEvent.args.timestamp
+            timestamp: convertTimestamp(withdrawalEvent.args.timestamp)
         })
     }
 
@@ -110,4 +110,13 @@ async function getAddressMappings(contract, splits) {
     }
 
     return addressMappings;
+}
+
+function convertWei(amount: ethers.BigNumber) {
+    let convertedStr = ethers.utils.formatEther(amount);
+    return Number.parseFloat(convertedStr);
+}
+
+function convertTimestamp(timestamp: ethers.BigNumber) {
+    return timestamp.toNumber();
 }
