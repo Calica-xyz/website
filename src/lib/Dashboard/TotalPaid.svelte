@@ -1,17 +1,24 @@
 <script>
-    export let amount;
-    export let currency;
+  export let amount;
+  export let currency;
 
-    let className = "";
-    export { className as class };
+  let className = "";
+  export { className as class };
 
-    import Card from "$lib/Flowbite/Card.svelte";
+  export let isOwner;
+
+  import Card from "$lib/Flowbite/Card.svelte";
 </script>
 
 <Card class="{className} text-center">
+  {#if isOwner}
     <h5>Total Earned</h5>
-    <h1>
-        {amount}
-        <p class="subtitle-text">{currency}</p>
-    </h1>
+  {:else}
+    <h5>Your Earnings</h5>
+  {/if}
+
+  <h1 class="truncate text-ellipsis">
+    {amount}
+    <p class="subtitle-text">{currency}</p>
+  </h1>
 </Card>

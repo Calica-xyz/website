@@ -31,10 +31,13 @@ export async function GET({ params, url }) {
         let contractName = await contract.contractName();
         let splits = await contract.getSplits();
 
-        let chartData = {
-            labels: splits.map((split) => split.name),
-            splits: splits.map((split) => split.percentage.toNumber() / 1000),
-        };
+        splits = splits.map(function(split) {
+            return {
+                account: split.account,
+                name: split.name,
+                percentage: split.percentage.toNumber() / 1000
+            }
+        });
 
         let deployFilter = factoryContract.filters.ContractDeployed(null, params.address, null);
         let deployEvents = await factoryContract.queryFilter(deployFilter);
@@ -56,7 +59,7 @@ export async function GET({ params, url }) {
             ownerAddress,
             contractName,
             contractType,
-            chartData,
+            splits,
             deployDateString,
             withdrawalHistory,
             addressMappings
@@ -68,7 +71,7 @@ export async function GET({ params, url }) {
                 ownerAddress,
                 contractName,
                 contractType,
-                chartData,
+                splits,
                 deployDateString,
                 withdrawalHistory,
                 addressMappings
