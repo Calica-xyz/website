@@ -12,28 +12,30 @@
     import moment from "moment";
     import "chartjs-adapter-moment";
 
-    import { Card } from "flowbite-svelte";
+    import Card from "$lib/Flowbite/Card.svelte";
 
     Chart.register(...registerables);
 
     export let data;
-    export let currency;
-
-    let className;
-    export { className as class };
 
     for (let i = 0; i < data.length; i++) {
         data[i]["formattedTimestamp"] = moment
             .unix(data[i].x)
-            .format("MMMM Do YYYY, h:mm:ss a");
+            .format("MMM Do YYYY, h:mm a");
 
         data[i].x *= 1000;
     }
+
+    export let currency;
+
+    let className = "";
+    export { className as class };
 
     import { onMount } from "svelte";
 
     let canvas: HTMLCanvasElement;
     let currentChart;
+    let style = getComputedStyle(document.body);
 
     const lineData = {
         datasets: [
@@ -43,11 +45,18 @@
                 tension: 0.1,
                 pointRadius: 6,
                 pointHoverRadius: 8,
-                borderColor: "#46BFBD",
-                pointBackgroundColor: "#46BFBD",
+                borderColor: getRGB("--color-secondary"),
+                pointBackgroundColor: getRGB("--color-secondary"),
             },
         ],
     };
+
+    function getRGB(name) {
+        let split = style.getPropertyValue(name).trim().split(" ");
+        console.log(split);
+
+        return `rgb(${split[0]},${split[1]},${split[2]})`;
+    }
 
     function redrawChart() {
         currentChart.destroy();
@@ -58,12 +67,14 @@
         currentChart = new Chart(canvas, {
             type: "line",
             options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
                 scales: {
                     x: {
                         type: "time",
-                        grid: {
-                            display: false,
-                        },
                         time: {
                             unit: "week",
                             displayFormats: {
@@ -73,7 +84,7 @@
                     },
                     y: {
                         grid: {
-                            display: false,
+                            display: true,
                         },
                     },
                 },
@@ -87,12 +98,13 @@
     });
 </script>
 
-<Card
-    class="max-w-4xl {className}"
-    style="min-width: min(600px, calc(100% - 4rem));"
->
-    <h4>Payouts</h4>
-    <canvas class="mb-6" bind:this={canvas} />
+<Card class="max-w-4xl {className}" style="min-width: min(350px, 100%);">
+    <h4 class="mb-3">Payouts</h4>
+    <canvas
+        style="width: 210px; height: 210px;"
+        class="mb-6"
+        bind:this={canvas}
+    />
 
     <Table>
         <TableHead>

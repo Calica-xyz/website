@@ -4,6 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    :root {
+        --color-primary: 35 100 170;
+        --color-secondary: 254 147 140;
+        --color-tertiary: 230 184 156;
+        --color-accent: 234 210 172;
+    }
+}
+
 
 /* Generated + customized from Google's Material Design Type Scale: 
  https://material.io/design/typography/the-type-system.html#type-scale */

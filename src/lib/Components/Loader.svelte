@@ -1,5 +1,5 @@
 <script>
-    import { Spinner } from "flowbite-svelte";
+    import Spinner from "$lib/Flowbite/Spinner.svelte";
 </script>
 
 <div id="spinner-container" class="grid place-items-center">

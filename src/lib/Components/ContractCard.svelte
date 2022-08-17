@@ -4,33 +4,40 @@
     export let address: string;
     export let chain: string;
 
-    import { Card } from "flowbite-svelte";
-    import { ChartPie, ChartBar } from "svelte-heros";
-    import Polygon from "$lib/CustomIcons/Polygon.svelte";
-    import Eth from "$lib/CustomIcons/Eth.svelte";
+    import Button from "$lib/Flowbite/Button.svelte";
+    import { ChartPie, ChartBar, ArrowNarrowRight } from "svelte-heros";
+    import Card from "$lib/Flowbite/Card.svelte";
+    import ChainBadge from "$lib/Components/ChainBadge.svelte";
 
-    let backgroundColor =
-        chain == "maticmum" || chain == "matic"
-            ? "bg-[#8247e5]"
-            : "bg-[#3c3c3d]";
-
-    console.log(backgroundColor);
+    let link = `/${chain}/${address}?type=${contractType}`;
 </script>
 
-<Card href="/{chain}/{address}?type={contractType}" padding="none">
-    <div class="{backgroundColor} rounded-t-lg">
-        {#if contractType == "SimpleRevenueShare"}
-            <ChartPie color="white" size="200" class="text-center m-auto p-2" />
-        {:else if contractType == "CappedRevenueShare"}
-            <ChartBar color="white" size="200" class="text-center m-auto p-2" />
-        {/if}
-    </div>
-    <div class="py-4 px-6 flex justify-between items-center">
-        <h2>{name}</h2>
-        {#if chain == "maticmum" || chain == "matic"}
-            <Polygon size="40" />
-        {:else if chain == "homestead" || chain == "goerli"}
-            <Eth size="40" />
-        {/if}
+<Card class="relative w-[300px]">
+    <div class="flex flex-col gap-2 justify-between h-full">
+        <div class="mr-6 absolute right-0 inline-block">
+            <ChainBadge {chain} />
+        </div>
+
+        <a href={link}>
+            {#if contractType == "SimpleRevenueShare"}
+                <ChartPie class="text-gray-300" size="100" />
+            {:else if contractType == "CappedRevenueShare"}
+                <ChartBar class="text-gray-300" size="100" />
+            {/if}
+        </a>
+
+        <div>
+            <h3 class="text-gray-600">{name}</h3>
+            <!-- <CopyButton class="max-w-[150px]" text={address} /> -->
+        </div>
+
+        <a href={link}>
+            <Button color="primary" outline class="mt-5 w-[200px]"
+                >View Contract<ArrowNarrowRight
+                    size="18"
+                    class="ml-2"
+                /></Button
+            >
+        </a>
     </div>
 </Card>

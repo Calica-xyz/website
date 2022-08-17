@@ -1,7 +1,7 @@
 <script>
     export let size;
 
-    let className;
+    let className = "";
     export { className as class };
 </script>
 

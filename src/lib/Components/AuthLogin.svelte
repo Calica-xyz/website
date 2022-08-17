@@ -3,7 +3,7 @@
     import Web3Modal from "web3modal";
     import WalletConnectProvider from "@walletconnect/web3-provider/dist/umd/index.min";
     import { defaultEvmStores } from "svelte-ethers-store";
-    import { Button } from "flowbite-svelte";
+    import Button from "$lib/Flowbite/Button.svelte";
 
     let initialized = false;
 
@@ -41,6 +41,8 @@
 
 {#if initialized}
     <div class="grid h-screen place-items-center">
-        <Button on:click={initializeWeb3} class="">Connect Wallet</Button>
+        <Button color="primary" on:click={initializeWeb3} class=""
+            >Connect Wallet</Button
+        >
     </div>
 {/if}

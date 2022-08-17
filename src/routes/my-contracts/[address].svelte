@@ -3,10 +3,10 @@
     export let deployedContracts;
 </script>
 
-<div class="m-10">
-    <h1>My Contracts</h1>
+<div class="m-10 sm:mx-20">
+    <h2 class="text-gray-600">My Contracts</h2>
 
-    <div class="mt-8">
+    <div class="mt-8 flex gap-12 flex-wrap justify-center sm:justify-start">
         {#each deployedContracts as deployedContract}
             <ContractCard
                 name={deployedContract.contractName}
