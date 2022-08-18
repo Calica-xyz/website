@@ -1,5 +1,12 @@
 <script lang="ts">
   import { Chart, registerables } from "chart.js";
+  import { onMount } from "svelte";
+
+  import moment from "moment";
+  import "chartjs-adapter-moment";
+
+  import Card from "$lib/Flowbite/Card.svelte";
+  import { getRGB } from "$lib/js/utils";
   import {
     Table,
     TableBody,
@@ -9,14 +16,10 @@
     TableHeadCell,
   } from "flowbite-svelte";
 
-  import moment from "moment";
-  import "chartjs-adapter-moment";
-
-  import Card from "$lib/Flowbite/Card.svelte";
-
   Chart.register(...registerables);
 
-  export let data;
+  export let data: any;
+  export let currency: string;
 
   for (let i = 0; i < data.length; i++) {
     data[i]["formattedTimestamp"] = moment
@@ -26,15 +29,8 @@
     data[i].x *= 1000;
   }
 
-  export let currency;
-
-  let className = "";
-  export { className as class };
-
-  import { onMount } from "svelte";
-
   let canvas: HTMLCanvasElement;
-  let currentChart;
+  let currentChart: Chart;
   let style = getComputedStyle(document.body);
 
   const lineData = {
@@ -50,13 +46,6 @@
       },
     ],
   };
-
-  function getRGB(name) {
-    let split = style.getPropertyValue(name).trim().split(" ");
-    console.log(split);
-
-    return `rgb(${split[0]},${split[1]},${split[2]})`;
-  }
 
   function redrawChart() {
     currentChart.destroy();
@@ -99,7 +88,7 @@
   });
 </script>
 
-<Card class="max-w-4xl {className}" style="min-width: min(350px, 100%);">
+<Card class={`max-w-4xl ${$$props.class}`} style="min-width: min(350px, 100%);">
   <h4 class="mb-3">Payouts</h4>
   <div class="flex-1 flex flex-col justify-around">
     <canvas

@@ -1,20 +1,17 @@
-<script>
+<script lang="ts">
   import Modal from "$lib/Flowbite/Modal.svelte";
   import CopyButton from "$lib/Components/CopyButton.svelte";
   import Card from "$lib/Flowbite/Card.svelte";
   import List from "$lib/Flowbite/List.svelte";
 
-  export let data;
-  export let isOwner;
-
-  let className = "";
-  export { className as class };
+  export let data: any;
+  export let isOwner: boolean;
 
   let modal = false;
   let truncatedData = data.slice(0, 2);
 </script>
 
-<Card class={className}>
+<Card class={$$props.class}>
   <div class="flex justify-between items-center mb-4">
     <h5 class="dark:text-white">Stakeholders</h5>
 

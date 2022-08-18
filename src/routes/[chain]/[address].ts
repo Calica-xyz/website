@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import simpleRevShareABI from "$lib/ABIs/RevenueShare.json";
 import simpleRevShareFactoryABI from "$lib/ABIs/RevenueShareFactory.json";
 import ago from "s-ago"
+import { convertTimestamp, convertWei } from "$lib/js/utils";
 
 // TODO: Support other chains
 
@@ -31,7 +32,7 @@ export async function GET({ params, url }) {
         let contractName = await contract.contractName();
         let splits = await contract.getSplits();
 
-        splits = splits.map(function(split) {
+        splits = splits.map(function(split: { account: any; name: any; percentage: { toNumber: () => number; }; }) {
             return {
                 account: split.account,
                 name: split.name,
@@ -84,7 +85,7 @@ export async function GET({ params, url }) {
     };
 }
 
-async function getWithdrawalData(contract) {
+async function getWithdrawalData(contract: ethers.Contract) {
     let withdrawFilter = contract.filters.Withdrawal();
     let withdrawalEvents = await contract.queryFilter(withdrawFilter);
 
@@ -105,7 +106,7 @@ async function getWithdrawalData(contract) {
     return retEvents;
 }
 
-async function getAddressMappings(contract, splits) {
+async function getAddressMappings(contract: ethers.Contract, splits: any) {
     let addressMappings = {};
 
     for (let split of splits) {
@@ -113,13 +114,4 @@ async function getAddressMappings(contract, splits) {
     }
 
     return addressMappings;
-}
-
-function convertWei(amount: ethers.BigNumber) {
-    let convertedStr = ethers.utils.formatEther(amount);
-    return Number.parseFloat(convertedStr);
-}
-
-function convertTimestamp(timestamp: ethers.BigNumber) {
-    return timestamp.toNumber();
 }

@@ -1,11 +1,8 @@
-<script>
+<script lang="ts">
   import { Button, Tooltip } from "flowbite-svelte";
   import { Clipboard } from "svelte-heros";
 
-  export let text;
-
-  let className = "";
-  export { className as class };
+  export let text: string;
 
   function copyText() {
     navigator.clipboard.writeText(text);
@@ -15,7 +12,7 @@
 <Tooltip content="Copied" trigger="click">
   <Button
     on:click={copyText}
-    class="px-1 {className}"
+    class={`px-1 ${$$props.class}`}
     color="alternative"
     size="xs"
     pill={true}

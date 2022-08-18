@@ -1,16 +1,12 @@
-<script>
-  export let amount;
-  export let currency;
-
-  let className = "";
-  export { className as class };
-
-  export let isOwner;
+<script lang="ts">
+  export let amount: number;
+  export let currency: string;
+  export let isOwner: boolean;
 
   import Card from "$lib/Flowbite/Card.svelte";
 </script>
 
-<Card class="{className} text-center">
+<Card class={`text-center ${$$props.class}`}>
   {#if isOwner}
     <h5>Total Earned</h5>
   {:else}

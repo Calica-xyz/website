@@ -22,6 +22,7 @@
         },
       },
     };
+
     const web3Modal = new Web3Modal({
       providerOptions,
     });

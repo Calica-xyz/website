@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import SimpleRevShare from "$lib/Dashboard/SimpleRevShare.svelte";
   import CappedRevShare from "$lib/Dashboard/CappedRevShare.svelte";
   import TotalPaid from "$lib/Dashboard/TotalPaid.svelte";
@@ -8,32 +8,21 @@
 
   import { signerAddress } from "svelte-ethers-store";
   import { page } from "$app/stores";
+  import { getCurrency, roundNumber } from "$lib/js/utils";
 
-  export let ownerAddress;
-  export let contractName;
-  export let contractType;
-  export let deployDateString;
-  export let splits;
-  export let withdrawalHistory;
-  export let addressMappings;
+  export let ownerAddress: string;
+  export let contractName: string;
+  export let contractType: string;
+  export let deployDateString: string;
+  export let splits: any;
+  export let withdrawalHistory: any;
+  export let addressMappings: any;
 
   let isOwner = $signerAddress == ownerAddress;
-  let currency = getCurrency();
-  let chain = $page.params.chain;
-
-  function getCurrency() {
-    if ($page.params.chain == "maticmum" || $page.params.chain == "matic") {
-      return "MATIC";
-    } else if (
-      $page.params.chain == "goerli" ||
-      $page.params.chain == "homestead"
-    ) {
-      return "ETH";
-    } else return "";
-  }
+  let currency = getCurrency($page.params.chain);
 
   function getChartData() {
-    splits = splits.filter(function (split) {
+    splits = splits.filter(function (split: any) {
       if (isOwner || split.account == $signerAddress) return true;
       if (!isOwner && split.account == ownerAddress) return true;
     });
@@ -47,8 +36,8 @@
     }
 
     return {
-      labels: splits.map((split) => split.name),
-      splits: splits.map((split) => split.percentage),
+      labels: splits.map((split: any) => split.name),
+      splits: splits.map((split: any) => split.percentage),
     };
   }
 
@@ -61,7 +50,7 @@
       }
     }
 
-    return precisionRoundMod(totalPaid);
+    return roundNumber(totalPaid);
   }
 
   function getStakeholderListData() {
@@ -115,7 +104,7 @@
       stakeholderList.push({
         name: key,
         address: value.address,
-        amountPaid: precisionRoundMod(value.amountPaid),
+        amountPaid: roundNumber(value.amountPaid),
       });
     }
 
@@ -127,11 +116,6 @@
     });
 
     return stakeholderList;
-  }
-
-  function precisionRoundMod(number) {
-    var factor = Math.pow(10, 12);
-    return Math.round(number * factor) / factor;
   }
 
   function getPayoutHistory() {
@@ -198,11 +182,16 @@
     </div>
 
     <div class="flex flex-wrap md:flex-nowrap justify-center gap-x-8 gap-y-8">
-      {#if contractType === "SimpleRevenueShare"}
+      <CappedRevShare
+        chain={$page.params.chain}
+        class="flex-1"
+        data={getChartData()}
+      />
+      <!-- {#if contractType === "SimpleRevenueShare"}
         <SimpleRevShare class="flex-1" data={getChartData()} />
       {:else if contractType === "CappedRevenueShare"}
         <CappedRevShare class="flex-1" data={getChartData()} />
-      {/if}
+      {/if} -->
 
       <Payouts class="flex-1" data={getPayoutHistory()} {currency} />
     </div>
