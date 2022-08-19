@@ -21,7 +21,7 @@
   let isOwner = $signerAddress == ownerAddress;
   let currency = getCurrency($page.params.chain);
 
-  function getChartData() {
+  function getDoughnutChartData() {
     splits = splits.filter(function (split: any) {
       if (isOwner || split.account == $signerAddress) return true;
       if (!isOwner && split.account == ownerAddress) return true;
@@ -143,6 +143,21 @@
 
     return payoutHistory;
   }
+
+  function getChartFlexWrapClass() {
+    switch (splits.length) {
+      case 1:
+        return "md:flex-nowrap";
+      case 2:
+        return "lg:flex-nowrap";
+      default:
+        return "";
+    }
+  }
+
+  function getAgreementChartBasisClass() {
+    return splits.length == 1 ? "" : "basis-full";
+  }
 </script>
 
 <div class="flex w-full justify-center">
@@ -181,11 +196,13 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap md:flex-nowrap justify-center gap-x-8 gap-y-8">
+    <div
+      class="flex flex-wrap {getChartFlexWrapClass()} justify-center gap-x-8 gap-y-8"
+    >
       <CappedRevShare
         chain={$page.params.chain}
-        class="flex-1"
-        data={getChartData()}
+        class="flex-1 {getAgreementChartBasisClass()}"
+        data={getDoughnutChartData()}
       />
       <!-- {#if contractType === "SimpleRevenueShare"}
         <SimpleRevShare class="flex-1" data={getChartData()} />

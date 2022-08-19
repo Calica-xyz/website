@@ -6,9 +6,9 @@
   import "chartjs-adapter-moment";
 
   import Card from "$lib/Flowbite/Card.svelte";
+  import Table from "$lib/Flowbite/Table.svelte";
   import { getRGB } from "$lib/js/utils";
   import {
-    Table,
     TableBody,
     TableBodyCell,
     TableBodyRow,
@@ -31,7 +31,6 @@
 
   let canvas: HTMLCanvasElement;
   let currentChart: Chart;
-  let style = getComputedStyle(document.body);
 
   const lineData = {
     datasets: [
@@ -49,7 +48,7 @@
 
   function redrawChart() {
     currentChart.destroy();
-    drawChart();
+    setTimeout(drawChart, 500);
   }
 
   function drawChart() {
@@ -88,16 +87,14 @@
   });
 </script>
 
-<Card class={`max-w-4xl ${$$props.class}`} style="min-width: min(350px, 100%);">
+<Card class={`${$$props.class}`} style="min-width: min(350px, 100%);">
   <h4 class="mb-3">Payouts</h4>
-  <div class="flex-1 flex flex-col justify-around">
-    <canvas
-      style="width: 210px; height: 210px;"
-      class="mb-6"
-      bind:this={canvas}
-    />
+  <div class="flex-1 flex flex-wrap gap-10">
+    <div class="flex-1" style="min-width: min(350px, 100%);">
+      <canvas style="width: 210px; height: 210px;" bind:this={canvas} />
+    </div>
 
-    <Table>
+    <Table class="flex-1">
       <TableHead>
         <TableHeadCell>Date</TableHeadCell>
         <TableHeadCell>Amount</TableHeadCell>

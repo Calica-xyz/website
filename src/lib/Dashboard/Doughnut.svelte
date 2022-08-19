@@ -5,10 +5,11 @@
 
   Chart.register(...registerables);
 
-  export let data;
+  export let data: any;
+  export let displayLegend: boolean = true;
 
   let canvas: HTMLCanvasElement;
-  let currentChart: Chart;
+  export let currentChart: Chart = null;
 
   let chartData = {
     labels: data.labels,
@@ -26,9 +27,9 @@
     ],
   };
 
-  function redrawChart() {
+  async function redrawChart() {
     currentChart.destroy();
-    drawChart();
+    setTimeout(drawChart, 500);
   }
 
   function drawChart() {
@@ -39,7 +40,7 @@
         responsive: true,
         plugins: {
           legend: {
-            display: true,
+            display: displayLegend,
             position: "bottom",
           },
           tooltip: {
