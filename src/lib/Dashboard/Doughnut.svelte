@@ -7,11 +7,12 @@
 
   export let data: any;
   export let displayLegend: boolean = true;
+  export let legendPosition: string = "bottom";
 
   let canvas: HTMLCanvasElement;
   export let currentChart: Chart = null;
 
-  let chartData = {
+  $: chartData = {
     labels: data.labels,
     datasets: [
       {
@@ -27,9 +28,26 @@
     ],
   };
 
-  async function redrawChart() {
+  export async function redrawChart() {
     currentChart.destroy();
-    setTimeout(drawChart, 500);
+    setTimeout(function () {
+      try {
+        drawChart();
+      } catch (err) {
+        // Chart.js bug that throws an an ugly exception in console
+      }
+    }, 500);
+  }
+
+  export async function instantlyRedrawChart() {
+    currentChart.destroy();
+    setTimeout(function () {
+      try {
+        drawChart();
+      } catch (err) {
+        // Chart.js bug that throws an an ugly exception in console
+      }
+    }, 10);
   }
 
   function drawChart() {
@@ -41,7 +59,7 @@
         plugins: {
           legend: {
             display: displayLegend,
-            position: "bottom",
+            position: legendPosition,
           },
           tooltip: {
             callbacks: {

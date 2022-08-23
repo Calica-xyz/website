@@ -1,12 +1,13 @@
 <script>
-    import { signerAddress } from "svelte-ethers-store";
-    import Loader from "$lib/Components/Loader.svelte";
+  import { signerAddress } from "svelte-ethers-store";
+  import { goto } from "$app/navigation";
+  import Loader from "$lib/Components/Loader.svelte";
 
-    import { onMount } from "svelte";
+  import { onMount } from "svelte";
 
-    onMount(() => {
-        window.location.href = "/my-contracts/" + $signerAddress;
-    });
+  onMount(() => {
+    goto("/my-contracts/" + $signerAddress);
+  });
 </script>
 
 <Loader />

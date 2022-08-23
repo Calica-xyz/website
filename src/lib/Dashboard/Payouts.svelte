@@ -48,7 +48,13 @@
 
   function redrawChart() {
     currentChart.destroy();
-    setTimeout(drawChart, 500);
+    setTimeout(function () {
+      try {
+        drawChart();
+      } catch (err) {
+        // Chart.js bug that throws an an ugly exception in console
+      }
+    }, 500);
   }
 
   function drawChart() {
@@ -94,7 +100,7 @@
       <canvas style="width: 210px; height: 210px;" bind:this={canvas} />
     </div>
 
-    <Table class="flex-1">
+    <Table class="flex-1 shadow-sm">
       <TableHead>
         <TableHeadCell>Date</TableHeadCell>
         <TableHeadCell>Amount</TableHeadCell>

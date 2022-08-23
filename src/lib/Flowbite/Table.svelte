@@ -3,7 +3,7 @@
   import { setContext } from "svelte";
 
   export let divClass: string =
-    "relative flex-1 overflow-x-auto shadow-md sm:rounded-lg";
+    "relative flex-1 overflow-x-auto shadow-sm sm:rounded-lg";
   export let striped: boolean = false;
   export let hoverable: boolean = false;
 
