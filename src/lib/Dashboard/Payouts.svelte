@@ -100,14 +100,14 @@
       <canvas style="width: 210px; height: 210px;" bind:this={canvas} />
     </div>
 
-    <Table class="flex-1 shadow-sm">
+    <Table class="flex-1">
       <TableHead>
         <TableHeadCell>Date</TableHeadCell>
         <TableHeadCell>Amount</TableHeadCell>
       </TableHead>
       <TableBody class="divide-y">
         {#each data as dataItem}
-          <TableBodyRow>
+          <TableBodyRow class="">
             <TableBodyCell>{dataItem.formattedTimestamp}</TableBodyCell>
             <TableBodyCell>{dataItem.y + " " + currency}</TableBodyCell>
           </TableBodyRow>

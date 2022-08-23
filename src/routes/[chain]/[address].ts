@@ -32,7 +32,7 @@ export async function GET({ params, url }) {
         let contractName = await contract.contractName();
         let splits = await contract.getSplits();
 
-        splits = splits.map(function(split: { account: any; name: any; percentage: { toNumber: () => number; }; }) {
+        splits = splits.map(function (split: { account: any; name: any; percentage: { toNumber: () => number; }; }) {
             return {
                 account: split.account,
                 name: split.name,
@@ -49,8 +49,7 @@ export async function GET({ params, url }) {
             }
         }
 
-        let blockTimestamp = (await alchemyMumbaiProvider.getBlock(deployEvents[0].blockNumber)).timestamp;
-        let deployDateString = ago(new Date(blockTimestamp * 1000));
+        let deployDate = (await alchemyMumbaiProvider.getBlock(deployEvents[0].blockNumber)).timestamp;
 
         let withdrawalHistory = await getWithdrawalData(contract);
 
@@ -61,7 +60,7 @@ export async function GET({ params, url }) {
             contractName,
             contractType,
             splits,
-            deployDateString,
+            deployDate,
             withdrawalHistory,
             addressMappings
         });
@@ -73,7 +72,7 @@ export async function GET({ params, url }) {
                 contractName,
                 contractType,
                 splits,
-                deployDateString,
+                deployDate,
                 withdrawalHistory,
                 addressMappings
             }

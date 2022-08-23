@@ -15,7 +15,7 @@
   <table
     {...$$restProps}
     class={classNames(
-      "w-full text-left text-sm text-gray-500 dark:text-gray-400",
+      "w-full h-full text-left text-sm text-gray-500 dark:text-gray-400",
       $$props.class
     )}
   >

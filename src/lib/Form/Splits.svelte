@@ -60,7 +60,10 @@
     </div>
   {/each}
 
-  <Button color="primary" on:click={add} outline={true} class="!p-2 w-14"
-    ><Plus size="20" /></Button
+  <Button
+    color="primary"
+    on:click={add}
+    outline={true}
+    class="focus:ring-0 border-dashed w-full"><Plus size="20" /></Button
   >
 </div>

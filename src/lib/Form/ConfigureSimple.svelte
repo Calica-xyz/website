@@ -119,8 +119,34 @@
         if (totalPercentages != 100) {
           for (let errorMessage of errorMessages.simple) {
             if (errorMessage.percentage == null) {
-              errorMessage.percentage = "Splits must sum to 100";
+              errorMessage.percentage = "Splits must total 100";
             }
+          }
+        }
+
+        for (let i = values.simple.length - 1; i >= 0; i--) {
+          let hasDuplicateNameAddress = values.simple.some(function (
+            item,
+            index
+          ) {
+            return (
+              item.address == values.simple[i].address &&
+              item.name == values.simple[i].name &&
+              index != i
+            );
+          });
+
+          console.log(hasDuplicateNameAddress);
+
+          if (hasDuplicateNameAddress) {
+            if (errorMessages.simple[i].name == null) {
+              errorMessages.simple[i].name = "Duplicate name/address";
+            }
+            if (errorMessages.simple[i].address == null) {
+              errorMessages.simple[i].address = "Duplicate name/address";
+            }
+
+            break;
           }
         }
       }
@@ -138,7 +164,10 @@
 </script>
 
 <form use:form>
-  <div in:fly={{ x: 500, duration: 500 }} class="max-w-6xl mx-auto my-14">
+  <div
+    in:fly={{ x: 500, duration: 500 }}
+    class="max-w-6xl mx-auto sm:px-12 my-14"
+  >
     <h4 class="text-gray-600">Basic Revenue Share Agreement</h4>
     <p class="subtitle-text text-gray-500">
       Add or remove earners with their split of revenue
@@ -152,7 +181,7 @@
         bind:list={currentSplits}
       />
 
-      <div class="mt-[-20px] flex-1 max-w-md min-w-[300px]">
+      <div class="mt-[-20px] flex-1 max-w-md min-w-[300px] aspect-square">
         <Doughnut
           bind:this={doughnut}
           data={doughnutData}
@@ -169,5 +198,3 @@
     />
   </div>
 </form>
-
-<!-- <div>{JSON.stringify($errors)}</div> -->

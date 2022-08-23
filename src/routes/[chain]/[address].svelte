@@ -5,21 +5,27 @@
   import StakeholderList from "$lib/Dashboard/StakeholderList.svelte";
   import Payouts from "$lib/Dashboard/Payouts.svelte";
   import ChainBadge from "$lib/Components/ChainBadge.svelte";
+  import Popover from "$lib/Flowbite/Popover.svelte";
 
   import { signerAddress } from "svelte-ethers-store";
   import { page } from "$app/stores";
   import { getCurrency, roundNumber } from "$lib/js/utils";
+  import moment from "moment";
 
   export let ownerAddress: string;
   export let contractName: string;
   export let contractType: string;
-  export let deployDateString: string;
+  export let deployDate: number;
   export let splits: any;
   export let withdrawalHistory: any;
   export let addressMappings: any;
 
-  let isOwner = $signerAddress == ownerAddress;
-  let currency = getCurrency($page.params.chain);
+  $: relativeDeployDate = moment.unix(deployDate).fromNow();
+  $: formattedDeployDate = moment
+    .unix(deployDate)
+    .format("MMM Do YYYY, h:mm a");
+  $: isOwner = $signerAddress == ownerAddress;
+  $: currency = getCurrency($page.params.chain);
 
   function getDoughnutChartData() {
     splits = splits.filter(function (split: any) {
@@ -171,9 +177,12 @@
       <div class="flex-1 flex flex-wrap gap-x-6 m-w-[600px] m-auto">
         <h1 class="text-gray-600 leading-tight">{contractName}</h1>
         <div class="flex flex-col gap-2 justify-center">
-          <p class="text-gray-500 subtitle-text">
-            Deployed {deployDateString}
-          </p>
+          <Popover placement="right" class="max-w-[128px] text-sm font-light ">
+            <p slot="trigger" class="text-gray-500 subtitle-text">
+              Deployed {relativeDeployDate}
+            </p>
+            {formattedDeployDate}
+          </Popover>
           <ChainBadge class="self-start" chain={$page.params.chain} />
         </div>
       </div>
