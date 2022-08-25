@@ -4,6 +4,9 @@ import {
 
 /** @type {import('vite').UserConfig} */
 const config = {
+	ssr:{
+		noExternal:['chart.js'],
+	},
 	plugins: [
 		sveltekit()
 	],

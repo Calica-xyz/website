@@ -10,7 +10,7 @@
   export let legendPosition: string = "bottom";
 
   let canvas: HTMLCanvasElement;
-  export let currentChart: Chart = null;
+  export let currentChart = null;
 
   $: chartData = {
     labels: data.labels,
