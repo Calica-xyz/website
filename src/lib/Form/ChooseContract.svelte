@@ -13,7 +13,7 @@
 
   function clickMilestone() {
     setData({ type: "capped" });
-    onSubmit($data);
+    // onSubmit($data);
   }
 
   function clickBasic() {
@@ -42,49 +42,43 @@
             </span>
           </div>
           <div class="min-w-0 flex-1">
-            <div class="font-medium text-gray-800 group-hover:text-black">
+            <div class="font-medium text-gray-800">
               <span class="absolute inset-0" aria-hidden="true" />
               Basic Revenue Share
             </div>
-            <p class="subtitle-text text-gray-400 group-hover:text-gray-700">
+            <p class="subtitle-text text-gray-400">
               All funds are split between parties
             </p>
           </div>
           <div class="flex-shrink-0 self-center">
-            <ChevronRight
-              class="text-gray-400 group-hover:text-gray-700"
-              size="16"
-            />
+            <ChevronRight class="text-gray-400" size="16" />
           </div>
         </div>
       </li>
 
       <li
         on:click={clickMilestone}
-        class="cursor-pointer rounded-b-lg px-6 hover:bg-gray-100 dark:hover:bg-gray-700"
+        class="cursor-not-allowed rounded-b-lg px-6 hover:bg-gray-100 dark:hover:bg-gray-700"
       >
         <div class="relative group py-4 flex items-start space-x-3">
           <div class="flex-shrink-0">
             <span
-              class="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-tertiary"
+              class="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-accent"
             >
               <ChartBar class="text-white" size="25" />
             </span>
           </div>
           <div class="min-w-0 flex-1">
-            <div class="font-medium text-gray-800 group-hover:text-black">
+            <div class="font-medium text-gray-800 ">
               <span class="absolute inset-0" aria-hidden="true" />
               Milestone-based Revenue Share
             </div>
-            <p class="subtitle-text text-gray-400 group-hover:text-gray-700">
+            <p class="subtitle-text text-gray-400 ">
               Different splits after certain milestones
             </p>
           </div>
           <div class="flex-shrink-0 self-center">
-            <ChevronRight
-              class="text-gray-400 group-hover:text-gray-700"
-              size="16"
-            />
+            <ChevronRight class="text-gray-400" size="16" />
           </div>
         </div>
       </li>

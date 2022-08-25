@@ -7,7 +7,7 @@
 
   import Card from "$lib/Flowbite/Card.svelte";
   import Table from "$lib/Flowbite/Table.svelte";
-  import { getRGB } from "$lib/js/utils";
+  import { getHexCode } from "$lib/js/utils";
   import {
     TableBody,
     TableBodyCell,
@@ -40,8 +40,8 @@
         tension: 0.1,
         pointRadius: 6,
         pointHoverRadius: 8,
-        borderColor: getRGB("--color-secondary"),
-        pointBackgroundColor: getRGB("--color-secondary"),
+        borderColor: getHexCode("--color-accent"),
+        pointBackgroundColor: getHexCode("--color-accent"),
       },
     ],
   };

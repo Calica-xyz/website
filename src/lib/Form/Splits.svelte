@@ -1,6 +1,6 @@
 <script lang="ts">
   import Button from "$lib/Flowbite/Button.svelte";
-  import { fade, fly } from "svelte/transition";
+  import { fade } from "svelte/transition";
   import { flip } from "svelte/animate";
 
   import Split from "./Split.svelte";

@@ -21,7 +21,7 @@ export async function GET({ params }) {
     for (let event of events) {
         deployedContracts.push({
             contractName: event.args.contractName,
-            contractType: "SimpleRevenueShare",
+            contractType: "simple",
             cloneAddress: event.args.cloneAddress,
             chain: "maticmum"
         });

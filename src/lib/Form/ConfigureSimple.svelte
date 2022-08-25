@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { ValidationMessage } from "@felte/reporter-svelte";
   import { reporter } from "@felte/reporter-svelte";
   import { createForm } from "felte";
   import { fly } from "svelte/transition";
@@ -7,11 +8,15 @@
   import Splits from "$lib/Form/Splits.svelte";
   import { signerAddress } from "svelte-ethers-store";
   import { utils } from "ethers";
+  import FloatingLabelInput from "$lib/Flowbite/FloatingLabelInput.svelte";
+  import { Helper } from "flowbite-svelte";
 
   export let initialValues;
   export let pagesState;
   export let onSubmit;
   export let onBack;
+
+  let name = initialValues.name || "";
 
   const defaultInitialValues = [
     {
@@ -89,11 +94,14 @@
     extend: reporter,
     onSubmit,
     validate: (values) => {
-      console.log(values);
       let errorMessages = { simple: [] };
       let totalPercentages = 0;
       let nameMap = {},
         addressMap = {};
+
+      if (!values.name || values.name == "") {
+        errorMessages.name = "Name is required";
+      }
 
       if (values.simple) {
         for (let split of values.simple) {
@@ -136,8 +144,6 @@
             );
           });
 
-          console.log(hasDuplicateNameAddress);
-
           if (hasDuplicateNameAddress) {
             if (errorMessages.simple[i].name == null) {
               errorMessages.simple[i].name = "Duplicate name/address";
@@ -172,6 +178,22 @@
     <p class="subtitle-text text-gray-500">
       Add or remove earners with their split of revenue
     </p>
+
+    <ValidationMessage for="name" let:messages={message}>
+      <div class="max-w-[200px] my-8">
+        <FloatingLabelInput
+          color={message != null ? "red" : "base"}
+          style="outlined"
+          name="name"
+          id="name"
+          label="Contract Name"
+          bind:value={name}
+        />
+        {#if message != null}
+          <Helper class="mb-2 sm:mb-0" color="red">{message}</Helper>
+        {/if}
+      </div>
+    </ValidationMessage>
 
     <div class="flex flex-wrap gap-10 justify-center mb-10">
       <Splits

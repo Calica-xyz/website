@@ -19,9 +19,9 @@
     </div>
 
     <a href={link}>
-      {#if contractType == "SimpleRevenueShare"}
+      {#if contractType == "simple"}
         <ChartPie class="text-gray-300" size="100" />
-      {:else if contractType == "CappedRevenueShare"}
+      {:else if contractType == "capped"}
         <ChartBar class="text-gray-300" size="100" />
       {/if}
     </a>

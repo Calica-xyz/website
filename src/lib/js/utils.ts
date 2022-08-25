@@ -13,11 +13,30 @@ export function getReadableChain(chain: string) {
   }
 }
 
-export function getRGB(name: string) {
-  let style = getComputedStyle(document.body);
-  let split = style.getPropertyValue(name).trim().split(" ");
+export function getReadableChainFromId(chainId: number) {
+  switch (chainId) {
+    case 1:
+      return "Ethereum Mainnet";
+    case 80001:
+      return "Mumbai Testnet";
+    case 137:
+      return "Polygon Mainnet";
+    case 5:
+      return "Goerli Testnet";
+    default:
+      return "Unknown Network";
+  }
+}
 
-  return `rgb(${split[0]},${split[1]},${split[2]})`;
+export function getIconName(chainId: number) {
+  if (chainId == 1 || chainId == 5) return "Eth";
+  if (chainId == 137 || chainId == 80001) return "Polygon";
+  return "";
+}
+
+export function getHexCode(name: string) {
+  let style = getComputedStyle(document.body);
+  return style.getPropertyValue(name).trim().replace(/['"]+/g, '');
 }
 
 export function getCurrency(chain: string) {

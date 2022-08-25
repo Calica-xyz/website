@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Chart, registerables } from "chart.js";
   import { onMount } from "svelte";
-  import { getRGB } from "$lib/js/utils";
+  import { getHexCode } from "$lib/js/utils";
 
   Chart.register(...registerables);
 
@@ -18,10 +18,12 @@
       {
         data: data.splits,
         backgroundColor: [
-          getRGB("--color-primary"),
-          getRGB("--color-secondary"),
-          getRGB("--color-tertiary"),
-          getRGB("--color-accent"),
+          getHexCode("--color-secondary"),
+          getHexCode("--color-accent"),
+          getHexCode("--color-tertiary"),
+          getHexCode("--color-primary"),
+          "#8247E5",
+          "#3C3C3D",
         ],
         hoverOffset: 4,
       },

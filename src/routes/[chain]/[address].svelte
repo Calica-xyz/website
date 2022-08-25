@@ -160,10 +160,6 @@
         return "";
     }
   }
-
-  function getAgreementChartBasisClass() {
-    return splits.length == 1 ? "" : "basis-full";
-  }
 </script>
 
 <div class="flex w-full justify-center">
@@ -174,7 +170,7 @@
     <div
       class="flex flex-wrap justify-between gap-x-16 gap-y-8 items-center mb-8"
     >
-      <div class="flex-1 flex flex-wrap gap-x-6 m-w-[600px] m-auto">
+      <div class="flex-1 flex flex-wrap gap-x-6 min-w-[240px] m-auto">
         <h1 class="text-gray-600 leading-tight">{contractName}</h1>
         <div class="flex flex-col gap-2 justify-center">
           <Popover placement="right" class="max-w-[128px] text-sm font-light ">
@@ -208,16 +204,15 @@
     <div
       class="flex flex-wrap {getChartFlexWrapClass()} justify-center gap-x-8 gap-y-8"
     >
-      <CappedRevShare
+      {#if contractType === "simple"}
+        <SimpleRevShare class="flex-1" data={getDoughnutChartData()} />
+      {:else if contractType === "capped"}
+        <!-- <CappedRevShare
         chain={$page.params.chain}
         class="flex-1 {getAgreementChartBasisClass()}"
         data={getDoughnutChartData()}
-      />
-      <!-- {#if contractType === "SimpleRevenueShare"}
-        <SimpleRevShare class="flex-1" data={getChartData()} />
-      {:else if contractType === "CappedRevenueShare"}
-        <CappedRevShare class="flex-1" data={getChartData()} />
-      {/if} -->
+      /> -->
+      {/if}
 
       <Payouts class="flex-1" data={getPayoutHistory()} {currency} />
     </div>

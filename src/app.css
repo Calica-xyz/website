@@ -6,10 +6,10 @@
 
 @layer base {
     :root {
-        --color-primary: 35 100 170;
-        --color-secondary: 254 147 140;
-        --color-tertiary: 230 184 156;
-        --color-accent: 234 210 172;
+        --color-primary: "#0E6BA8";
+        --color-secondary: "#74A3CD";
+        --color-tertiary: "#96BADA";
+        --color-accent: "#F2545B";
     }
 }
 

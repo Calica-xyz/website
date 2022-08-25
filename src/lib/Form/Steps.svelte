@@ -68,44 +68,46 @@
       </li>
     {/each}
 
-    <li class="relative md:flex-1 md:flex">
-      <!-- Current Step -->
-      <div
-        class="px-6 py-4 flex items-center text-sm font-medium"
-        aria-current="step"
-      >
-        <span
-          class="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-primary rounded-full"
-        >
-          <span class="text-primary">{`0${currentStep + 1}`}</span>
-        </span>
-        <span class="ml-4 text-sm font-medium text-primary"
-          >{stepNames[currentStep]}</span
-        >
-      </div>
-
-      {#if currentStep < stepNames.length - 1}
-        <!-- Arrow separator for lg screens and up -->
+    {#if currentStep < stepNames.length}
+      <li class="relative md:flex-1 md:flex">
+        <!-- Current Step -->
         <div
-          class="hidden md:block absolute top-0 right-0 h-full w-5"
-          aria-hidden="true"
+          class="px-6 py-4 flex items-center text-sm font-medium"
+          aria-current="step"
         >
-          <svg
-            class="h-full w-full text-gray-300"
-            viewBox="0 0 22 80"
-            fill="none"
-            preserveAspectRatio="none"
+          <span
+            class="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-primary rounded-full"
           >
-            <path
-              d="M0 -2L20 40L0 82"
-              vector-effect="non-scaling-stroke"
-              stroke="currentcolor"
-              stroke-linejoin="round"
-            />
-          </svg>
+            <span class="text-primary">{`0${currentStep + 1}`}</span>
+          </span>
+          <span class="ml-4 text-sm font-medium text-primary"
+            >{stepNames[currentStep]}</span
+          >
         </div>
-      {/if}
-    </li>
+
+        {#if currentStep < stepNames.length - 1}
+          <!-- Arrow separator for lg screens and up -->
+          <div
+            class="hidden md:block absolute top-0 right-0 h-full w-5"
+            aria-hidden="true"
+          >
+            <svg
+              class="h-full w-full text-gray-300"
+              viewBox="0 0 22 80"
+              fill="none"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0 -2L20 40L0 82"
+                vector-effect="non-scaling-stroke"
+                stroke="currentcolor"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        {/if}
+      </li>
+    {/if}
 
     {#each remainingSteps as remainingStep, i}
       <li class="relative md:flex-1 md:flex">

@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import simpleRevShareABI from "$lib/ABIs/RevenueShare.json";
 import simpleRevShareFactoryABI from "$lib/ABIs/RevenueShareFactory.json";
-import ago from "s-ago"
 import { convertTimestamp, convertWei } from "$lib/js/utils";
 
 // TODO: Support other chains
@@ -14,7 +13,7 @@ export async function GET({ params, url }) {
 
     let contractType = url.searchParams.get("type");
 
-    if (contractType == "SimpleRevenueShare") {
+    if (contractType == "simple") {
         let contract = new ethers.Contract(
             params.address,
             simpleRevShareABI,
@@ -55,15 +54,15 @@ export async function GET({ params, url }) {
 
         let addressMappings = await getAddressMappings(contract, splits, ownerAddress);
 
-        console.log({
-            ownerAddress,
-            contractName,
-            contractType,
-            splits,
-            deployDate,
-            withdrawalHistory,
-            addressMappings
-        });
+        // console.log({
+        //     ownerAddress,
+        //     contractName,
+        //     contractType,
+        //     splits,
+        //     deployDate,
+        //     withdrawalHistory,
+        //     addressMappings
+        // });
 
         return {
             status: 200,
