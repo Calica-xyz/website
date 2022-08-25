@@ -1,7 +1,6 @@
 <script lang="ts">
   import Button from "$lib/Flowbite/Button.svelte";
   import { slide } from "svelte/transition";
-  import js from "jquery";
   import { onMount } from "svelte";
   import { ArrowNarrowRight } from "svelte-heros";
 
@@ -30,7 +29,8 @@
         colour = "red";
     }
 
-    js('<div class="confetti-' + i + " " + colour + '"></div>')
+    window
+      .$('<div class="confetti-' + i + " " + colour + '"></div>')
       .css({
         width: width + "px",
         height: height + "px",
@@ -45,7 +45,7 @@
   }
 
   function drop(x) {
-    js(".confetti-" + x).animate(
+    window.$(".confetti-" + x).animate(
       {
         top: "100%",
         left: "+=" + Math.random() * 15 + "%",
@@ -58,7 +58,7 @@
   }
 
   function reset(x) {
-    js(".confetti-" + x).animate(
+    window.$(".confetti-" + x).animate(
       {
         top: -Math.random() * 20 + "%",
         left: "-=" + Math.random() * 15 + "%",
