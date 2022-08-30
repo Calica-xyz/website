@@ -1,65 +1,34 @@
 <script lang="ts">
-  import Modal from "$lib/Flowbite/Modal.svelte";
   import CopyButton from "$lib/Components/CopyButton.svelte";
   import Card from "$lib/Flowbite/Card.svelte";
   import List from "$lib/Flowbite/List.svelte";
+  import { UserCircle } from "svelte-heros";
 
   export let data: any;
-  export let isOwner: boolean;
-
-  let modal = false;
-  let truncatedData = data.slice(0, 2);
+  export let ownerAddress: string = "";
 </script>
 
 <Card class={$$props.class}>
   <div class="flex justify-between items-center mb-4">
     <h5 class="dark:text-white">Stakeholders</h5>
-
-    {#if isOwner}
-      <p
-        on:click={() => (modal = true)}
-        class="cursor-pointer text-sm font-medium text-primary hover:underline dark:text-primary    "
-      >
-        View all
-      </p>
-    {/if}
   </div>
   <List
-    items={truncatedData}
+    items={data}
     let:item
-    class="dark:!bg-transparent"
+    class="dark:!bg-transparent max-h-[75px] overflow-y-auto"
     border="border-0"
   >
-    <div class="flex gap-x-8 justify-between">
-      <div class="flex flex-wrap items-center dark:text-white gap-x-2">
+    <div class="flex flex-wrap gap-x-8 justify-between">
+      <div class="flex">
         <p class="subtitle-text max-w-[136px] truncate text-ellipsis">
           {item.name}
         </p>
+        {#if item.address == ownerAddress}
+          <UserCircle size="18" class="text-gray-400 ml-1" />
+        {/if}
+      </div>
 
-        <CopyButton class="max-w-[110px]" text={item.address} />
-      </div>
-      <div class="inline-flex items-center dark:text-white">
-        {item.amountPaid}
-      </div>
+      <CopyButton class="max-w-[100px] sm:max-w-[150px]" text={item.address} />
     </div>
   </List>
 </Card>
-
-<Modal title="Stakeholders" bind:open={modal}>
-  <List items={data} border={"border-0"} let:item class="dark:!bg-transparent">
-    <div class="my-2 flex gap-x-8 justify-between">
-      <div
-        class="flex-auto flex flex-wrap items-center dark:text-white gap-x-2"
-      >
-        <p class="subtitle-text max-w-[190px] truncate text-ellipsis">
-          {item.name}
-        </p>
-
-        <CopyButton class="max-w-[110px]" text={item.address} />
-      </div>
-      <div class="inline-flex items-center dark:text-white">
-        {item.amountPaid}
-      </div>
-    </div>
-  </List>
-</Modal>

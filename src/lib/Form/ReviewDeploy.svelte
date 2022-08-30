@@ -1,17 +1,23 @@
 <script lang="ts">
   import { createForm } from "felte";
-  import { fly } from "svelte/transition";
+  import { fly, fade } from "svelte/transition";
   import { chainId } from "svelte-ethers-store";
 
   import ButtonGroup from "$lib/Flowbite/ButtonGroup.svelte";
   import Review from "$lib/Form/Review.svelte";
   import TermsSignoff from "./TermsSignoff.svelte";
   import { reporter } from "@felte/reporter-svelte";
+  import { Alert } from "flowbite-svelte";
+  import Hidden from "$lib/Components/Hidden.svelte";
 
   export let initialValues;
   export let pagesState;
   export let onSubmit;
   export let onBack;
+  export let isDeploying = false;
+
+  export let show;
+  let dismiss;
 
   const validNetworks = [80001];
   const { form, data } = createForm({
@@ -24,11 +30,23 @@
     },
   });
 
-  export let isDeploying = false;
   $: onValidNetwork = validNetworks.includes($chainId);
 </script>
 
 <form use:form>
+  <Hidden bind:show bind:dismiss>
+    <div in:fade={{ duration: 300 }}>
+      <Alert
+        class="fixed top-14 right-10 w-[250px]"
+        color="red"
+        dismissable
+        on:handleAlert={dismiss}
+      >
+        There was a problem deploying the contract. Please try again.
+      </Alert>
+    </div>
+  </Hidden>
+
   <div
     in:fly={{ x: 500, duration: 500 }}
     class="flex flex-col gap-10 max-w-3xl mx-auto sm:px-12 my-14"
@@ -57,7 +75,7 @@
       class="mb-8 ml-auto"
       buttonNames={["Prev", "Deploy"]}
       buttonCallbacks={[() => onBack($data), () => {}]}
-      buttonTypes={["button", "submit"]}
+      buttonTypes={["button", onValidNetwork ? "submit" : "button"]}
     />
   </div>
 </form>

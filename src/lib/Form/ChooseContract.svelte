@@ -13,7 +13,7 @@
 
   function clickMilestone() {
     setData({ type: "capped" });
-    // onSubmit($data);
+    onSubmit($data);
   }
 
   function clickBasic() {
@@ -58,7 +58,7 @@
 
       <li
         on:click={clickMilestone}
-        class="cursor-not-allowed rounded-b-lg px-6 hover:bg-gray-100 dark:hover:bg-gray-700"
+        class="rounded-b-lg px-6 hover:bg-gray-100 dark:hover:bg-gray-700"
       >
         <div class="relative group py-4 flex items-start space-x-3">
           <div class="flex-shrink-0">
@@ -74,7 +74,7 @@
               Milestone-based Revenue Share
             </div>
             <p class="subtitle-text text-gray-400 ">
-              Different splits after certain milestones
+              Different splits after certain revenue milestones are hit
             </p>
           </div>
           <div class="flex-shrink-0 self-center">

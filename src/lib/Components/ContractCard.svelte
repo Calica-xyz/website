@@ -12,7 +12,7 @@
   let link = `/${chain}/${address}?type=${contractType}`;
 </script>
 
-<Card class="relative w-[300px]">
+<Card class="relative max-w-[500px] min-w-[245px]">
   <div class="flex flex-col gap-2 justify-between h-full">
     <div class="mr-6 absolute right-0 inline-block">
       <ChainBadge {chain} />

@@ -3,6 +3,7 @@
   import ChooseContract from "$lib/Form/ChooseContract.svelte";
   import Congrats from "$lib/Form/Congrats.svelte";
   import simpleRevShareFactoryABI from "$lib/ABIs/RevenueShareFactory.json";
+  import cappedRevShareFactoryABI from "$lib/ABIs/CappedRevenueShareFactory.json";
   import Configure from "$lib/Form/Configure.svelte";
   import ReviewDeploy from "$lib/Form/ReviewDeploy.svelte";
   import Steps from "$lib/Form/Steps.svelte";
@@ -15,6 +16,7 @@
   let pagesState = [{}, {}, {}];
   let isDeploying: boolean = false;
   let deployAddress;
+  let show;
 
   function convertSimpleFormData(formData) {
     let filteredData = formData.simple.filter((split) => {
@@ -32,30 +34,84 @@
     return contractData;
   }
 
+  function convertCappedFormData(formData) {
+    let contractData = [formData.name];
+
+    let cappedSplits = [];
+
+    for (let i = 0; i < formData.capped.length; i++) {
+      let formCappedSplit = formData.capped[i];
+      let cappedSplit =
+        i == 0
+          ? [0]
+          : [ethers.utils.parseEther(formCappedSplit.cap.toString())];
+
+      let splits = [];
+      for (let split of formCappedSplit.splits) {
+        if (split.name && split.address && split.percentage) {
+          splits.push([split.name, split.address, split.percentage * 1000]);
+        }
+      }
+
+      cappedSplit.push(splits);
+      cappedSplits.push(cappedSplit);
+    }
+
+    contractData.push(cappedSplits);
+
+    return contractData;
+  }
+
   async function onSubmit(values) {
     if (page == 2) {
       // On our final page, we transact with the smart contract factory
       isDeploying = true;
 
-      if (pagesState[0].type == "simple") {
-        let contractData = convertSimpleFormData(pagesState[1]);
+      let contractData;
+      let factoryContract;
 
-        let factoryContract = new ethers.Contract(
-          "0x6C216E90069fA2f16773D9B40F18F58F83104803", // RevenueShareFactory address
-          simpleRevShareFactoryABI,
-          $signer
-        );
+      switch (pagesState[0].type) {
+        case "simple":
+          contractData = convertSimpleFormData(pagesState[1]);
 
-        try {
-          let res = await factoryContract.createNewRevenueShare(contractData);
-          let receipt = await res.wait();
+          factoryContract = new ethers.Contract(
+            "0x6C216E90069fA2f16773D9B40F18F58F83104803", // RevenueShareFactory address
+            simpleRevShareFactoryABI,
+            $signer
+          );
 
-          deployAddress = receipt.events[0].args[1];
-          page += 1;
-        } catch (err) {
-          // console.log(err);
-          // TODO: Handle error message
-        }
+          try {
+            let res = await factoryContract.createNewRevenueShare(contractData);
+            let receipt = await res.wait();
+
+            deployAddress = receipt.events[0].args[1];
+            page += 1;
+          } catch (err) {
+            show();
+          }
+          break;
+        case "capped":
+          contractData = convertCappedFormData(pagesState[1]);
+
+          factoryContract = new ethers.Contract(
+            "0x8fbFA1FA46dBbd8B52e894e418183549e7bB75c9", // CappedRevenueShareFactory address
+            cappedRevShareFactoryABI,
+            $signer
+          );
+
+          try {
+            let res = await factoryContract.createNewCappedRevenueShare(
+              contractData
+            );
+            let receipt = await res.wait();
+
+            deployAddress = receipt.events[0].args[1];
+            page += 1;
+          } catch (err) {
+            console.log(err);
+            show();
+          }
+          break;
       }
       isDeploying = false;
       return;
@@ -79,6 +135,7 @@
   <Steps {stepNames} currentStep={page} />
   <svelte:component
     this={pages[page]}
+    bind:show
     bind:isDeploying
     {deployAddress}
     {onSubmit}

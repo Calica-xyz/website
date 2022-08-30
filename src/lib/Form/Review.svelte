@@ -1,7 +1,11 @@
 <script lang="ts">
   import { signerAddress, chainId } from "svelte-ethers-store";
   import { fade } from "svelte/transition";
-  import { getReadableChainFromId, getIconName } from "$lib/js/utils";
+  import {
+    getReadableChainFromId,
+    getIconName,
+    getCurrency,
+  } from "$lib/js/utils";
   import { Alert, Tooltip } from "flowbite-svelte";
   import { InformationCircle } from "svelte-heros";
   import Polygon from "$lib/CustomIcons/Polygon.svelte";
@@ -29,21 +33,44 @@
     }
   }
 
+  function getSplitText(splits) {
+    let simpleStr = "<div class='flex flex-col gap-3'>";
+
+    splits = splits.filter((split) => {
+      return split.name && split.address && split.percentage;
+    });
+
+    for (let term of splits) {
+      simpleStr += '<div class="flex flex-col">';
+      simpleStr += `<p class="text-sm text-gray-900">${term.name}: ${term.percentage}%</p>`;
+      simpleStr += `<p class="subtitle-text text-gray-400">${term.address}</p>`;
+      simpleStr += "</div>";
+    }
+
+    simpleStr += "</div>";
+    return simpleStr;
+  }
+
   function getAgreementText() {
     switch (agreement) {
       case "simple":
-        let simpleStr = "";
-        agreementTerms = agreementTerms.filter((split) => {
-          return split.name && split.address && split.percentage;
-        });
-
-        for (let term of agreementTerms) {
-          simpleStr += `${term.name}: ${term.percentage}% &nbsp;&nbsp;`;
-        }
-        return simpleStr;
+        return getSplitText(agreementTerms);
       case "capped":
-        let cappedStr = "";
-        return cappedStr;
+        let cappedStr = "<div class='flex flex-col gap-6'>";
+        for (let i = 0; i < agreementTerms.length; i++) {
+          cappedStr += '<div class="flex flex-col gap-1">';
+          if (i == 0) {
+            cappedStr += "<h5 class='text-gray-500'>Initial Split</h5>";
+          } else {
+            cappedStr += `<h5 class='text-gray-500'>Milestone ${i + 1}: ${
+              agreementTerms[i].cap
+            } ${getCurrency($chainId)}</h5>`;
+          }
+
+          cappedStr += getSplitText(agreementTerms[i].splits);
+          cappedStr += "</div>";
+        }
+        return cappedStr + "</div>";
       default:
         return "";
     }
@@ -123,7 +150,10 @@
       </div>
       <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
         <dt class="text-sm font-medium text-gray-500">Terms</dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <dd
+          class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+          style="overflow-wrap: anywhere;"
+        >
           {@html agreementText}
         </dd>
       </div>

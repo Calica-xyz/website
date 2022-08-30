@@ -31,14 +31,14 @@
     </ul>
   </div>
 
-  <div class="px-4 py-5 sm:px-6 flex gap-4">
+  <div class="px-4 py-5 sm:px-6 flex flex-wrap gap-4">
     <Checkbox name="terms" class="min-w-[150px]" color="primary"
       >I agree with the terms and conditions above</Checkbox
     >
     <ValidationMessage for="terms" let:messages={message}>
       {#if message}
         <div in:fade>
-          <Alert class="p-2 mb-0 w-[243px]" color="red">{message}</Alert>
+          <Alert class="p-2 mb-0 w-[236px]" color="red">{message}</Alert>
         </div>
       {/if}
     </ValidationMessage>

@@ -8,9 +8,9 @@
 
 <Card class={`text-center ${$$props.class}`}>
   {#if isOwner}
-    <h5>Total Earned</h5>
+    <h5>Total Paid</h5>
   {:else}
-    <h5>Your Earnings</h5>
+    <h5>Total Earned</h5>
   {/if}
 
   <h1 class="truncate text-ellipsis">

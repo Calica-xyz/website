@@ -3,7 +3,7 @@
   import { setContext } from "svelte";
 
   export let divClass: string =
-    "relative flex-1 overflow-x-auto shadow-sm sm:rounded-lg";
+    "relative flex-1 max-h-[250px] overflow-x-auto overflow-y-auto shadow-sm sm:rounded-lg";
   export let striped: boolean = false;
   export let hoverable: boolean = false;
 
@@ -11,7 +11,7 @@
   $: setContext("hoverable", hoverable);
 </script>
 
-<div class={divClass} style="min-width: min(300px, 100%)">
+<div class={divClass} style="min-width: min(250px, 100%);">
   <table
     {...$$restProps}
     class={classNames(

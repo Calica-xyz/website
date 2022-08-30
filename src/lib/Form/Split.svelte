@@ -11,7 +11,7 @@
   export let percentage: string = "";
 </script>
 
-<div class={`${$$props.class} flex max-w-sm sm:max-w-xl flex-wrap`}>
+<div class={`${$$props.class} flex flex-1 flex-wrap`}>
   <ValidationMessage for={`${formPrefix}name`} let:messages={message}>
     <div class={`flex-1 focus-within:z-10 ${message != null ? "z-10" : ""}`}>
       <FloatingLabelInput
@@ -24,7 +24,7 @@
         label="Name"
         size="small"
         bind:value={name}
-        on:change={() => inputCallback(listIndex, "name", name)}
+        on:change={() => inputCallback(listIndex, "percentage", percentage)}
       />
       {#if message != null}
         <Helper class="mb-2 sm:mb-0" color="red">{message}</Helper>

@@ -155,7 +155,7 @@
           class="flex justify-between items-center p-4 rounded-t border-b dark:border-gray-600"
         >
           <slot name="header">
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white p-0">
+            <h3 class="text-xl text-gray-900 dark:text-white p-0">
               {title}
             </h3>
           </slot>

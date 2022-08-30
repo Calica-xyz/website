@@ -5,15 +5,42 @@
 
   import Split from "./Split.svelte";
   import { X, Plus } from "svelte-heros";
+  import { signerAddress } from "svelte-ethers-store";
 
-  export let list: any[] = [];
+  export let list: any[] = [
+    {
+      name: "Owner",
+      address: $signerAddress,
+      percentage: 100,
+    },
+    {
+      name: "",
+      address: "",
+      percentage: "",
+    },
+  ];
+
   export let formPrefix: string = "";
-  export let doughnut = null;
+  export let doughnut: any = null;
+
+  $: if (doughnut) {
+    doughnut.updateData(convertFormData(list));
+    doughnut.instantlyRedrawChart();
+  }
+
+  function convertFormData(values) {
+    values = values.filter((item) => item.percentage > 0);
+    return {
+      labels: values.map((item) => item.name),
+      splits: values.map((item) => item.percentage),
+    };
+  }
 
   function updateListItem(index: number, key: string, value: any) {
-    list[index][key] = value;
+    // list[index][key] = value;
     if (doughnut) {
       if (key == "percentage" || (key == "name" && list[index].percentage)) {
+        doughnut.updateData(convertFormData(list));
         doughnut.instantlyRedrawChart();
       }
     }
@@ -32,6 +59,7 @@
 
   function remove(i) {
     if (doughnut && list[i].percentage) {
+      doughnut.updateData(convertFormData(list));
       doughnut.instantlyRedrawChart();
     }
 
@@ -40,22 +68,23 @@
 </script>
 
 <div class={`${$$props.class} flex flex-col gap-y-10 sm:gap-y-4`}>
-  {#each list as item, i (item)}
-    <div animate:flip in:fade class="flex gap-x-5">
+  {#each list as item, i (`${formPrefix}.${i}.`)}
+    <div in:fade class="flex gap-x-5 items-center">
       <Split
+        id={`${formPrefix}.${i}.`}
         class="flex-1"
         listIndex={i}
         formPrefix={`${formPrefix}.${i}.`}
         inputCallback={updateListItem}
-        name={item.name}
-        address={item.address}
-        percentage={item.percentage}
+        bind:name={item.name}
+        bind:address={item.address}
+        bind:percentage={item.percentage}
       />
       <Button
         on:click={() => remove(i)}
-        color="secondary"
+        color="accent"
         outline={true}
-        class="!p-2 sm:h-10"><X size="20" /></Button
+        class="!p-2 h-10"><X size="20" /></Button
       >
     </div>
   {/each}
