@@ -19,13 +19,15 @@
       percentage: "",
     },
   ];
-
   export let formPrefix: string = "";
   export let doughnut: any = null;
 
-  $: if (doughnut) {
+  let initializedDoughnut = false;
+
+  $: if (doughnut && !initializedDoughnut) {
     doughnut.updateData(convertFormData(list));
     doughnut.instantlyRedrawChart();
+    initializedDoughnut = true;
   }
 
   function convertFormData(values) {

@@ -10,6 +10,8 @@
         --color-secondary: "#74A3CD";
         --color-tertiary: "#96BADA";
         --color-accent: "#F2545B";
+        --color-quaternary: "#07004D";
+        --color-quinary: "#E8EDDF";
     }
 }
 
@@ -79,20 +81,20 @@ button {
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
-  }
+}
 
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: none; 
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: rgb(205, 205, 205); 
+/* Track */
+::-webkit-scrollbar-track {
+    background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(205, 205, 205);
     border-radius: 5px;
-  }
+}
 
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgb(184, 184, 184); 
-  }
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(184, 184, 184);
+}

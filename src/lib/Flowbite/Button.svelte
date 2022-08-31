@@ -1,6 +1,4 @@
 <script lang="ts">
-  // TODO: Add tones to primary color for focus rings
-
   import classNames from "classnames";
   import { getContext } from "svelte";
   import type { ButtonType } from "../types";

@@ -11,10 +11,11 @@ const alchemyMumbaiProvider = new ethers.providers.AlchemyProvider(
 async function getContractDeployedEvents(factoryContract, contractType, address) {
     let filter = factoryContract.filters.ContractDeployed(address, null, null);
     let events = await factoryContract.queryFilter(filter);
- 
+
     let deployedContracts = [];
     for (let event of events) {
         deployedContracts.push({
+            blockNumber: event.blockNumber,
             contractName: event.args.contractName,
             contractType: contractType,
             cloneAddress: event.args.cloneAddress,
@@ -22,7 +23,7 @@ async function getContractDeployedEvents(factoryContract, contractType, address)
         });
     }
 
-    deployedContracts = deployedContracts.filter((v,i,a)=>a.findIndex(v2=>(v2.cloneAddress===v.cloneAddress))===i);
+    deployedContracts = deployedContracts.filter((v, i, a) => a.findIndex(v2 => (v2.cloneAddress === v.cloneAddress)) === i);
     return deployedContracts;
 }
 
@@ -43,8 +44,10 @@ export async function GET({ params }) {
     let cappedDeployedContracts = await getContractDeployedEvents(cappedContractFactory, "capped", params.address);
     let deployedContracts = [...simpleDeployedContracts, ...cappedDeployedContracts];
 
-    // TODO: Sort deployedContracts by timestamp
-    
+    deployedContracts = deployedContracts.sort((c1, c2) => {
+        return c1.blockNumber - c2.blockNumber;
+    });
+
     return {
         status: 200,
         body: {

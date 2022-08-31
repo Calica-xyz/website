@@ -3,12 +3,14 @@
   import type { Chart } from "chart.js";
   import Badge from "$lib/Flowbite/Badge.svelte";
   import Doughnut from "./Doughnut.svelte";
+  import { getCurrency } from "$lib/js/utils";
 
   export let data: any;
   export let chain: string;
-  export let earnerName: string | null = null;
 
   let charts: any[] = [];
+  let capColor =
+    chain == "maticmum" || chain == "matic" ? "polygon" : "ethereum";
   $: legendItems = getLegendItems(charts);
 
   // Aggregates all the legend labels for every capped split
@@ -62,23 +64,22 @@
             <div
               class="flex z-10 justify-center items-center w-6 h-6 bg-blue-200 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0"
             >
-              <!-- TODO: Support ETH -->
               {#if i == 0}
-                <Badge class="text-center" color="polygon">Initial Split</Badge>
+                <Badge class="text-center" color={capColor}>Initial Split</Badge
+                >
               {:else}
-                <Badge class="text-center" color="polygon"
-                  >{cappedSplit.cap} MATIC</Badge
+                <Badge class="text-center" color={capColor}
+                  >{cappedSplit.cap} {getCurrency(chain)}</Badge
                 >
               {/if}
             </div>
-            <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700" />
+            <div class="flex w-full bg-gray-200 h-[3px] dark:bg-gray-700" />
           </div>
           <div class="m-auto mt-3 max-w-sm min-w-[100px] px-2 sm:pr-5 sm:pl-11">
             <Doughnut
               bind:currentChart={charts[i]}
               displayLegend={false}
               data={cappedSplit.splits}
-              {earnerName}
             />
           </div>
         </div>

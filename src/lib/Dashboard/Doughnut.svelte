@@ -11,33 +11,27 @@
   };
   export let displayLegend: boolean = true;
   export let legendPosition: string = "bottom";
-  export let earnerName: string | null = null;
 
   let canvas: HTMLCanvasElement;
   export let currentChart = null;
 
-  let backgroundColor = [getHexCode("--color-secondary")];
-
-  if (earnerName) {
-    backgroundColor.push("#E5E4E2");
-  } else {
-    backgroundColor = [
-      ...backgroundColor,
-      getHexCode("--color-accent"),
-      getHexCode("--color-tertiary"),
-      getHexCode("--color-primary"),
-      "#8247E5",
-      "#3C3C3D",
-    ];
-  }
+  const doughnutColors = [
+    getHexCode("--color-secondary"),
+    getHexCode("--color-accent"),
+    getHexCode("--color-tertiary"),
+    getHexCode("--color-primary"),
+    getHexCode("--color-quaternary"),
+    getHexCode("--color-quinary"),
+  ];
 
   $: chartData = {
     labels: data.labels,
     datasets: [
       {
         data: data.splits,
-        backgroundColor,
+        backgroundColor: getBackgroundColors(),
         hoverOffset: 4,
+        radius: "98%", // Leaving a little room for hover effect
       },
     ],
   };
@@ -68,6 +62,22 @@
     data = newData;
   }
 
+  function getBackgroundColors() {
+    let colorInd = 0;
+    let backgroundColors = [];
+
+    for (let i = 0; i < data.labels.length; i++) {
+      if (!data.labels[i]) {
+        backgroundColors.push("#E5E4E2");
+      } else {
+        backgroundColors.push(doughnutColors[colorInd]);
+        colorInd = (colorInd + 1) % doughnutColors.length;
+      }
+    }
+
+    return backgroundColors;
+  }
+
   function drawChart() {
     currentChart = new Chart(canvas, {
       type: "doughnut",
@@ -80,11 +90,7 @@
             position: legendPosition,
             labels: {
               filter: function (item) {
-                if (earnerName) {
-                  return item.text == earnerName;
-                } else {
-                  return true;
-                }
+                return item.text && item.text.length > 0;
               },
             },
           },
@@ -93,11 +99,7 @@
               label: (item) => `${item.label}: ${item.raw}%`,
             },
             filter: function (tooltipItem) {
-              if (earnerName) {
-                return tooltipItem.label == earnerName;
-              } else {
-                return true;
-              }
+              return tooltipItem.label && tooltipItem.label.length > 0;
             },
           },
         },

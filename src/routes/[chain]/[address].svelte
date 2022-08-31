@@ -35,19 +35,14 @@
       if (isOwner || split.account == $signerAddress) return true;
     });
 
-    if (splits.length == 0) {
-      splits.push({
-        name: "",
-        account: "",
-        percentage: 100,
-      });
-    }
+    let sum = splits.reduce((totalPercentages, split) => {
+      return totalPercentages + split.percentage;
+    }, 0);
 
-    if (splits.length == 1 && !isOwner) {
+    if (sum != 100) {
       splits.push({
         name: "",
-        account: "",
-        percentage: 100 - splits[0].percentage,
+        percentage: 100 - sum,
       });
     }
 
@@ -235,7 +230,6 @@
           class="flex-1"
           data={getDoughnutChartData(splits)}
           displayLegend={isOwner}
-          earnerName={isOwner ? null : addressMappings[$signerAddress]}
         />
       {:else if contractType === "capped"}
         <CappedRevShare
@@ -243,7 +237,6 @@
           chain={$page.params.chain}
           class="flex-1 {getAgreementChartBasisClass()}"
           data={getCappedChartData(cappedSplits)}
-          earnerName={isOwner ? null : addressMappings[$signerAddress]}
         />
       {/if}
 
