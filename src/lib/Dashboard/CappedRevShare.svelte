@@ -6,8 +6,7 @@
 
   export let data: any;
   export let chain: string;
-
-  console.log(data);
+  export let earnerName: string | null = null;
 
   let charts: any[] = [];
   $: legendItems = getLegendItems(charts);
@@ -79,6 +78,7 @@
               bind:currentChart={charts[i]}
               displayLegend={false}
               data={cappedSplit.splits}
+              {earnerName}
             />
           </div>
         </div>

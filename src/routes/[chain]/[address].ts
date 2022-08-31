@@ -109,6 +109,9 @@ export async function GET({ params, url }) {
             }
         });
 
+
+        console.log("CAPPED SPLITS", JSON.stringify(cappedSplits));
+
         let deployFilter = factoryContract.filters.ContractDeployed(null, params.address, null);
         let deployEvents = await factoryContract.queryFilter(deployFilter);
 

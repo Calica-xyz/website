@@ -35,6 +35,14 @@
       if (isOwner || split.account == $signerAddress) return true;
     });
 
+    if (splits.length == 0) {
+      splits.push({
+        name: "",
+        account: "",
+        percentage: 100,
+      });
+    }
+
     if (splits.length == 1 && !isOwner) {
       splits.push({
         name: "",
@@ -235,6 +243,7 @@
           chain={$page.params.chain}
           class="flex-1 {getAgreementChartBasisClass()}"
           data={getCappedChartData(cappedSplits)}
+          earnerName={isOwner ? null : addressMappings[$signerAddress]}
         />
       {/if}
 
