@@ -1,13 +1,12 @@
 <script lang="ts">
-  import { signer } from "svelte-ethers-store";
   import ChooseContract from "$lib/Form/ChooseContract.svelte";
   import Congrats from "$lib/Form/Congrats.svelte";
-  import simpleRevShareFactoryABI from "$lib/ABIs/RevenueShareFactory.json";
-  import cappedRevShareFactoryABI from "$lib/ABIs/CappedRevenueShareFactory.json";
   import Configure from "$lib/Form/Configure.svelte";
   import ReviewDeploy from "$lib/Form/ReviewDeploy.svelte";
   import Steps from "$lib/Form/Steps.svelte";
   import { ethers } from "ethers";
+  import { signer, chainId } from "svelte-ethers-store";
+  import { getChainFromId, getFactoryContract } from "$lib/js/utils";
 
   let stepNames = ["Choose Contract", "Configure", "Review & Deploy"];
 
@@ -17,6 +16,8 @@
   let isDeploying: boolean = false;
   let deployAddress;
   let show;
+
+  $: chain = getChainFromId($chainId);
 
   function convertSimpleFormData(formData) {
     let filteredData = formData.simple.filter((split) => {
@@ -74,10 +75,10 @@
         case "simple":
           contractData = convertSimpleFormData(pagesState[1]);
 
-          factoryContract = new ethers.Contract(
-            "0x6C216E90069fA2f16773D9B40F18F58F83104803", // RevenueShareFactory address
-            simpleRevShareFactoryABI,
-            $signer
+          factoryContract = getFactoryContract(
+            "simpleRevShareFactory",
+            $signer,
+            chain
           );
 
           try {
@@ -93,10 +94,10 @@
         case "capped":
           contractData = convertCappedFormData(pagesState[1]);
 
-          factoryContract = new ethers.Contract(
-            "0x8fbFA1FA46dBbd8B52e894e418183549e7bB75c9", // CappedRevenueShareFactory address
-            cappedRevShareFactoryABI,
-            $signer
+          factoryContract = getFactoryContract(
+            "cappedRevShareFactory",
+            $signer,
+            chain
           );
 
           try {

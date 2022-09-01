@@ -1,14 +1,7 @@
+import { CONTRACT_TYPES, SUPPORTED_NETWORKS } from "$lib/js/globals";
+import { getAlchemyProvider, getFactoryContract } from "$lib/js/utils";
 
-import { ethers } from "ethers";
-import simpleRevShareFactoryABI from "$lib/ABIs/RevenueShareFactory.json";
-import cappedRevShareFactoryABI from "$lib/ABIs/CappedRevenueShareFactory.json";
-
-const alchemyMumbaiProvider = new ethers.providers.AlchemyProvider(
-    "maticmum",
-    "Jy4dLs8B7WeUuDz0_JSX0nA6afDFbn15"
-);
-
-async function getContractDeployedEvents(factoryContract, contractType, address) {
+async function getContractDeployedEvents(factoryContract, contractType, address, chain) {
     let filter = factoryContract.filters.ContractDeployed(address, null, null);
     let events = await factoryContract.queryFilter(filter);
 
@@ -17,9 +10,9 @@ async function getContractDeployedEvents(factoryContract, contractType, address)
         deployedContracts.push({
             blockNumber: event.blockNumber,
             contractName: event.args.contractName,
-            contractType: contractType,
+            contractType,
             cloneAddress: event.args.cloneAddress,
-            chain: "maticmum"
+            chain
         });
     }
 
@@ -28,21 +21,16 @@ async function getContractDeployedEvents(factoryContract, contractType, address)
 }
 
 export async function GET({ params }) {
-    let simpleContractFactory = new ethers.Contract(
-        "0x6C216E90069fA2f16773D9B40F18F58F83104803", // RevenueShareFactory address
-        simpleRevShareFactoryABI,
-        alchemyMumbaiProvider
-    );
+    let deployedContracts = [];
 
-    let cappedContractFactory = new ethers.Contract(
-        "0x8fbFA1FA46dBbd8B52e894e418183549e7bB75c9", // CappedRevenueShareFactory address
-        cappedRevShareFactoryABI,
-        alchemyMumbaiProvider
-    );
+    for (let chain of SUPPORTED_NETWORKS) {
+        let alchemyProvider = getAlchemyProvider(chain);
 
-    let simpleDeployedContracts = await getContractDeployedEvents(simpleContractFactory, "simple", params.address);
-    let cappedDeployedContracts = await getContractDeployedEvents(cappedContractFactory, "capped", params.address);
-    let deployedContracts = [...simpleDeployedContracts, ...cappedDeployedContracts];
+        for (let contractType of CONTRACT_TYPES) {
+            let factoryContract = getFactoryContract(contractType + "RevShareFactory", alchemyProvider, chain);
+            deployedContracts = [...deployedContracts, ...await getContractDeployedEvents(factoryContract, contractType, params.address, chain)];
+        }
+    }
 
     deployedContracts = deployedContracts.sort((c1, c2) => {
         return c1.blockNumber - c2.blockNumber;

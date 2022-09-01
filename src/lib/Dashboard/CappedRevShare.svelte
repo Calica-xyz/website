@@ -1,16 +1,15 @@
 <script lang="ts">
   import Card from "$lib/Flowbite/Card.svelte";
-  import type { Chart } from "chart.js";
   import Badge from "$lib/Flowbite/Badge.svelte";
   import Doughnut from "./Doughnut.svelte";
-  import { getCurrency } from "$lib/js/utils";
+  import { getBadgeColor, getCurrency } from "$lib/js/utils";
 
   export let data: any;
   export let chain: string;
 
   let charts: any[] = [];
-  let capColor =
-    chain == "maticmum" || chain == "matic" ? "polygon" : "ethereum";
+  let capColor = getBadgeColor(chain);
+
   $: legendItems = getLegendItems(charts);
 
   // Aggregates all the legend labels for every capped split

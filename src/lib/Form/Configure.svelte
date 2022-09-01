@@ -10,6 +10,6 @@
 
 {#if pagesState[0].type == "simple"}
   <ConfigureSimple {initialValues} {pagesState} {onSubmit} {onBack} />
-{:else}
+{:else if pagesState[0].type == "capped"}
   <ConfigureCapped {initialValues} {pagesState} {onSubmit} {onBack} />
 {/if}

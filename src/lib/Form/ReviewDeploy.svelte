@@ -9,6 +9,8 @@
   import { reporter } from "@felte/reporter-svelte";
   import { Alert } from "flowbite-svelte";
   import Hidden from "$lib/Components/Hidden.svelte";
+  import { SUPPORTED_NETWORKS } from "$lib/js/globals";
+  import { getChainFromId } from "$lib/js/utils";
 
   export let initialValues;
   export let pagesState;
@@ -19,7 +21,8 @@
   export let show;
   let dismiss;
 
-  const validNetworks = [80001];
+  $: onValidNetwork = SUPPORTED_NETWORKS.includes(getChainFromId($chainId));
+
   const { form, data } = createForm({
     extend: reporter,
     onSubmit,
@@ -29,8 +32,6 @@
       };
     },
   });
-
-  $: onValidNetwork = validNetworks.includes($chainId);
 </script>
 
 <form use:form>

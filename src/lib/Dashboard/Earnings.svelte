@@ -20,8 +20,8 @@
     getHexCode("--color-accent"),
     getHexCode("--color-tertiary"),
     getHexCode("--color-primary"),
-    "#8247E5",
-    "#3C3C3D",
+    getHexCode("--color-quaternary"),
+    getHexCode("--color-quinary"),
   ];
 
   function formatData() {

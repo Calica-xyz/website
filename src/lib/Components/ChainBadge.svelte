@@ -5,25 +5,10 @@
   import Badge from "$lib/Flowbite/Badge.svelte";
   import Eth from "$lib/CustomIcons/Eth.svelte";
   import Polygon from "$lib/CustomIcons/Polygon.svelte";
-  import { getReadableChain } from "$lib/js/utils";
-
-  function getBadgeColor() {
-    switch (chain) {
-      case "homestead":
-        return "ethereum";
-      case "goerli":
-        return "ethereum";
-      case "matic":
-        return "polygon";
-      case "maticmum":
-        return "polygon";
-      default:
-        return "ethereum";
-    }
-  }
+  import { getReadableChain, getBadgeColor } from "$lib/js/utils";
 </script>
 
-<Badge color={getBadgeColor()} {large} class={$$props.class}
+<Badge color={getBadgeColor(chain)} {large} class={$$props.class}
   >{getReadableChain(chain)}
 
   {#if chain == "maticmum" || chain == "matic"}

@@ -68,7 +68,7 @@
 
     for (let i = 0; i < data.labels.length; i++) {
       if (!data.labels[i]) {
-        backgroundColors.push("#E5E4E2");
+        backgroundColors.push("#E5E4E2"); // Gray color for empty labels
       } else {
         backgroundColors.push(doughnutColors[colorInd]);
         colorInd = (colorInd + 1) % doughnutColors.length;

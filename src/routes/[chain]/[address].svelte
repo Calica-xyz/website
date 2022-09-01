@@ -18,17 +18,18 @@
   export let contractName: string;
   export let contractType: string;
   export let deployDate: number;
-  export let splits: any;
-  export let cappedSplits: any;
+  export let splits: any = [];
+  export let cappedSplits: any = [];
   export let withdrawalHistory: any;
   export let addressMappings: any;
 
-  $: relativeDeployDate = moment.unix(deployDate).fromNow();
-  $: formattedDeployDate = moment
+  let relativeDeployDate = moment.unix(deployDate).fromNow();
+  let formattedDeployDate = moment
     .unix(deployDate)
     .format("MMM Do YYYY, h:mm a");
+  let currency = getCurrency($page.params.chain);
+
   $: isOwner = $signerAddress == ownerAddress;
-  $: currency = getCurrency($page.params.chain);
 
   function getDoughnutChartData(splits) {
     splits = splits.filter(function (split: any) {
@@ -163,18 +164,9 @@
     return data;
   }
 
-  function getChartFlexWrapClass() {
-    if (splits.length == 1) return "md:flex-nowrap";
-    if (splits.length == 2) return "lg:flex-nowrap";
-    if (splits.length >= 3) return "";
-
-    return "";
-  }
-
   function getAgreementChartBasisClass() {
-    if (splits.length == 1) return "";
-    if (splits.length == 2) return "basis-2/3";
-    if (splits.length >= 3) return "basis-full";
+    if (cappedSplits.length == 2) return "basis-2/3";
+    if (cappedSplits.length >= 3) return "basis-full";
 
     return "";
   }

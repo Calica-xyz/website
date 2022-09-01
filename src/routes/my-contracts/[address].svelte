@@ -1,5 +1,6 @@
 <script>
   import ContractCard from "$lib/Components/ContractCard.svelte";
+
   export let deployedContracts;
 </script>
 

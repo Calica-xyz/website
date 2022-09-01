@@ -3,9 +3,13 @@
   import { slide } from "svelte/transition";
   import { onMount } from "svelte";
   import { ArrowNarrowRight } from "svelte-heros";
+  import { chainId } from "svelte-ethers-store";
+  import { getChainFromId } from "$lib/js/utils";
 
   export let deployAddress;
   export let pagesState;
+
+  let chain = getChainFromId($chainId);
 
   onMount(() => {
     for (let i = 0; i < 150; i++) {
@@ -70,7 +74,7 @@
     );
   }
 
-  let link = `/${"maticmum"}/${deployAddress}?type=${pagesState[0].type}`;
+  let link = `/${chain}/${deployAddress}?type=${pagesState[0].type}`;
 </script>
 
 <div class="wrapper absolute" />
