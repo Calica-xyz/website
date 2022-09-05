@@ -27,8 +27,12 @@ export async function GET({ params }) {
         let alchemyProvider = getAlchemyProvider(chain);
 
         for (let contractType of CONTRACT_TYPES) {
-            let factoryContract = getFactoryContract(contractType + "RevShareFactory", alchemyProvider, chain);
-            deployedContracts = [...deployedContracts, ...await getContractDeployedEvents(factoryContract, contractType, params.address, chain)];
+            try {
+                let factoryContract = getFactoryContract(contractType + "RevShareFactory", alchemyProvider, chain);
+                deployedContracts = [...deployedContracts, ...await getContractDeployedEvents(factoryContract, contractType, params.address, chain)];
+            } catch (err) {
+                console.log("There was a problem looking up deploy events for contractType: " + contractType + " on chain: " + chain);
+            }
         }
     }
 

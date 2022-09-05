@@ -16,6 +16,7 @@ export const CONTRACT_ADDRESSES = {
     "simpleRevShareFactory": {
         maticmum: "0x6C216E90069fA2f16773D9B40F18F58F83104803",
         goerli: "0x6aDb88aC6a86673F4590ec19f0C01b9AaCFd2043",
+        homestead: "0x6adb88ac6a86673f4590ec19f0c01b9aacfd2043",
     },
     "cappedRevShareFactory": {
         maticmum: "0x8fbFA1FA46dBbd8B52e894e418183549e7bB75c9",
@@ -33,5 +34,5 @@ export const SUPPORTED_NETWORKS = [
     "maticmum",
     "goerli",
     // "matic",
-    // "homestead"
+    "homestead"
 ];
