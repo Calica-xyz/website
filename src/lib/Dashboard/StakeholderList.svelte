@@ -3,9 +3,9 @@
   import Card from "$lib/Flowbite/Card.svelte";
   import List from "$lib/Flowbite/List.svelte";
   import { UserCircle } from "svelte-heros";
+  import { signerAddress } from "svelte-ethers-store";
 
   export let data: any;
-  export let ownerAddress: string = "";
 </script>
 
 <Card class={$$props.class}>
@@ -23,7 +23,7 @@
         <p class="subtitle-text max-w-[136px] truncate text-ellipsis">
           {item.name}
         </p>
-        {#if item.address == ownerAddress}
+        {#if item.address == $signerAddress}
           <UserCircle size="18" class="text-gray-400 ml-1" />
         {/if}
       </div>

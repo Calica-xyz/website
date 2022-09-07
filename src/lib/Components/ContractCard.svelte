@@ -5,7 +5,12 @@
   export let chain: string;
 
   import Button from "$lib/Flowbite/Button.svelte";
-  import { ChartPie, ChartBar, ArrowNarrowRight } from "svelte-heros";
+  import {
+    ChartPie,
+    ChartBar,
+    Collection,
+    ArrowNarrowRight,
+  } from "svelte-heros";
   import Card from "$lib/Flowbite/Card.svelte";
   import ChainBadge from "$lib/Components/ChainBadge.svelte";
 
@@ -23,6 +28,8 @@
         <ChartPie class="text-gray-300" size="100" />
       {:else if contractType == "capped"}
         <ChartBar class="text-gray-300" size="100" />
+      {:else if contractType == "rollup"}
+        <Collection class="text-gray-300" size="100" />
       {/if}
     </a>
 

@@ -1,4 +1,5 @@
 import { CONTRACT_TYPES, SUPPORTED_NETWORKS } from "$lib/js/globals";
+import { getRollup, getRollupDetails, isRolledUp } from "$lib/js/rollups";
 import { getAlchemyProvider, getFactoryContract } from "$lib/js/utils";
 
 async function getContractDeployedEvents(factoryContract, contractType, address, chain) {
@@ -7,16 +8,29 @@ async function getContractDeployedEvents(factoryContract, contractType, address,
 
     let deployedContracts = [];
     for (let event of events) {
-        deployedContracts.push({
-            blockNumber: event.blockNumber,
-            contractName: event.args.contractName,
-            contractType,
-            cloneAddress: event.args.cloneAddress,
-            chain
-        });
+        let address = event.args.cloneAddress;
+        let rollup = getRollup(address);
+
+        if (rollup) {
+            deployedContracts.push({
+                blockNumber: event.blockNumber,
+                contractName: rollup,
+                contractType: "rollup",
+                cloneAddress: rollup,
+                chain
+            });
+        } else {
+            deployedContracts.push({
+                blockNumber: event.blockNumber,
+                contractName: event.args.contractName,
+                contractType,
+                cloneAddress: event.args.cloneAddress,
+                chain
+            });
+        }
+        
     }
 
-    deployedContracts = deployedContracts.filter((v, i, a) => a.findIndex(v2 => (v2.cloneAddress === v.cloneAddress)) === i);
     return deployedContracts;
 }
 
@@ -31,6 +45,8 @@ export async function GET({ params }) {
             deployedContracts = [...deployedContracts, ...await getContractDeployedEvents(factoryContract, contractType, params.address, chain)];
         }
     }
+
+    deployedContracts = deployedContracts.filter((v, i, a) => a.findIndex(v2 => (v2.cloneAddress === v.cloneAddress)) === i);
 
     deployedContracts = deployedContracts.sort((c1, c2) => {
         return c1.blockNumber - c2.blockNumber;

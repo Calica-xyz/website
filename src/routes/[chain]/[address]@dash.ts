@@ -1,3 +1,4 @@
+import { getRollupDetails } from "$lib/js/rollups";
 import { convertTimestamp, convertWei, getAlchemyProvider, getContractInstance, getFactoryContract } from "$lib/js/utils";
 import { formatEther } from "ethers/lib/utils";
 
@@ -15,9 +16,9 @@ export async function GET({ params, url }) {
         return {
             status: 200,
             body: {
-                contractType,
-                splits,
-                addressMappings: await getAddressMappings(splits),
+                agreementType: contractType,
+                chartData: splits,
+                addressMappings: getAddressMappings(splits, contractType),
                 ...await getBaseContractData(contract, factoryContract, alchemyProvider, params.address)
             }
         };
@@ -33,23 +34,50 @@ export async function GET({ params, url }) {
             }
         });
 
-        let addressMappings = {};
-        for (let cappedSplit of cappedSplits) {
-            addressMappings = {
-                ...addressMappings,
-                ...await getAddressMappings(cappedSplit.splits)
-            }
-        }
+        let addressMappings = getAddressMappings(cappedSplits, contractType);
 
         return {
             status: 200,
             body: {
-                contractType,
-                cappedSplits,
+                agreementType: contractType,
+                chartData: cappedSplits,
                 addressMappings,
                 ...await getBaseContractData(contract, factoryContract, alchemyProvider, params.address)
             }
         };
+    } else if (contractType == "rollup") {
+        let rollupDetails = getRollupDetails(params.address);
+        let addressMappings = getAddressMappings(rollupDetails.chartData, rollupDetails.agreementType);
+
+        let withdrawals = [];
+        for (let address of rollupDetails.contracts) {
+            withdrawals = [...withdrawals, ...await getWithdrawalData(address, alchemyProvider)];
+        }
+
+        withdrawals.sort(function (a, b) {
+            return a.timestamp - b.timestamp;
+        });
+
+        // console.log(JSON.stringify({
+        //     contractName: params.address,
+        //     ownerAddress: rollupDetails.ownerAddress,
+        //     withdrawalHistory: withdrawals,
+        //     agreementType: rollupDetails.agreementType,
+        //     chartData: rollupDetails.chartData,
+        //     addressMappings,
+        // }))
+
+        return {
+            status: 200,
+            body: {
+                contractName: params.address,
+                ownerAddress: rollupDetails.ownerAddress,
+                withdrawalHistory: withdrawals,
+                agreementType: rollupDetails.agreementType,
+                chartData: rollupDetails.chartData,
+                addressMappings,
+            }
+        }
     }
 
     return {
@@ -75,7 +103,7 @@ async function getBaseContractData(contract, factoryContract, provider, address)
     let deployEvents = await factoryContract.queryFilter(deployFilter);
 
     let deployDate = (await provider.getBlock(deployEvents[0].blockNumber)).timestamp;
-    let withdrawalHistory = await getWithdrawalData(contract);
+    let withdrawalHistory = await getWithdrawalData(address, provider);
 
     return {
         ownerAddress,
@@ -85,7 +113,9 @@ async function getBaseContractData(contract, factoryContract, provider, address)
     };
 }
 
-async function getWithdrawalData(contract) {
+async function getWithdrawalData(address, provider) {
+    // Hard coding simpleRevShare for now bc all contracts have the same withdrawal event
+    let contract = getContractInstance(address, "simpleRevShare", provider);
     let withdrawFilter = contract.filters.Withdrawal();
     let withdrawalEvents = await contract.queryFilter(withdrawFilter);
 
@@ -96,17 +126,41 @@ async function getWithdrawalData(contract) {
             amount: convertWei(withdrawalEvent.args.amount),
             account: withdrawalEvent.args.account,
             timestamp: convertTimestamp(withdrawalEvent.args.timestamp)
-        })
+        });
     }
 
     retEvents.sort(function (a, b) {
         return a.timestamp - b.timestamp;
-    })
+    });
 
     return retEvents;
 }
 
-async function getAddressMappings(splits: any) {
+function getAddressMappings(chartData: any, agreementType: string) {
+    switch (agreementType) {
+        case "simple":
+            return getAddressMappingsFromSplits(chartData);
+        case "capped":
+            let addressMappings = {};
+            for (let cappedSplit of chartData) {
+                addressMappings = {
+                    ...addressMappings,
+                    ...getAddressMappingsFromSplits(cappedSplit.splits)
+                }
+            }
+            return addressMappings;
+        case "nft":
+            return {
+                ...getAddressMappingsFromSplits(chartData.primary),
+                ...getAddressMappingsFromSplits(chartData.secondary)
+            };
+        default:
+            return {};
+    }
+    
+}
+
+function getAddressMappingsFromSplits(splits: any) {
     let addressMappings = {};
 
     for (let split of splits) {

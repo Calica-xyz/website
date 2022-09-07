@@ -15,11 +15,11 @@
 
   import Card from "$lib/Flowbite/Card.svelte";
   import Table from "$lib/Flowbite/Table.svelte";
+  import TableHead from "$lib/Flowbite/utils/TableHead.svelte";
   import {
     TableBody,
     TableBodyCell,
     TableBodyRow,
-    TableHead,
     TableHeadCell,
   } from "flowbite-svelte";
   import { getHexCode } from "$lib/js/utils";
@@ -219,8 +219,11 @@
         <canvas style="width: 210px; height: 210px;" bind:this={canvas} />
       </div>
 
-      <Table class="flex-1">
-        <TableHead class="bg-gray-100">
+      <Table
+        noborder={false}
+        class="flex-1 rounded-lg min-w-[min(300px,100%)] max-h-[250px]"
+      >
+        <TableHead>
           <TableHeadCell>Date</TableHeadCell>
           <TableHeadCell>Amount</TableHeadCell>
         </TableHead>
