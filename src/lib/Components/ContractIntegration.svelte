@@ -3,7 +3,7 @@
   import Card from "$lib/Flowbite/Card.svelte";
   import ChainBadge from "./ChainBadge.svelte";
   import CopyButton from "./CopyButton.svelte";
-  import { getContractInstance } from "$lib/js/utils";
+  import { convertWei, getContractInstance, roundNumber } from "$lib/js/utils";
   import { signer } from "svelte-ethers-store";
 
   let currentBalance = "";
@@ -15,7 +15,7 @@
   );
 
   async function updateBalance() {
-    currentBalance = await contract.getBalance();
+    currentBalance = roundNumber(convertWei(await contract.getBalance()));
   }
 
   updateBalance();
