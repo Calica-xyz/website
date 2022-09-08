@@ -1,9 +1,20 @@
 <script>
   import { signerAddress } from "svelte-ethers-store";
   import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
 
   let navbarOpen = false;
   let profileMenuOpen = false;
+
+  $: currentPage = getPageNumber($page.routeId);
+
+  function getPageNumber(routeId) {
+    if (routeId == "my-contracts/[address]") {
+      return 0;
+    }
+
+    return -1;
+  }
 </script>
 
 <nav class="bg-gray-800 z-10">
@@ -20,15 +31,9 @@
             aria-expanded="false"
           >
             <span class="sr-only">Open main menu</span>
-            <!--
-              Icon when menu is closed.
 
-              Heroicon name: outline/bars-3
-
-              Menu open: "hidden", Menu closed: "block"
-            -->
             <svg
-              class="block h-6 w-6"
+              class="{navbarOpen ? 'hidden' : 'block'} h-6 w-6"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -42,15 +47,9 @@
                 d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
               />
             </svg>
-            <!--
-              Icon when menu is open.
 
-              Heroicon name: outline/x-mark
-
-              Menu open: "block", Menu closed: "hidden"
-            -->
             <svg
-              class="hidden h-6 w-6"
+              class="{navbarOpen ? 'block' : 'hidden'} h-6 w-6"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -79,22 +78,27 @@
           />
         </div>
         <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
-          <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
           <a
             href={`/my-contracts/${$signerAddress}`}
-            class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+            class="{currentPage == 0
+              ? 'bg-gray-900 text-white'
+              : 'text-gray-300 hover:bg-gray-700 hover:text-white'} px-3 py-2 rounded-md text-sm font-medium"
             aria-current="page">My Contracts</a
           >
 
           <a
             href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            class="{currentPage == 1
+              ? 'bg-gray-900 text-white'
+              : 'text-gray-300 hover:bg-gray-700 hover:text-white'} px-3 py-2 rounded-md text-sm font-medium"
             >Contact Us</a
           >
 
           <a
             href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            class="{currentPage == 2
+              ? 'bg-gray-900 text-white'
+              : 'text-gray-300 hover:bg-gray-700 hover:text-white'} px-3 py-2 rounded-md text-sm font-medium"
             >Blog</a
           >
         </div>
@@ -108,18 +112,6 @@
             type="button"
             class="relative inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800"
           >
-            <!-- Heroicon name: mini/plus -->
-            <svg
-              class="-ml-1 mr-2 h-5 w-5"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
-              />
-            </svg>
             <span>New Contract</span>
           </button>
         </div>
@@ -215,29 +207,28 @@
     <!-- Mobile menu, show/hide based on menu state. -->
     <div class="md:hidden" id="mobile-menu">
       <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
         <a
-          href="#"
-          class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-          aria-current="page">Dashboard</a
+          href={`/my-contracts/${$signerAddress}`}
+          class="{currentPage == 0
+            ? 'bg-gray-900 text-white'
+            : 'text-gray-300 hover:bg-gray-700 hover:text-white'} block px-3 py-2 rounded-md text-base font-medium"
+          aria-current="page">My Contracts</a
         >
 
         <a
           href="#"
-          class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >Team</a
+          class="{currentPage == 1
+            ? 'bg-gray-900 text-white'
+            : 'text-gray-300 hover:bg-gray-700 hover:text-white'} block px-3 py-2 rounded-md text-base font-medium"
+          >Contract Integration</a
         >
 
         <a
           href="#"
-          class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >Projects</a
-        >
-
-        <a
-          href="#"
-          class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >Calendar</a
+          class="{currentPage == 2
+            ? 'bg-gray-900 text-white'
+            : 'text-gray-300 hover:bg-gray-700 hover:text-white'} block px-3 py-2 rounded-md text-base font-medium"
+          >Configuration</a
         >
       </div>
       <div class="border-t border-gray-700 pt-4 pb-3">
@@ -250,8 +241,8 @@
             />
           </div>
           <div class="ml-3">
-            <div class="text-base font-medium text-white">Tom Cook</div>
-            <div class="text-sm font-medium text-gray-400">tom@example.com</div>
+            <div class="text-base font-medium text-white">Tim Cook</div>
+            <div class="text-sm font-medium text-gray-400">tim@apple.com</div>
           </div>
           <button
             type="button"

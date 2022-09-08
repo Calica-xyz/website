@@ -71,49 +71,57 @@
       let contractData;
       let factoryContract;
 
-      switch (pagesState[0].type) {
-        case "simple":
-          contractData = convertSimpleFormData(pagesState[1]);
+      try {
+        switch (pagesState[0].type) {
+          case "simple":
+            contractData = convertSimpleFormData(pagesState[1]);
 
-          factoryContract = getFactoryContract(
-            "simpleRevShareFactory",
-            $signer,
-            chain
-          );
-
-          try {
-            let res = await factoryContract.createNewRevenueShare(contractData);
-            let receipt = await res.wait();
-
-            deployAddress = receipt.events[0].args[1];
-            page += 1;
-          } catch (err) {
-            show();
-          }
-          break;
-        case "capped":
-          contractData = convertCappedFormData(pagesState[1]);
-
-          factoryContract = getFactoryContract(
-            "cappedRevShareFactory",
-            $signer,
-            chain
-          );
-
-          try {
-            let res = await factoryContract.createNewCappedRevenueShare(
-              contractData
+            factoryContract = getFactoryContract(
+              "simpleRevShareFactory",
+              $signer,
+              chain
             );
-            let receipt = await res.wait();
 
-            deployAddress = receipt.events[0].args[1];
-            page += 1;
-          } catch (err) {
-            console.log(err);
-            show();
-          }
-          break;
+            try {
+              let res = await factoryContract.createNewRevenueShare(
+                contractData
+              );
+              let receipt = await res.wait();
+
+              deployAddress = receipt.events[0].args[1];
+              page += 1;
+            } catch (err) {
+              show();
+            }
+            break;
+          case "capped":
+            contractData = convertCappedFormData(pagesState[1]);
+
+            factoryContract = getFactoryContract(
+              "cappedRevShareFactory",
+              $signer,
+              chain
+            );
+
+            try {
+              let res = await factoryContract.createNewCappedRevenueShare(
+                contractData
+              );
+              let receipt = await res.wait();
+
+              deployAddress = receipt.events[0].args[1];
+              page += 1;
+            } catch (err) {
+              console.log(err);
+              show();
+            }
+            break;
+        }
+      } catch (err) {
+        console.log(err);
+        show();
       }
+
       isDeploying = false;
       return;
     } else {

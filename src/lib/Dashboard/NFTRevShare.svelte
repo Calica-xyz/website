@@ -19,7 +19,7 @@
   $: title = isOwner ? "Revenue Share" : "Your Share";
 </script>
 
-<Card class={`${$$props.class}`} style="min-width: min(250px, 100%);">
+<Card class={`${$$props.class} min-w-[min(300px,100%)]`}>
   <h4 class="mb-3">{title}</h4>
   <div class="flex-1 flex">
     <TabWrapper class="mb-4" bind:activeTabValue let:tabStyle let:tabId>

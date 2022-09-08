@@ -5,11 +5,11 @@
   import Footer from "$lib/Footer.svelte";
   import Loader from "$lib/Components/Loader.svelte";
 
-  import { connected } from "svelte-ethers-store";
+  import { connected, signerAddress } from "svelte-ethers-store";
   import { navigating } from "$app/stores";
 </script>
 
-{#if $connected}
+{#if $signerAddress}
   <div class="flex min-h-screen flex-col justify-start">
     <Navbar />
 
@@ -21,7 +21,9 @@
       {/if}
     </div>
 
-    <Footer />
+    {#if !$navigating}
+      <Footer />
+    {/if}
   </div>
 {:else}
   <AuthLogin />

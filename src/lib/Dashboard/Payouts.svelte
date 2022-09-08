@@ -221,7 +221,7 @@
 
       <Table
         noborder={false}
-        class="flex-1 rounded-lg min-w-[min(300px,100%)] max-h-[250px]"
+        class="flex-1 rounded-lg min-w-[min(340px,100%)] max-h-[195px]"
       >
         <TableHead>
           <TableHeadCell>Date</TableHeadCell>

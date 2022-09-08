@@ -35,7 +35,7 @@
     | "purpleToPink"
     | "pinkToOrange"
     | "tealToLime"
-    | "redToYellow" = group ? (outline ? "dark" : "alternative") : "blue";
+    | "redToYellow" = group ? (outline ? "dark" : "alternative") : "primary";
 
   export let shadow:
     | "primary"

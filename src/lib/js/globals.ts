@@ -4,12 +4,14 @@ import simpleRevShareABI from "$lib/ABIs/RevenueShare.json";
 import simpleRevShareFactoryABI from "$lib/ABIs/RevenueShareFactory.json";
 import cappedRevShareABI from "$lib/ABIs/CappedRevenueShare.json";
 import cappedRevShareFactoryABI from "$lib/ABIs/CappedRevenueShareFactory.json";
+import demoNFTContractABI from "$lib/ABIs/DemoNFTContract.json";
 
 export const CONTRACT_ABIS = {
     "simpleRevShare": simpleRevShareABI,
     "simpleRevShareFactory": simpleRevShareFactoryABI,
     "cappedRevShare": cappedRevShareABI,
-    "cappedRevShareFactory": cappedRevShareFactoryABI
+    "cappedRevShareFactory": cappedRevShareFactoryABI,
+    "demoNFTContract": demoNFTContractABI
 };
 
 export const CONTRACT_ADDRESSES = {
@@ -21,13 +23,13 @@ export const CONTRACT_ADDRESSES = {
     "cappedRevShareFactory": {
         maticmum: "0x8fbFA1FA46dBbd8B52e894e418183549e7bB75c9",
         goerli: "0xFF7Bd8f4f1aF122240BBd62100096072fbBA4C1e",
-    }
+    },
 }
 
 
 export const CONTRACT_TYPES = [
     "simple",
-    "capped"
+    "capped",
 ];
 
 export const SUPPORTED_NETWORKS = [
