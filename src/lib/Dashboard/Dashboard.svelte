@@ -30,7 +30,14 @@
   let currency = getCurrency($page.params.chain);
   let contractType = $page.url.searchParams.get("type");
 
-  $: isOwner = $signerAddress == ownerAddress;
+  $: isOwner = determineIsOwner();
+
+  function determineIsOwner() {
+    return (
+      $signerAddress === ownerAddress ||
+      $signerAddress == "0xAb0279E49891416EADA65e36aE1AEd1A67A15d24" // Calica Wallet
+    );
+  }
 
   function getDoughnutChartData(splits) {
     splits = splits.filter(function (split: any) {

@@ -53,9 +53,9 @@
 
   const colorClasses = {
     primary:
-      "text-white bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-secondary dark:focus:ring-primary",
+      "text-white bg-primary-500 hover:bg-primary-600 focus:ring-secondary-200 dark:bg-primary-600 dark:hover:bg-secondary dark:focus:ring-primary",
     secondary:
-      "text-white bg-secondary-700 hover:bg-secondary-800 focus:ring-secondary-300 dark:bg-secondary dark:hover:bg-secondary dark:focus:ring-secondary",
+      "text-white bg-secondary-700 hover:bg-secondary-800 focus:ring-secondary-200 dark:bg-secondary dark:hover:bg-secondary dark:focus:ring-secondary",
     accent:
       "text-white bg-accent-700 hover:bg-accent-800 focus:ring-accent-300 dark:bg-accent dark:hover:bg-accent dark:focus:ring-accent",
     blue: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
@@ -115,9 +115,9 @@
 
   const outlineClasses = {
     primary:
-      "text-primary-700 hover:text-white border border-primary-700 hover:bg-primary-800 focus:ring-secondary-300",
+      "text-primary-500 hover:text-white border border-primary-500 hover:bg-primary-600 focus:ring-secondary-200",
     secondary:
-      "text-secondary-700 hover:text-white border border-secondary-700 hover:bg-secondary-800 focus:ring-secondary-300",
+      "text-secondary-700 hover:text-white border border-secondary-700 hover:bg-secondary-800 focus:ring-secondary-200",
     accent:
       "text-accent-700 hover:text-white border border-accent-700 hover:bg-accent-800 focus:ring-accent-300",
     blue: "text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800",

@@ -1,8 +1,9 @@
 import { getRollupDetails } from "$lib/js/rollups";
 import { convertTimestamp, convertWei, getAlchemyProvider, getContractInstance, getFactoryContract } from "$lib/js/utils";
 import { formatEther } from "ethers/lib/utils";
+import { error } from '@sveltejs/kit';
 
-export async function GET({ params, url }) {
+export async function load({ params, url }) {
     let alchemyProvider = getAlchemyProvider(params.chain);
     let contractType = url.searchParams.get("type");
 
@@ -14,13 +15,10 @@ export async function GET({ params, url }) {
         splits = translateSplits(splits);
 
         return {
-            status: 200,
-            body: {
-                agreementType: contractType,
-                chartData: splits,
-                addressMappings: getAddressMappings(splits, contractType),
-                ...await getBaseContractData(contract, factoryContract, alchemyProvider, params.address)
-            }
+            agreementType: contractType,
+            chartData: splits,
+            addressMappings: getAddressMappings(splits, contractType),
+            ...await getBaseContractData(contract, factoryContract, alchemyProvider, params.address)
         };
     } else if (contractType == "capped") {
         let contract = getContractInstance(params.address, "cappedRevShare", alchemyProvider);
@@ -37,13 +35,10 @@ export async function GET({ params, url }) {
         let addressMappings = getAddressMappings(cappedSplits, contractType);
 
         return {
-            status: 200,
-            body: {
-                agreementType: contractType,
-                chartData: cappedSplits,
-                addressMappings,
-                ...await getBaseContractData(contract, factoryContract, alchemyProvider, params.address)
-            }
+            agreementType: contractType,
+            chartData: cappedSplits,
+            addressMappings,
+            ...await getBaseContractData(contract, factoryContract, alchemyProvider, params.address)
         };
     } else if (contractType == "rollup") {
         let rollupDetails = getRollupDetails(params.address);
@@ -68,21 +63,16 @@ export async function GET({ params, url }) {
         // }))
 
         return {
-            status: 200,
-            body: {
-                contractName: params.address,
-                ownerAddress: rollupDetails.ownerAddress,
-                withdrawalHistory: withdrawals,
-                agreementType: rollupDetails.agreementType,
-                chartData: rollupDetails.chartData,
-                addressMappings,
-            }
+            contractName: params.address,
+            ownerAddress: rollupDetails.ownerAddress,
+            withdrawalHistory: withdrawals,
+            agreementType: rollupDetails.agreementType,
+            chartData: rollupDetails.chartData,
+            addressMappings,
         }
     }
 
-    return {
-        status: 500
-    };
+    throw error(500, "Unrecognized contract type");
 }
 
 function translateSplits(splits) {
@@ -157,7 +147,7 @@ function getAddressMappings(chartData: any, agreementType: string) {
         default:
             return {};
     }
-    
+
 }
 
 function getAddressMappingsFromSplits(splits: any) {

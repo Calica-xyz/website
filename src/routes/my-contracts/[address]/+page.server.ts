@@ -34,7 +34,7 @@ async function getContractDeployedEvents(factoryContract, contractType, address,
     return deployedContracts;
 }
 
-export async function GET({ params }) {
+export async function load({ params }) {
     let deployedContracts = [];
 
     for (let chain of SUPPORTED_NETWORKS) {
@@ -57,9 +57,6 @@ export async function GET({ params }) {
     });
 
     return {
-        status: 200,
-        body: {
-            deployedContracts
-        }
-    };
+    deployedContracts
+};
 }

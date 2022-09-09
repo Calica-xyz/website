@@ -8,13 +8,14 @@
 </script>
 
 <List
+  ulClass="w-full"
   class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white shadow"
 >
   <div class="px-4 py-5 sm:px-6">
     <h5 class="leading-6 text-gray-600">Terms and Conditions</h5>
   </div>
 
-  <div class="px-4 py-5 sm:px-6 ml-2">
+  <div class="px-4 sm:px-6 ml-2">
     <ul class="text-xs text-gray-500">
       <li class="flex gap-2">
         <MinusSm size="15" /> Calica contracts are gas-optimized and have 100% test
@@ -38,7 +39,7 @@
     <ValidationMessage for="terms" let:messages={message}>
       {#if message}
         <div in:fade>
-          <Alert class="p-2 mb-0 w-[236px]" color="red">{message}</Alert>
+          <Alert class="p-2 mb-0 w-[260px]" color="red">{message}</Alert>
         </div>
       {/if}
     </ValidationMessage>

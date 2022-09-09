@@ -8,7 +8,6 @@
   export let reverse: boolean = false;
   export let img: string = undefined;
   export let padding: "none" | "sm" | "md" | "lg" = "lg";
-  export let size: "xs" | "sm" | "md" | "lg" | "xl" = "sm";
 
   setContext("background", true);
 

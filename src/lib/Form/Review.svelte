@@ -7,7 +7,12 @@
     getCurrency,
   } from "$lib/js/utils";
   import { Alert, Tooltip } from "flowbite-svelte";
-  import { InformationCircle } from "svelte-heros";
+  import {
+    ChartBar,
+    ChartPie,
+    Collection,
+    InformationCircle,
+  } from "svelte-heros";
   import Polygon from "$lib/CustomIcons/Polygon.svelte";
   import Eth from "$lib/CustomIcons/Eth.svelte";
 
@@ -19,13 +24,10 @@
   function getAgreementTitles() {
     switch (agreement) {
       case "simple":
-        return [
-          "Basic Revenue Share Agreement",
-          "Funds are split between earners",
-        ];
+        return ["Basic Revenue Share", "Funds are split between earners"];
       case "capped":
         return [
-          "Milestone-based Revenue Share Agreement",
+          "Milestone-based Revenue Share",
           "Funds are distributed to earners differently once milestones are hit",
         ];
       default:
@@ -42,7 +44,7 @@
 
     for (let term of splits) {
       simpleStr += '<div class="flex flex-col">';
-      simpleStr += `<p class="text-sm text-gray-900">${term.name}: ${term.percentage}%</p>`;
+      simpleStr += `<p class="text-sm text-gray-800">${term.name}: ${term.percentage}%</p>`;
       simpleStr += `<p class="subtitle-text text-gray-400">${term.address}</p>`;
       simpleStr += "</div>";
     }
@@ -60,11 +62,14 @@
         for (let i = 0; i < agreementTerms.length; i++) {
           cappedStr += '<div class="flex flex-col gap-1">';
           if (i == 0) {
-            cappedStr += "<h5 class='text-gray-500'>Initial Split</h5>";
+            cappedStr +=
+              "<p class='mb-0.5 text-gray-800 underline'>Initial Split</p>";
           } else {
-            cappedStr += `<h5 class='text-gray-500'>Milestone ${i + 1}: ${
+            cappedStr += `<div class='flex'><p class='mb-0.5 text-gray-800 underline'>Milestone ${
+              i + 1
+            }</p><p class='text-gray-800 mb-0.5'>: ${
               agreementTerms[i].cap
-            } ${getCurrency($chainId)}</h5>`;
+            } ${getCurrency($chainId)}</p></div>`;
           }
 
           cappedStr += getSplitText(agreementTerms[i].splits);
@@ -84,14 +89,33 @@
 <div
   class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white shadow overflow-hidden"
 >
-  <div class="px-4 py-5 sm:px-6">
-    <h5 class="leading-6 text-gray-600">
-      {titles[0]}
-    </h5>
-    <p class="mt-1 max-w-2xl text-sm text-gray-500">
-      {titles[1]}
-    </p>
+  <div class="flex justify-between items-center">
+    <div class="px-4 py-5 sm:px-6">
+      <h5 class="leading-6 text-gray-600">
+        {titles[0]}
+      </h5>
+      <p class="mt-1 max-w-2xl subtitle-text text-gray-500">
+        {titles[1]}
+      </p>
+    </div>
+    {#if agreement == "simple"}
+      <ChartPie
+        class="hidden md:block m-6 min-w-[30px] text-gray-300"
+        size="100"
+      />
+    {:else if agreement == "capped"}
+      <ChartBar
+        class="hidden md:block p-6 min-w-[30px] text-gray-300"
+        size="100"
+      />
+    {:else if agreement == "rollup"}
+      <Collection
+        class="hidden md:block min-w-[30px] text-gray-300"
+        size="100"
+      />
+    {/if}
   </div>
+
   <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
     <dl class="sm:divide-y sm:divide-gray-200">
       <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

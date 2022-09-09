@@ -11,6 +11,11 @@
   export let data: any;
   export let isOwner: boolean;
 
+  let customActiveTabClasses =
+    "inline-block py-4 px-4 text-sm font-medium text-center text-primary-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-primary-500";
+  let customInactiveTabClasses =
+    "inline-block py-4 px-4 text-sm font-medium text-center text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-300";
+
   let activeTabValue = 1;
   const handleClick = (tabValue) => () => {
     activeTabValue = tabValue;
@@ -26,14 +31,18 @@
       <TabHead {tabStyle} {tabId}>
         <TabHeadItem
           id={1}
-          {tabStyle}
+          tabStyle="custom"
           {activeTabValue}
+          customActiveClass={customActiveTabClasses}
+          customInActiveClass={customInactiveTabClasses}
           on:click={handleClick(1)}>Primary</TabHeadItem
         >
         <TabHeadItem
           id={2}
-          {tabStyle}
+          tabStyle="custom"
           {activeTabValue}
+          customActiveClass={customActiveTabClasses}
+          customInActiveClass={customInactiveTabClasses}
           on:click={handleClick(2)}>Secondary</TabHeadItem
         >
       </TabHead>

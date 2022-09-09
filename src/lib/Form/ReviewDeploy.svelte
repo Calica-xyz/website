@@ -38,7 +38,7 @@
   <Hidden bind:show bind:dismiss>
     <div in:fade={{ duration: 300 }}>
       <Alert
-        class="fixed top-14 right-10 w-[250px]"
+        class="fixed top-24 right-10 w-[250px]"
         color="red"
         dismissable
         on:handleAlert={dismiss}
@@ -50,10 +50,10 @@
 
   <div
     in:fly={{ x: 500, duration: 500 }}
-    class="flex flex-col gap-10 max-w-3xl mx-auto sm:px-12 my-14"
+    class="flex flex-col gap-10 max-w-3xl mx-auto sm:px-12 my-4"
   >
-    <div>
-      <h4 class="text-gray-600">Review and Deploy Your Calica Contract</h4>
+    <div class="mb-6">
+      <h3 class="text-gray-600">Review and Deploy Your Calica Contract</h3>
       <p class="subtitle-text text-gray-500">
         A smart contract will be deployed to the blockchain with the terms of
         your agreement
@@ -67,13 +67,15 @@
       agreementTerms={pagesState[1][pagesState[0].type]}
     />
 
-    <TermsSignoff />
+    <div class="w-full">
+      <TermsSignoff />
+    </div>
 
     <ButtonGroup
       shouldDisableFinal={!onValidNetwork}
       isFinal={true}
       bind:isLoadingFinal={isDeploying}
-      class="mb-8 ml-auto"
+      class="my-8 ml-auto"
       buttonNames={["Prev", "Deploy"]}
       buttonCallbacks={[() => onBack($data), () => {}]}
       buttonTypes={["button", onValidNetwork ? "submit" : "button"]}

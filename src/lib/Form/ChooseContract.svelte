@@ -23,11 +23,10 @@
 </script>
 
 <form use:form>
-  <div in:fly={{ x: 500, duration: 500 }} class="max-w-xl mx-auto my-14">
-    <h4 class="text-gray-600">Create a new Smart Contract Agreement</h4>
-    <p class="subtitle-text text-gray-500">Select a type of revenue share</p>
+  <div in:fly={{ x: 500, duration: 500 }} class="max-w-xl mx-auto my-4">
+    <h3 class="text-gray-700">Create a new Revenue Share Agreement</h3>
     <ul
-      class="shadow rounded-lg mt-8 border border-gray-200 divide-y divide-gray-200"
+      class="shadow rounded-lg mt-12 border border-gray-200 divide-y divide-gray-200"
     >
       <li
         on:click={clickBasic}
@@ -42,10 +41,8 @@
             </span>
           </div>
           <div class="min-w-0 flex-1">
-            <div class="font-medium text-gray-800">
-              <span class="absolute inset-0" aria-hidden="true" />
-              Basic Revenue Share
-            </div>
+            <h5 class="text-gray-500">Basic Revenue Share</h5>
+
             <p class="subtitle-text text-gray-400">
               All funds are split between parties
             </p>
@@ -58,7 +55,7 @@
 
       <li
         on:click={clickMilestone}
-        class="rounded-b-lg px-6 hover:bg-gray-100 dark:hover:bg-gray-700"
+        class="cursor-pointer rounded-b-lg px-6 hover:bg-gray-100 dark:hover:bg-gray-700"
       >
         <div class="relative group py-4 flex items-start space-x-3">
           <div class="flex-shrink-0">
@@ -69,10 +66,7 @@
             </span>
           </div>
           <div class="min-w-0 flex-1">
-            <div class="font-medium text-gray-800 ">
-              <span class="absolute inset-0" aria-hidden="true" />
-              Milestone-based Revenue Share
-            </div>
+            <h5 class="text-gray-500">Milestone-based Revenue Share</h5>
             <p class="subtitle-text text-gray-400 ">
               Different splits after certain revenue milestones are hit
             </p>

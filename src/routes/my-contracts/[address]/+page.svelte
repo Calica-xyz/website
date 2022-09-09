@@ -1,7 +1,8 @@
 <script>
   import ContractCard from "$lib/Components/ContractCard.svelte";
 
-  export let deployedContracts;
+  /** @type {import('./$types').PageData} */
+  export let data;
 </script>
 
 <div class="m-10 sm:mx-20">
@@ -11,7 +12,7 @@
     class="mt-8 grid gap-8"
     style="grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));"
   >
-    {#each deployedContracts as deployedContract}
+    {#each data.deployedContracts as deployedContract}
       <ContractCard
         name={deployedContract.contractName}
         contractType={deployedContract.contractType}

@@ -4,6 +4,9 @@
   import Dashboard from "$lib/Dashboard/Dashboard.svelte";
   import ContractIntegration from "$lib/Components/ContractIntegration.svelte";
 
+  /** @type {import('./$types').PageData} */
+  export let data;
+
   let page = 0;
 </script>
 
@@ -11,7 +14,7 @@
   <div class="my-10 flex w-full justify-center">
     <div id="content-container" class="flex-1">
       {#if page === 0}
-        <Dashboard {...$$props} />
+        <Dashboard {...data} />
       {:else if page === 1}
         <ContractIntegration />
       {:else if page === 2}{/if}

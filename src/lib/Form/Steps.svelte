@@ -10,7 +10,7 @@
 
 <nav
   aria-label="Progress"
-  class="relative m-auto"
+  class="relative m-auto p-10"
   style={`max-width: ${maxWidth}px;`}
 >
   <ol

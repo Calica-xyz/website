@@ -6,7 +6,7 @@
   import ButtonGroup from "$lib/Flowbite/ButtonGroup.svelte";
   import Doughnut from "$lib/Dashboard/Doughnut.svelte";
   import Splits from "$lib/Form/Splits.svelte";
-  import FloatingLabelInput from "$lib/Flowbite/FloatingLabelInput.svelte";
+  import Input from "$lib/Flowbite/Input.svelte";
   import { Helper } from "flowbite-svelte";
   import { validateContractName, validateSplits } from "$lib/js/validators";
 
@@ -35,25 +35,29 @@
 <form use:form>
   <div
     in:fly={{ x: 500, duration: 500 }}
-    class="max-w-6xl mx-auto sm:px-12 my-14"
+    class="max-w-6xl mx-auto sm:px-12 my-4"
   >
-    <h4 class="text-gray-600">Basic Revenue Share Agreement</h4>
+    <h3 class="text-gray-600">Basic Revenue Share Agreement</h3>
     <p class="subtitle-text text-gray-500">
       Add or remove earners with their split of revenue
     </p>
 
     <ValidationMessage for="name" let:messages={message}>
-      <div class="max-w-[200px] my-8 mt-14">
-        <FloatingLabelInput
-          color={message != null ? "red" : "base"}
-          style="outlined"
-          name="name"
-          id="name"
-          label="Contract Name"
-          bind:value={name}
-        />
+      <div class="mt-10 sm:my-14">
+        <div class="flex flex-wrap gap-6 items-center">
+          <h4 class="text-gray-600">Contract Name</h4>
+          <Input
+            color={message != null ? "red" : "base"}
+            class="max-w-[200px]"
+            style="outlined"
+            name="name"
+            id="name"
+            bind:value={name}
+          />
+        </div>
+
         {#if message != null}
-          <Helper class="mb-2 sm:mb-0" color="red">{message}</Helper>
+          <Helper class="absolute mb-2 sm:mb-0" color="red">{message}</Helper>
         {/if}
       </div>
     </ValidationMessage>

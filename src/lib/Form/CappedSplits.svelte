@@ -54,10 +54,10 @@
     <div class="my-12 sm:my-4 w-full">
       <div class="mb-6 flex gap-x-4 items-center justify-between">
         {#if i == 0}
-          <h3 class="text-gray-600">Initial Split</h3>
+          <h4 class="text-gray-600">Initial Split</h4>
         {:else}
           <div class="flex flex-wrap items-center gap-x-4">
-            <h3 class="text-gray-600">Milestone {i}</h3>
+            <h4 class="text-gray-600">Milestone {i}</h4>
             <ValidationMessage
               for={`${formPrefix}.${i}.cap`}
               let:messages={message}

@@ -3,7 +3,29 @@
 
   export let page;
 
-  let sidebarOpen = false;
+  $: sidebarOpen = false;
+
+  function clickOutside(element, callbackFunction) {
+    let func = function onClick(event) {
+      if (
+        !element.contains(event.target) &&
+        !document.getElementById("sidebar-toggle")?.contains(event.target)
+      ) {
+        callbackFunction();
+      }
+    };
+
+    document.addEventListener("click", func);
+
+    return {
+      update(newCallbackFunction) {
+        callbackFunction = newCallbackFunction;
+      },
+      destroy() {
+        document.body.removeEventListener("click", func);
+      },
+    };
+  }
 </script>
 
 <div>
@@ -33,7 +55,12 @@
             From: "translate-x-0"
             To: "-translate-x-full"
         -->
-        <div class="relative flex w-full max-w-xs flex-1 flex-col bg-gray-800">
+        <div
+          use:clickOutside={() => {
+            sidebarOpen = false;
+          }}
+          class="relative flex w-full max-w-xs flex-1 flex-col bg-gray-800"
+        >
           <!--
             Close button, show/hide based on off-canvas menu state.
   
@@ -212,6 +239,7 @@
           sidebarOpen = true;
         }}
         type="button"
+        id="sidebar-toggle"
         class="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
       >
         <span class="sr-only">Open sidebar</span>

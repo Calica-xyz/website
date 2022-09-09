@@ -5,13 +5,17 @@
   import Footer from "$lib/Footer.svelte";
   import Loader from "$lib/Components/Loader.svelte";
 
-  import { connected, signerAddress } from "svelte-ethers-store";
-  import { navigating } from "$app/stores";
+  import { signerAddress } from "svelte-ethers-store";
+  import { navigating, page } from "$app/stores";
+
+  $: showFooter = $page.routeId != "[chain]/[address]";
 </script>
 
 {#if $signerAddress}
   <div class="flex min-h-screen flex-col justify-start">
-    <Navbar />
+    <div class="h-[64px]">
+      <Navbar />
+    </div>
 
     <div id="content-container" class="w-full h-full">
       {#if $navigating}
@@ -21,7 +25,7 @@
       {/if}
     </div>
 
-    {#if !$navigating}
+    {#if !$navigating && showFooter}
       <Footer />
     {/if}
   </div>

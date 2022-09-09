@@ -29,7 +29,7 @@
 <div class="flex flex-col gap-10">
   <div>
     <h2 class="text-gray-700">Integrated Contract</h2>
-    <p class="text-gray-500">
+    <p class="subtitle-text text-gray-500">
       Your Calica contract is connected. You can now withdraw and distribute
       funds to all earners.
     </p>
