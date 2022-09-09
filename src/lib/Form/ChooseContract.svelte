@@ -23,7 +23,7 @@
 </script>
 
 <form use:form>
-  <div in:fly={{ x: 500, duration: 500 }} class="max-w-xl mx-auto my-4">
+  <div class="max-w-xl mx-auto my-4">
     <h3 class="text-gray-700">Create a new Revenue Share Agreement</h3>
     <ul
       class="shadow rounded-lg mt-12 border border-gray-200 divide-y divide-gray-200"

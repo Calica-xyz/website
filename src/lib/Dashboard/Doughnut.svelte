@@ -11,9 +11,10 @@
   };
   export let displayLegend: boolean = true;
   export let legendPosition: string = "bottom";
+  export let currentChart = null;
 
   let canvas: HTMLCanvasElement;
-  export let currentChart = null;
+  let innerWidth = window.innerWidth;
 
   const doughnutColors = [
     getHexCode("--color-secondary"),
@@ -116,4 +117,4 @@
   <canvas style="width: 210px; height: 210px;" bind:this={canvas} />
 </div>
 
-<svelte:window on:resize|passive={redrawChart} />
+<svelte:window on:resize={redrawChart} />

@@ -32,6 +32,7 @@
 
   @media (max-width: 768px) {
     #content-container {
+      max-width: min(1400px, calc(100% - 1rem));
       min-height: calc(
         100vh - 375px
       ); /* Viewport - navbar - margin - sidebar */

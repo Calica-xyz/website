@@ -134,4 +134,4 @@
   </Card>
 </div>
 
-<svelte:window on:resize|passive={redrawChart} />
+<svelte:window on:resize={redrawChart} />

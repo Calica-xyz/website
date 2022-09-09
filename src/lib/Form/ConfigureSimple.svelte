@@ -32,11 +32,8 @@
   });
 </script>
 
-<form use:form>
-  <div
-    in:fly={{ x: 500, duration: 500 }}
-    class="max-w-6xl mx-auto sm:px-12 my-4"
-  >
+<form autocomplete="off" use:form>
+  <div class="max-w-6xl mx-auto sm:px-12 my-4">
     <h3 class="text-gray-600">Basic Revenue Share Agreement</h3>
     <p class="subtitle-text text-gray-500">
       Add or remove earners with their split of revenue
@@ -44,7 +41,7 @@
 
     <ValidationMessage for="name" let:messages={message}>
       <div class="mt-10 sm:my-14">
-        <div class="flex flex-wrap gap-6 items-center">
+        <div class="flex flex-wrap gap-x-6 gap-y-2 items-center">
           <h4 class="text-gray-600">Contract Name</h4>
           <Input
             color={message != null ? "red" : "base"}
