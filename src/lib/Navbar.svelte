@@ -2,6 +2,7 @@
   import { signerAddress, defaultEvmStores } from "svelte-ethers-store";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
+  import { disconnectWeb3Modal } from "$lib/js/auth";
   import CurrencyIcon from "./Components/CurrencyIcon.svelte";
 
   let navbarOpen = false;
@@ -239,7 +240,7 @@
 
                     <div
                       on:click={() => {
-                        defaultEvmStores.disconnect();
+                        disconnectWeb3Modal();
                       }}
                       class="cursor-pointer hover:bg-gray-100 hover:rounded-b-md block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
@@ -336,7 +337,7 @@
             <div class="mt-3 space-y-1 px-2 sm:px-3">
               <div
                 on:click={() => {
-                  defaultEvmStores.disconnect();
+                  disconnectWeb3Modal();
                 }}
                 class="cursor-pointer block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
               >
