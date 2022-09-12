@@ -8,7 +8,7 @@
   import { signer, chainId } from "svelte-ethers-store";
   import { getChainFromId, getFactoryContract } from "$lib/js/utils";
 
-  let stepNames = ["Choose Contract", "Configure", "Review & Deploy"];
+  const stepNames = ["Choose Contract", "Configure", "Review & Deploy"];
 
   let page = 0;
   let pages = [ChooseContract, Configure, ReviewDeploy, Congrats];

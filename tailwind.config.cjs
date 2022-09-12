@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 const config = {
   content: [
     "./src/**/*.{html,js,svelte,ts}",
@@ -5,6 +7,10 @@ const config = {
   ],
 
   theme: {
+    screens: {
+      "xs": "600px",
+      ...defaultTheme.screens,
+    },
     colors: {
       "primary": {
         "50": "#409dda",
@@ -81,7 +87,8 @@ const config = {
   },
 
   plugins: [
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
+    require('@tailwindcss/forms')
   ],
 
   darkMode: 'class',

@@ -8,30 +8,37 @@
   import { signerAddress } from "svelte-ethers-store";
   import { navigating, page } from "$app/stores";
 
-  $: showFooter = $page.routeId != "[chain]/[address]";
+  $: showFooter = $page.routeId != "[chain]/[address]" && $page.routeId != "";
+  $: showContent =
+    $page.routeId == "blog" ||
+    $page.routeId == "contact" ||
+    $page.routeId == "";
+  $: showNavbar = $page.routeId != "";
 </script>
 
-{#if $signerAddress}
-  <div class="flex min-h-screen flex-col justify-start">
+<div class="flex min-h-screen flex-col justify-start">
+  {#if showNavbar}
     <div class="h-[64px]">
       <Navbar />
     </div>
+  {/if}
 
-    <div id="content-container" class="w-full h-full">
+  <div id="content-container" class="w-full h-full">
+    {#if $signerAddress || showContent}
       {#if $navigating}
         <Loader />
       {:else}
         <slot />
       {/if}
-    </div>
-
-    {#if !$navigating && showFooter}
-      <Footer />
+    {:else}
+      <AuthLogin />
     {/if}
   </div>
-{:else}
-  <AuthLogin />
-{/if}
+
+  {#if !$navigating && showFooter}
+    <Footer />
+  {/if}
+</div>
 
 <style>
   #content-container {

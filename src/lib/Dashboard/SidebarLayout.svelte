@@ -103,7 +103,7 @@
             <div class="flex flex-shrink-0 items-center px-4">
               <img
                 class="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=500"
                 alt="Your Company"
               />
             </div>
@@ -111,6 +111,7 @@
               <div
                 on:click={() => {
                   page = 0;
+                  sidebarOpen = false;
                 }}
                 class="{page == 0
                   ? 'bg-gray-900 text-white'
@@ -127,6 +128,7 @@
               <div
                 on:click={() => {
                   page = 1;
+                  sidebarOpen = false;
                 }}
                 class="{page == 1
                   ? 'bg-gray-900 text-white'
@@ -143,6 +145,7 @@
               <div
                 on:click={() => {
                   page = 2;
+                  sidebarOpen = false;
                 }}
                 class="{page == 2
                   ? 'bg-gray-900 text-white'
@@ -174,7 +177,7 @@
         <div class="flex flex-shrink-0 items-center px-4">
           <img
             class="h-8 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+            src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=500"
             alt="Your Company"
           />
         </div>
@@ -240,7 +243,7 @@
         }}
         type="button"
         id="sidebar-toggle"
-        class="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+        class="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
       >
         <span class="sr-only">Open sidebar</span>
         <!-- Heroicon name: outline/bars-3 -->
