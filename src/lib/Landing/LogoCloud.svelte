@@ -1,6 +1,6 @@
 <div class="mx-auto max-w-7xl py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
   <h2 class="text-center text-base font-semibold text-gray-400">
-    Trusted by the movers and shakers of web3
+    Trusted by forward-thinking brands in web3
   </h2>
   <div class="flex flex-wrap justify-center items-center mt-8 gap-12 lg:gap-28">
     <!-- Floor NFT -->

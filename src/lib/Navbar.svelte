@@ -1,8 +1,9 @@
 <script>
-  import { signerAddress, defaultEvmStores } from "svelte-ethers-store";
+  import { signerAddress } from "svelte-ethers-store";
+  import { disconnectWeb3Modal } from "$lib/js/auth";
+  import { Transition } from "@rgossiaux/svelte-headlessui";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { disconnectWeb3Modal } from "$lib/js/auth";
   import CurrencyIcon from "./Components/CurrencyIcon.svelte";
 
   let navbarOpen = false;
@@ -207,17 +208,15 @@
                   </button>
                 </div>
 
-                {#if profileMenuOpen}
-                  <!--
-              Dropdown menu, show/hide based on menu state.
-
-              Entering: "transition ease-out duration-200"
-                From: "transform opacity-0 scale-95"
-                To: "transform opacity-100 scale-100"
-              Leaving: "transition ease-in duration-75"
-                From: "transform opacity-100 scale-100"
-                To: "transform opacity-0 scale-95"
-            -->
+                <Transition
+                  show={profileMenuOpen}
+                  enter="transition ease-out duration-200"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
                   <div
                     use:clickOutside={() => {
                       profileMenuOpen = false;
@@ -250,7 +249,7 @@
                       Sign out
                     </div>
                   </div>
-                {/if}
+                </Transition>
               </div>
             {/if}
           </div>

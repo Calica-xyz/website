@@ -38,14 +38,14 @@
           <div class="body">
             <h2>Build</h2>
             <p>
-              Create a Calica Contract on our <a
+              Compose business rules in our <a
                 class="text-primary hover:underline"
                 href="/create">no-code tool</a
               >
               or
               <a class="text-primary hover:underline" href="/contact"
                 >reach out</a
-              > for a custom one
+              > for a custom solution
             </p>
           </div>
 
@@ -191,7 +191,10 @@
         <div class="content">
           <div class="body">
             <h2>Deploy & Earn</h2>
-            <p>Deploy it to the blockchain and start earning revenue</p>
+            <p>
+              Calica's smart contract factory deploys a contract that connects
+              to your revenue
+            </p>
           </div>
 
           <div class="icon xs:bg-gray-200 bg-secondary-50">
@@ -387,7 +390,7 @@
             <p>
               Access <a class="hover:underline" href="/my-contracts"
                 >your portal</a
-              > to view and manage your contracts
+              > to view and manage your contracts. All earners get their own dashboard.
             </p>
           </div>
 

@@ -35,13 +35,13 @@
     {
       title: "Platform plugin integration",
       description:
-        "Integrate into your product's UI to empower users with complex rev share capability.",
+        "Integrate Calica into your product's UI to empower creators on your platform with revenue tooling.",
       icon: Cube,
     },
     {
       title: "Custom use case",
       description:
-        "We're always open to new ideas. Let us know what you need and we'll create a custom solution for your business needs.",
+        "Let us know what you need and we'll create a custom solution for your business needs.",
       icon: LightBulb,
     },
   ];
@@ -54,11 +54,10 @@
       <p
         class="mt-2 text-3xl font-bold leading-8 tracking-tight text-gray-800 sm:text-4xl"
       >
-        Calica empowers you with revenue tooling
+        Set business rules and watch earnings flow
       </p>
-      <p class="mt-4 max-w-2xl text-md sm:text-lg text-gray-500 lg:mx-auto">
-        With Calica, revenue is automatically distributed according to your
-        business needs.
+      <p class="mt-4 text-md sm:text-lg text-gray-500 lg:mx-auto">
+        Use Calica to automate the real world agreements around your revenue
       </p>
     </div>
 

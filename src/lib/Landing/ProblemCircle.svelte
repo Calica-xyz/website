@@ -5,23 +5,23 @@
 
   const problems = [
     {
-      text: "Calculating complex revenue shares by hand",
+      text: "Do I have to calculate complex rev shares by hand?",
       icon: Calculator,
     },
     {
-      text: "Manually distributing revenue... forever",
+      text: "Do I have to manually distribute revenue forever?",
       icon: Refresh,
     },
     {
-      text: "Navigating etherscan to see your cashflow",
+      text: "Is etherscan the only place to see my finances?",
       icon: Search,
     },
     {
-      text: "Generating financial reports for your business",
+      text: "How do I generate financial reports for my business?",
       icon: Cash,
     },
     {
-      text: "Sharing payout data with your team",
+      text: "Where can my team see info about their payouts?",
       icon: UserGroup,
     },
   ];
@@ -126,7 +126,7 @@
       <Card
         id="problem-card"
         padding="none"
-        class="problem-card w-[180px] p-4 pt-6 h-[100px] text-center"
+        class="problem-card w-[190px] p-4 pt-6 h-[100px] text-center"
       >
         <div
           class="absolute top-[-20px] bg-accent-100 p-2 rounded-md left-[40%] text-white"

@@ -6,7 +6,7 @@
   import UseCases from "$lib/Landing/UseCases.svelte";
 
   import { onMount } from "svelte";
-  import { fade, fly } from "svelte/transition";
+  import { fade } from "svelte/transition";
 
   $: navbarOpen = false;
   $: headerVisited = false;
@@ -182,14 +182,6 @@
         </div>
 
         {#if navbarOpen}
-          <!--  
-            Entering: "duration-150 ease-out"
-              From: "opacity-0 scale-95"
-              To: "opacity-100 scale-100"
-            Leaving: "duration-100 ease-in"
-              From: "opacity-100 scale-100"
-              To: "opacity-0 scale-95"
-          -->
           <div
             class="absolute inset-x-0 top-0 z-10 origin-top-right transform p-2 transition md:hidden"
           >
@@ -273,14 +265,13 @@
             <h1
               class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl md:text-6xl"
             >
-              <span class="block">Calica manages your</span>
+              <span class="block">Manage and automate your</span>
               <span class="block text-primary-100">on-chain revenue</span>
             </h1>
             <p
               class="mx-auto mt-3 text-base text-gray-500 sm:text-lg md:mt-5 max-w-xl md:text-xl"
             >
-              Managing finances for a web3 project is challenging. We make it
-              way easier.
+              Use Calica to simplify the way your team manages finances in web3
             </p>
           </div>
         {/if}
@@ -320,8 +311,7 @@
           <span class="inline">with on-chain revenue </span>
         </h1>
         <p class="mt-3 text-md text-gray-500 sm:text-lg md:mt-5">
-          Your business earned crypto, but now what? There are a lot of things
-          to think about.
+          Your business earned crypto, but now what?
         </p>
       </div>
       <div class="flex-auto min-w-[min(580px,100%)] max-w-[800px]">
