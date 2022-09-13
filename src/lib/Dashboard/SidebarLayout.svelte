@@ -99,11 +99,7 @@
 
             <div class="h-0 flex-1 overflow-y-auto pt-5 pb-4">
               <div class="flex flex-shrink-0 items-center px-4">
-                <img
-                  class="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=500"
-                  alt="Your Company"
-                />
+                <img class="h-8 w-auto" src="/logo.png" alt="Calica Logo" />
               </div>
               <nav class="mt-5 space-y-1 px-2">
                 <div

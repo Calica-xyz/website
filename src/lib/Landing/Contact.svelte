@@ -40,7 +40,7 @@
   </div>
   <div class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
     <div
-      class="relative overflow-hidden rounded-2xl bg-primary-900 px-6 py-10 shadow-xl sm:px-12 sm:py-20"
+      class="relative overflow-hidden rounded-2xl bg-secondary-500 px-6 py-10 shadow-xl sm:px-12 sm:py-20"
     >
       <div aria-hidden="true" class="absolute inset-0 -mt-72 sm:-mt-32 md:mt-0">
         <svg
@@ -67,7 +67,7 @@
           <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Let's get in touch
           </h2>
-          <p class="mx-auto mt-6 max-w-2xl text-lg text-gray-300">
+          <p class="mx-auto mt-6 max-w-2xl text-lg text-gray-100">
             Interested in using Calica or want to see a demo?
           </p>
         </div>
@@ -82,7 +82,7 @@
               }}
               type="submit"
               class="block w-full rounded-md border border-transparent bg-gray-800 px-5 py-3 text-base font-medium text-white shadow hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-500 sm:px-10"
-              >Contact</button
+              >Contact Us</button
             >
           </div>
         </form>

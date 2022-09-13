@@ -36,8 +36,8 @@
       <div class="step-list__item__inner">
         <div class="content">
           <div class="body">
-            <h2>Build</h2>
-            <p>
+            <h2 class="text-gray-800">Build</h2>
+            <p class="text-base text-gray-500">
               Compose business rules in our <a
                 class="text-primary hover:underline"
                 href="/create">no-code tool</a
@@ -190,8 +190,8 @@
       <div class="step-list__item__inner">
         <div class="content">
           <div class="body">
-            <h2>Deploy & Earn</h2>
-            <p>
+            <h2 class="text-gray-800">Deploy & Earn</h2>
+            <p class="text-base text-gray-500">
               Calica's smart contract factory deploys a contract that connects
               to your revenue
             </p>
@@ -386,8 +386,8 @@
       <div class="step-list__item__inner">
         <div class="content">
           <div class="body">
-            <h2>View & Manage</h2>
-            <p>
+            <h2 class="text-gray-800">View & Manage</h2>
+            <p class="text-base text-gray-500">
               Access <a class="hover:underline" href="/my-contracts"
                 >your portal</a
               > to view and manage your contracts. All earners get their own dashboard.

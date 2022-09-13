@@ -44,7 +44,7 @@
 </script>
 
 <div class:visited class="circle m-auto" style="--total: 5">
-  <div id="man" class="absolute mr-4 mb-8 w-[12%] max-w-[100px]">
+  <div id="man" class="absolute mr-4 mb-8 w-[12%] max-w-[110px]">
     <svg
       class="w-full h-auto"
       viewBox="0 0 200 572.42786176"
@@ -176,11 +176,11 @@
     --transform: rotate(var(--r)) translate(var(--radius))
       rotate(calc(-1 * var(--r)));
     transform: var(--transform);
-    transition: transform 1.5s ease-in-out;
+    transition: transform 1s ease-in-out;
   }
 
   .visited {
-    --radius: 30vmin;
+    --radius: min(30vmin, 260px);
   }
 
   @media (max-width: 550px) {

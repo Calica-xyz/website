@@ -22,12 +22,14 @@ const providerOptions = {
 export async function connectWeb3Modal() {
   web3Modal = new Web3Modal({
     providerOptions,
+    cacheProvider: true,
+    disableInjectedProvider: false,
   });
 
   try {
     const provider = await web3Modal.connect();
     defaultEvmStores.setProvider(provider);
-  } catch (err) {}
+  } catch (err) { }
 }
 
 export async function disconnectWeb3Modal() {

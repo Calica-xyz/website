@@ -48,11 +48,11 @@
 </script>
 
 <div class="py-16">
-  <div class="mx-auto max-w-7xl px-4 sm:px-10 lg:px-20">
+  <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-20">
     <div class="lg:text-center">
       <h2 class="text-lg font-semibold text-primary-100">The Solution</h2>
       <p
-        class="mt-2 text-3xl font-bold leading-8 tracking-tight text-gray-800 sm:text-4xl"
+        class="mt-2 text-4xl font-bold tracking-tight text-gray-800 lg:text-5xl"
       >
         Set business rules and watch earnings flow
       </p>
