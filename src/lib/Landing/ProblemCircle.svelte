@@ -176,7 +176,7 @@
     --transform: rotate(var(--r)) translate(var(--radius))
       rotate(calc(-1 * var(--r)));
     transform: var(--transform);
-    transition: transform 1.5s ease-in-out;
+    transition: transform 1s ease-in-out;
   }
 
   .visited {

@@ -308,7 +308,7 @@
   <section id="why-calica" class="m-auto">
     <div
       id="why-calica-content"
-      class="px-10 py-20 lg:px-20 m-auto max-w-7xl flex flex-wrap gap-x-24 gap-y-32 items-center justify-center"
+      class="px-6 pb-20 pt-32 lg:px-20 m-auto max-w-7xl flex flex-wrap gap-x-24 gap-y-32 items-center justify-center"
     >
       <div
         id="problems-text"
@@ -338,7 +338,7 @@
 
   <section id="how-it-works">
     <div
-      class="px-10 py-16 lg:px-20 m-auto max-w-7xl flex flex-wrap-reverse gap-x-24 gap-y-20 items-center justify-center"
+      class="px-6 py-16 lg:px-20 m-auto max-w-7xl flex flex-wrap-reverse gap-x-24 gap-y-20 items-center justify-center"
     >
       <div class="flex-auto min-w-[min(580px,100%)] max-w-[600px]">
         <HowItWorks />
@@ -362,7 +362,7 @@
     </div>
   </section>
 
-  <section id="contact">
+  <section id="contact" class="mt-[-20px] mb-16">
     <Contact />
   </section>
 

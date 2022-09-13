@@ -229,18 +229,19 @@
                     tabindex="-1"
                   >
                     <div
-                      class="flex gap-2 px-4 py-2 text-sm text-gray-700"
+                      class="rounded-t-md flex items-center h-[37px] gap-2 px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
                       tabindex="-1"
                       id="user-menu-item-1"
                     >
                       <div class="text-gray-500 truncate">{$signerAddress}</div>
-                      <CurrencyIcon size="15" />
+                      <CurrencyIcon size="40" />
                     </div>
 
                     <div
                       on:click={() => {
                         disconnectWeb3Modal();
+                        navbarOpen = false;
                       }}
                       class="cursor-pointer hover:bg-gray-100 hover:rounded-b-md block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
@@ -338,6 +339,7 @@
               <div
                 on:click={() => {
                   disconnectWeb3Modal();
+                  navbarOpen = false;
                 }}
                 class="cursor-pointer block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
               >

@@ -36,8 +36,8 @@
       <div class="step-list__item__inner">
         <div class="content">
           <div class="body">
-            <h2>Build</h2>
-            <p>
+            <h2 class="text-gray-800">Build</h2>
+            <p class="text-base text-gray-500">
               Create a Calica Contract on our <a
                 class="text-primary hover:underline"
                 href="/create">no-code tool</a
@@ -190,8 +190,10 @@
       <div class="step-list__item__inner">
         <div class="content">
           <div class="body">
-            <h2>Deploy & Earn</h2>
-            <p>Deploy it to the blockchain and start earning revenue</p>
+            <h2 class="text-gray-800">Deploy & Earn</h2>
+            <p class="text-base text-gray-500">
+              Deploy it to the blockchain and start earning revenue
+            </p>
           </div>
 
           <div class="icon xs:bg-gray-200 bg-secondary-50">
@@ -383,8 +385,8 @@
       <div class="step-list__item__inner">
         <div class="content">
           <div class="body">
-            <h2>View & Manage</h2>
-            <p>
+            <h2 class="text-gray-800">View & Manage</h2>
+            <p class="text-base text-gray-500">
               Access <a class="hover:underline" href="/my-contracts"
                 >your portal</a
               > to view and manage your contracts

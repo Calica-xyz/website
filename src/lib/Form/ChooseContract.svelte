@@ -123,7 +123,7 @@
           class="hover:bg-yellow-50 border p-3 rounded-lg border-dashed mt-12 flex gap-3 items-center"
         >
           <LightBulb size="40" class="text-yellow-200" />
-          <p class="subtitle-text text-gray-600">
+          <p class="flex-1 subtitle-text text-gray-600">
             Don't see what you're looking for? We love hearing about new use
             cases and are happy to build something custom!
           </p>
