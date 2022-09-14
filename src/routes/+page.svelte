@@ -168,9 +168,9 @@
               >
 
               <a
-                href="#contact"
+                href="#security"
                 class="font-medium text-gray-500 hover:text-gray-900"
-                >Get in touch</a
+                >Security</a
               >
             </div>
             <div
@@ -246,9 +246,9 @@
                 >
 
                 <a
-                  href="#contact"
+                  href="#security"
                   class="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                  >Get in touch</a
+                  >Security</a
                 >
               </div>
               <a
