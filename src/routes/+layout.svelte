@@ -1,6 +1,7 @@
 <script lang="ts">
   import "../app.css";
   import AuthLogin from "$lib/Components/AuthLogin.svelte";
+  import Analytics from "$lib/Components/Analytics.svelte";
   import Navbar from "$lib/Navbar.svelte";
   import Footer from "$lib/Footer.svelte";
   import Loader from "$lib/Components/Loader.svelte";
@@ -15,6 +16,8 @@
     $page.routeId == "";
   $: showNavbar = $page.routeId != "";
 </script>
+
+<Analytics />
 
 <div class="flex min-h-screen flex-col justify-start">
   {#if showNavbar}

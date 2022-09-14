@@ -11,7 +11,6 @@
   }
 
   onMount(() => {
-    console.log("Initializing web3");
     initializeWeb3();
   });
 </script>
