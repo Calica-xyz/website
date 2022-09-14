@@ -47,7 +47,7 @@
   ];
 </script>
 
-<div class="py-16">
+<div class="py-12">
   <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-20">
     <div class="lg:text-center">
       <h2 class="text-lg font-semibold text-primary-100">The Solution</h2>

@@ -33,5 +33,8 @@
     <img class="h-16" src="/missocoolgirls.png" alt="Miss O Cool Girls" />
     <!-- Made with Mason -->
     <img class="h-12" src="/mason.png" alt="Made with Mason" />
+
+    <!-- Validation Cloud -->
+    <img class="h-10" src="/validationcloud.png" alt="Validation Cloud" />
   </div>
 </div>

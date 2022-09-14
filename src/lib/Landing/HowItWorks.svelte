@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import { Cash, ChartSquareBar, CursorClick } from "svelte-heros";
-  import { fade, fly } from "svelte/transition";
+  import { fly } from "svelte/transition";
 
   $: showBuildStep = false;
   $: showDeployStep = false;

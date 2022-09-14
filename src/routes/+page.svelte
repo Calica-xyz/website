@@ -3,6 +3,7 @@
   import HowItWorks from "$lib/Landing/HowItWorks.svelte";
   import LogoCloud from "$lib/Landing/LogoCloud.svelte";
   import ProblemCircle from "$lib/Landing/ProblemCircle.svelte";
+  import Security from "$lib/Landing/Security.svelte";
   import UseCases from "$lib/Landing/UseCases.svelte";
 
   import { onMount } from "svelte";
@@ -324,7 +325,7 @@
 
   <section id="how-it-works">
     <div
-      class="px-6 py-16 lg:px-20 m-auto max-w-7xl flex flex-wrap-reverse gap-x-24 gap-y-20 items-center justify-center"
+      class="px-6 pb-8 pt-16 lg:px-20 m-auto max-w-7xl flex flex-wrap-reverse gap-x-24 gap-y-20 items-center justify-center"
     >
       <div class="flex-auto min-w-[min(580px,100%)] max-w-[600px]">
         <HowItWorks />
@@ -341,11 +342,14 @@
         >
           Using Calica is easy. <a class="hover:underline" href="/create"
             >Our app</a
-          > supports your entire team and all of our code is well-tested and audited
-          for security flaws.
+          > runs on Ethereum + Polygon and supports your entire team.
         </p>
       </div>
     </div>
+  </section>
+
+  <section id="security">
+    <Security />
   </section>
 
   <section id="contact" class="mt-[-20px] mb-16">
@@ -430,7 +434,7 @@
     }
 
     #why-calica-content {
-      padding-top: 10px;
+      padding-top: 32px;
     }
   }
 
