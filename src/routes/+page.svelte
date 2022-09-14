@@ -342,7 +342,7 @@
         >
           Using Calica is easy. <a class="hover:underline" href="/create"
             >Our app</a
-          > runs on Ethereum + Polygon and supports your entire team.
+          > runs on Ethereum, Polygon and all other EVM-compatible chains.
         </p>
       </div>
     </div>

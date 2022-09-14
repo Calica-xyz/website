@@ -29,21 +29,21 @@
           </p>
           <ul class="mt-2">
             <li class="my-2 flex gap-2">
-              <Check class="text-primary-300" />
-              <p class="text-md text-gray-500">
+              <Check class="text-primary-300" size="25" />
+              <p class="flex-1 text-md text-gray-500">
                 All of our contracts have 100% test coverage.
               </p>
             </li>
             <li class="my-2 flex gap-2">
-              <Check class="text-primary-300" />
-              <p class="text-md text-gray-500">
+              <Check class="text-primary-300" size="25" />
+              <p class="flex-1 text-md text-gray-500">
                 Our code is run through an automated security workflow that
-                evaluates vulnerabilities and gas optimizations.
+                evaluates vulnerabilities and optimizes gas.
               </p>
             </li>
             <li class="my-2 flex gap-2">
-              <Check class="text-primary-300" />
-              <p class="text-md text-gray-500">
+              <Check class="text-primary-300" size="25" />
+              <p class="flex-1 text-md text-gray-500">
                 For all custom solutions, we work with you directly to ensure
                 that your end-to-end revenue distribution behaves as expected.
               </p>
