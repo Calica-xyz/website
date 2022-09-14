@@ -25,6 +25,11 @@
   });
 </script>
 
+<svelte:head>
+  <title>Use Calica</title>
+  <meta charset="utf-8" />
+</svelte:head>
+
 <div class="bg-gray-50">
   <div class="relative overflow-hidden">
     <div class="absolute inset-y-0 h-full w-full" aria-hidden="true">

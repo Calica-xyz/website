@@ -140,6 +140,11 @@
   }
 </script>
 
+<svelte:head>
+  <title>Create a Contract</title>
+  <meta charset="utf-8" />
+</svelte:head>
+
 <div class="m-8">
   <Steps {stepNames} currentStep={page} />
   <svelte:component

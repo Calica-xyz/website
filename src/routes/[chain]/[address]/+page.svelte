@@ -10,6 +10,11 @@
   let page = 0;
 </script>
 
+<svelte:head>
+  <title>{data.contractName}</title>
+  <meta charset="utf-8" />
+</svelte:head>
+
 <SidebarLayout bind:page>
   <div class="my-10 flex w-full justify-center">
     <div id="content-container" class="flex-1">

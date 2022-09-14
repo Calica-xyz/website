@@ -8,6 +8,11 @@
   $: redirect = $page.url.searchParams.get("success") == "true";
 </script>
 
+<svelte:head>
+  <title>Contact Us</title>
+  <meta charset="utf-8" />
+</svelte:head>
+
 <div class="relative bg-white">
   <div class="absolute inset-0">
     <div

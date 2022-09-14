@@ -5,6 +5,11 @@
   export let data;
 </script>
 
+<svelte:head>
+  <title>My Contracts</title>
+  <meta charset="utf-8" />
+</svelte:head>
+
 <div class="bg-white">
   <!-- Header -->
   <div class="relative pb-32">

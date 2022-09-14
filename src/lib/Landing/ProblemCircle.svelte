@@ -44,7 +44,7 @@
 </script>
 
 <div class:visited class="circle m-auto" style="--total: 5">
-  <div id="man" class="absolute mr-4 mb-8 w-[12%] max-w-[110px]">
+  <div id="man" class="absolute mr-4 mb-8 w-[12%] max-w-[100px]">
     <svg
       class="w-full h-auto"
       viewBox="0 0 200 572.42786176"

@@ -2,6 +2,11 @@
   import BlogArticle from "./BlogArticle.svelte";
 </script>
 
+<svelte:head>
+  <title>Our Blog</title>
+  <meta charset="utf-8" />
+</svelte:head>
+
 <div class="relative px-4 pt-16 pb-20 sm:px-6 lg:px-8 lg:pt-20 lg:pb-28">
   <div class="absolute inset-0">
     <div class="h-1/3 bg-white sm:h-2/3" />
