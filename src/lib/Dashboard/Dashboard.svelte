@@ -189,7 +189,9 @@
 
 <div class="flex flex-wrap justify-between gap-x-16 gap-y-8 items-center mb-8">
   <div class="flex-1 flex flex-wrap gap-x-6 min-w-[240px] m-auto">
-    <h1 class="text-gray-600">{contractName}</h1>
+    <h1 class="text-gray-600" style="overflow-wrap: anywhere;">
+      {contractName}
+    </h1>
 
     {#if deployDate || contractType != "rollup"}
       <div class="flex flex-col justify-center">

@@ -3,6 +3,7 @@
   import Footer from "$lib/Footer.svelte";
   import Dashboard from "$lib/Dashboard/Dashboard.svelte";
   import ContractIntegration from "$lib/Components/ContractIntegration.svelte";
+  import ReconfigureContract from "$lib/Components/ReconfigureContract.svelte";
 
   /** @type {import('./$types').PageData} */
   export let data;
@@ -16,13 +17,15 @@
 </svelte:head>
 
 <SidebarLayout bind:page>
-  <div class="my-10 flex w-full justify-center">
+  <div class="my-6 flex w-full justify-center">
     <div id="content-container" class="flex-1">
       {#if page === 0}
         <Dashboard {...data} />
       {:else if page === 1}
         <ContractIntegration />
-      {:else if page === 2}{/if}
+      {:else if page === 2}
+        <ReconfigureContract {...data} />
+      {/if}
     </div>
   </div>
 
@@ -31,13 +34,13 @@
 
 <style>
   #content-container {
-    max-width: min(1400px, calc(100% - 4rem));
+    /* max-width: min(1400px, calc(100% - 4rem)); */
     min-height: calc(100vh - 265px); /* Viewport - navbar - margin */
   }
 
   @media (max-width: 768px) {
     #content-container {
-      max-width: min(1400px, calc(100% - 1rem));
+      /* max-width: min(1400px, calc(100% - 1rem)); */
       min-height: calc(
         100vh - 375px
       ); /* Viewport - navbar - margin - sidebar */

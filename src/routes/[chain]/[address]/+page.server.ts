@@ -69,6 +69,7 @@ export async function load({ params, url }) {
             agreementType: rollupDetails.agreementType,
             chartData: rollupDetails.chartData,
             addressMappings,
+            reconfigurable: false,
         }
     }
 
@@ -79,6 +80,7 @@ function translateSplits(splits) {
     return splits.map(function (split) {
         return {
             account: split.account,
+            address: split.account,
             name: split.name,
             percentage: split.percentage.toNumber() / 1000
         }
@@ -88,6 +90,13 @@ function translateSplits(splits) {
 async function getBaseContractData(contract, factoryContract, provider, address) {
     let ownerAddress = await contract.owner();
     let contractName = await contract.contractName();
+    let reconfigurable = false;
+
+    try {
+        reconfigurable = await contract.isReconfigurable();
+    } catch (err) {
+        // Older contracts don't have this function
+    }
 
     let deployFilter = factoryContract.filters.ContractDeployed(null, address, null);
     let deployEvents = await factoryContract.queryFilter(deployFilter);
@@ -99,7 +108,8 @@ async function getBaseContractData(contract, factoryContract, provider, address)
         ownerAddress,
         contractName,
         deployDate,
-        withdrawalHistory
+        withdrawalHistory,
+        reconfigurable,
     };
 }
 

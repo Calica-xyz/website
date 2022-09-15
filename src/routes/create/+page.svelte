@@ -15,7 +15,8 @@
   let pagesState = [{}, {}, {}];
   let isDeploying: boolean = false;
   let deployAddress;
-  let show;
+  let showError;
+  let showSuccess;
 
   $: chain = getChainFromId($chainId);
 
@@ -37,7 +38,6 @@
 
   function convertCappedFormData(formData) {
     let contractData = [formData.name];
-
     let cappedSplits = [];
 
     for (let i = 0; i < formData.capped.length; i++) {
@@ -84,14 +84,15 @@
 
             try {
               let res = await factoryContract.createNewRevenueShare(
-                contractData
+                contractData,
+                pagesState[1].reconfigurable == "true"
               );
               let receipt = await res.wait();
 
               deployAddress = receipt.events[0].args[1];
               page += 1;
             } catch (err) {
-              show();
+              showError();
             }
             break;
           case "capped":
@@ -105,7 +106,8 @@
 
             try {
               let res = await factoryContract.createNewCappedRevenueShare(
-                contractData
+                contractData,
+                pagesState[1].reconfigurable == "true"
               );
               let receipt = await res.wait();
 
@@ -113,13 +115,13 @@
               page += 1;
             } catch (err) {
               console.log(err);
-              show();
+              showError();
             }
             break;
         }
       } catch (err) {
         console.log(err);
-        show();
+        showError();
       }
 
       isDeploying = false;
@@ -145,11 +147,12 @@
   <meta charset="utf-8" />
 </svelte:head>
 
-<div class="m-8">
+<div class="m-8 sm:px-12 ">
   <Steps {stepNames} currentStep={page} />
   <svelte:component
     this={pages[page]}
-    bind:show
+    bind:showError
+    bind:showSuccess
     bind:isDeploying
     {deployAddress}
     {onSubmit}

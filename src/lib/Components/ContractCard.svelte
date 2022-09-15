@@ -34,7 +34,7 @@
     </a>
 
     <div>
-      <h3 class="text-gray-600">{name}</h3>
+      <h3 class="text-gray-600" style="overflow-wrap: anywhere;">{name}</h3>
     </div>
 
     <a href={link}>

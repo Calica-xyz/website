@@ -1,10 +1,11 @@
 <script lang="ts">
   import { ValidationMessage } from "@felte/reporter-svelte";
-
   import { List, Alert } from "flowbite-svelte";
   import Checkbox from "$lib/Flowbite/Checkbox.svelte";
   import { MinusSm } from "svelte-heros";
   import { fade } from "svelte/transition";
+
+  export let reconfigurable: boolean = false;
 </script>
 
 <List
@@ -21,10 +22,12 @@
         <MinusSm size="15" /> Calica contracts are gas-optimized and have 100% test
         coverage.
       </li>
-      <li class="flex gap-2">
-        <MinusSm size="15" />
-        Once deployed, your contract can't be modified by anyone.
-      </li>
+      {#if !reconfigurable}
+        <li class="flex gap-2">
+          <MinusSm size="15" />
+          Once deployed, your contract can't be modified by anyone.
+        </li>
+      {/if}
       <li class="flex gap-2">
         <MinusSm size="15" />
         Calica is not responsible for any financial losses for any reason.

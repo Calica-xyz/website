@@ -21,29 +21,29 @@
           >
             Calica is secure
           </h2>
-          <p class="mt-4 text-md text-gray-500">
+          <p class="mt-6 text-base text-gray-500">
             Calica is audited by a leading web3 studio, <a
               class="text-primary hover:underline"
               href="https://madewithmason.com">Made with Mason</a
             >. In addition, we adhere to the highest quality standards:
           </p>
-          <ul class="mt-2">
+          <ul class="mt-6">
             <li class="my-2 flex gap-2">
               <Check class="text-primary-300" size="25" />
-              <p class="flex-1 text-md text-gray-500">
+              <p class="flex-1 text-sm text-gray-500">
                 All of our contracts have 100% test coverage.
               </p>
             </li>
             <li class="my-2 flex gap-2">
               <Check class="text-primary-300" size="25" />
-              <p class="flex-1 text-md text-gray-500">
+              <p class="flex-1 text-sm text-gray-500">
                 Our code is run through an automated security workflow that
                 evaluates vulnerabilities and optimizes gas.
               </p>
             </li>
             <li class="my-2 flex gap-2">
               <Check class="text-primary-300" size="25" />
-              <p class="flex-1 text-md text-gray-500">
+              <p class="flex-1 text-sm text-gray-500">
                 For all custom solutions, we work with you directly to ensure
                 that your end-to-end revenue distribution behaves as expected.
               </p>

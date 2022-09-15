@@ -6,13 +6,8 @@
     getIconName,
     getCurrency,
   } from "$lib/js/utils";
-  import { Alert, Tooltip } from "flowbite-svelte";
-  import {
-    ChartBar,
-    ChartPie,
-    Collection,
-    InformationCircle,
-  } from "svelte-heros";
+  import { Alert } from "flowbite-svelte";
+  import { ChartBar, ChartPie, Collection } from "svelte-heros";
   import Polygon from "$lib/CustomIcons/Polygon.svelte";
   import Eth from "$lib/CustomIcons/Eth.svelte";
 
@@ -20,6 +15,9 @@
   export let agreement: string;
   export let onValidNetwork: boolean = false;
   export let agreementTerms: object[];
+  export let oldAgreementTerms: object[] = [];
+  export let reconfigurable: boolean;
+  export let reconfiguring: boolean = false;
 
   function getAgreementTitles() {
     switch (agreement) {
@@ -53,13 +51,13 @@
     return simpleStr;
   }
 
-  function getAgreementText() {
+  function getAgreementText(terms) {
     switch (agreement) {
       case "simple":
-        return getSplitText(agreementTerms);
+        return getSplitText(terms);
       case "capped":
         let cappedStr = "<div class='flex flex-col gap-6'>";
-        for (let i = 0; i < agreementTerms.length; i++) {
+        for (let i = 0; i < terms.length; i++) {
           cappedStr += '<div class="flex flex-col gap-1">';
           if (i == 0) {
             cappedStr +=
@@ -68,11 +66,11 @@
             cappedStr += `<div class='flex'><p class='mb-0.5 text-gray-800 underline'>Milestone ${
               i + 1
             }</p><p class='text-gray-800 mb-0.5'>: ${
-              agreementTerms[i].cap
+              terms[i].cap
             } ${getCurrency($chainId)}</p></div>`;
           }
 
-          cappedStr += getSplitText(agreementTerms[i].splits);
+          cappedStr += getSplitText(terms[i].splits);
           cappedStr += "</div>";
         }
         return cappedStr + "</div>";
@@ -82,15 +80,16 @@
   }
 
   let titles = getAgreementTitles();
-  let agreementText = getAgreementText();
+  let agreementText = getAgreementText(agreementTerms);
+  let oldAgreementText = getAgreementText(oldAgreementTerms);
   $: chainIconName = getIconName($chainId);
 </script>
 
 <div
   class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white shadow overflow-hidden"
 >
-  <div class="flex justify-between items-center">
-    <div class="px-4 py-5 sm:px-6">
+  <div class="mx-4 sm:mx-6 flex justify-between items-center">
+    <div class="flex-1 py-5">
       <h5 class="leading-6 text-gray-600">
         {titles[0]}
       </h5>
@@ -99,19 +98,13 @@
       </p>
     </div>
     {#if agreement == "simple"}
-      <ChartPie
-        class="hidden md:block m-6 min-w-[30px] text-gray-300"
-        size="100"
-      />
+      <ChartPie class="hidden md:block min-w-[30px] text-gray-300" size="60" />
     {:else if agreement == "capped"}
-      <ChartBar
-        class="hidden md:block p-6 min-w-[30px] text-gray-300"
-        size="100"
-      />
+      <ChartBar class="hidden md:block min-w-[30px] text-gray-300" size="60" />
     {:else if agreement == "rollup"}
       <Collection
         class="hidden md:block min-w-[30px] text-gray-300"
-        size="100"
+        size="60"
       />
     {/if}
   </div>
@@ -127,19 +120,30 @@
           {name}
         </dd>
       </div>
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500">Owner Address</dt>
-        <dd
-          class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-          style="overflow-wrap: anywhere;"
-        >
-          {$signerAddress}
-        </dd>
-      </div>
+      {#if !reconfiguring}
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Reconfigurable?</dt>
+          <dd
+            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+            style="overflow-wrap: anywhere;"
+          >
+            {reconfigurable}
+          </dd>
+        </div>
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Owner Address</dt>
+          <dd
+            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+            style="overflow-wrap: anywhere;"
+          >
+            {$signerAddress}
+          </dd>
+        </div>
+      {/if}
       <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
         <dt class="text-sm font-medium text-gray-500">Chain</dt>
         <dd
-          class="flex flex-wrap gap-x-4 gap-y-2 items-center mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+          class="flex flex-wrap gap-x-4 gap-y-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
         >
           <div class="items-center flex gap-2">
             {getReadableChainFromId($chainId)}
@@ -152,35 +156,49 @@
 
           {#if !onValidNetwork}
             <div in:fade>
-              <Alert class="p-2 mb-0 " color="red"
+              <Alert class="h-[50px] flex gap-2" color="red"
                 >Unsupported Network
-                <div class="inline-block">
-                  <Tooltip
-                    class="max-w-[200px] "
-                    content="Calica currently only supports Polygon Testnet. Please sign in to a supported blockchain."
-                    trigger="hover"
-                  >
-                    <InformationCircle class="inline mb-[2px]" size="17" />
-                  </Tooltip>
-                </div>
               </Alert>
             </div>
           {/if}
         </dd>
       </div>
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500">Calica Fee</dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">0%</dd>
-      </div>
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500">Terms</dt>
-        <dd
-          class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-          style="overflow-wrap: anywhere;"
-        >
-          {@html agreementText}
-        </dd>
-      </div>
+      {#if !reconfiguring}
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Calica Fee</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">0%</dd>
+        </div>
+
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Terms</dt>
+          <dd
+            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+            style="overflow-wrap: anywhere;"
+          >
+            {@html agreementText}
+          </dd>
+        </div>
+      {:else}
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Old Terms</dt>
+          <dd
+            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+            style="overflow-wrap: anywhere;"
+          >
+            {@html oldAgreementText}
+          </dd>
+        </div>
+
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">New Terms</dt>
+          <dd
+            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+            style="overflow-wrap: anywhere;"
+          >
+            {@html agreementText}
+          </dd>
+        </div>
+      {/if}
     </dl>
   </div>
 </div>

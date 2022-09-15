@@ -1,12 +1,10 @@
 <script lang="ts">
   import { createForm } from "felte";
-  import { fly } from "svelte/transition";
   import ButtonGroup from "$lib/Flowbite/ButtonGroup.svelte";
   import CappedSplits from "./CappedSplits.svelte";
   import { reporter, ValidationMessage } from "@felte/reporter-svelte";
-  import FloatingLabelInput from "$lib/Flowbite/FloatingLabelInput.svelte";
   import Input from "$lib/Flowbite/Input.svelte";
-  import { Helper } from "flowbite-svelte";
+  import { Helper, Radio } from "flowbite-svelte";
   import {
     validateCappedSplits,
     validateContractName,
@@ -16,8 +14,10 @@
   export let pagesState;
   export let onSubmit;
   export let onBack;
+  export let reconfiguring: boolean = false;
 
   let name = initialValues.name;
+  let reconfigurable = initialValues.reconfigurable || "false";
 
   const { form, data } = createForm({
     extend: reporter,
@@ -40,10 +40,10 @@
       Create earning milestones with different splits
     </p>
 
-    <ValidationMessage for="name" let:messages={message}>
-      <div class="mt-10 sm:my-14">
+    <div class="my-14">
+      <ValidationMessage for="name" let:messages={message}>
         <div class="flex flex-wrap gap-x-6 gap-y-2 items-center">
-          <h4 class="text-gray-600">Contract Name</h4>
+          <h5 class="text-gray-600">Contract Name</h5>
           <Input
             color={message != null ? "red" : "base"}
             class="max-w-[200px]"
@@ -51,14 +51,27 @@
             name="name"
             id="name"
             bind:value={name}
+            disabled={reconfiguring}
           />
         </div>
 
         {#if message != null}
           <Helper class="absolute mb-2 sm:mb-0" color="red">{message}</Helper>
         {/if}
-      </div>
-    </ValidationMessage>
+      </ValidationMessage>
+
+      {#if !reconfiguring}
+        <div class="mt-6 flex gap-3">
+          <p class="text-gray-600">Can the contract be reconfigured?</p>
+          <Radio name="reconfigurable" bind:group={reconfigurable} value="true"
+            >Yes</Radio
+          >
+          <Radio name="reconfigurable" bind:group={reconfigurable} value="false"
+            >No</Radio
+          >
+        </div>
+      {/if}
+    </div>
 
     <CappedSplits
       class="mb-20"
