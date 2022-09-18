@@ -1,9 +1,9 @@
 <script lang="ts">
-  import SidebarLayout from "$lib/Dashboard/SidebarLayout.svelte";
-  import Footer from "$lib/Footer.svelte";
-  import Dashboard from "$lib/Dashboard/Dashboard.svelte";
-  import ContractIntegration from "$lib/Components/ContractIntegration.svelte";
-  import ReconfigureContract from "$lib/Components/ReconfigureContract.svelte";
+  import SidebarLayout from "./Dashboard/SidebarLayout.svelte";
+  import Footer from "$lib/Components/Footer.svelte";
+  import Dashboard from "./Dashboard/Dashboard.svelte";
+  import ContractIntegration from "./Integration/ContractIntegration.svelte";
+  import ReconfigureContract from "./Configuration/ReconfigureContract.svelte";
 
   /** @type {import('./$types').PageData} */
   export let data;

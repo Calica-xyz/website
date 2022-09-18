@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button, Tooltip } from "flowbite-svelte";
   import { Clipboard } from "svelte-heros";
+  import { fade } from "svelte/transition";
 
   export let text: string;
 
@@ -27,5 +28,5 @@
   </div>
 </Button>
 <Tooltip style="dark" trigger="click" triggeredBy="#copy-button"
-  >Copied!</Tooltip
+  ><div in:fade={{ duration: 200 }}>Copied!</div></Tooltip
 >

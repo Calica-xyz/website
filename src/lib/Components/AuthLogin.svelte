@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import Button from "$lib/Flowbite/Button.svelte";
+  import { onMount } from "svelte";
   import { connectWeb3Modal } from "$lib/js/auth";
 
   let initialized = false;
@@ -16,9 +16,7 @@
 </script>
 
 {#if initialized}
-  <div class="grid h-screen place-items-center">
-    <Button color="primary" on:click={initializeWeb3} class=""
-      >Connect Wallet</Button
-    >
+  <div class="h-[calc(100vh-220px)] grid place-items-center">
+    <Button on:click={initializeWeb3}>Connect Wallet</Button>
   </div>
 {/if}

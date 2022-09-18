@@ -39,7 +39,7 @@
     });
 
     // Tell the observer which elements to track
-    observer.observe(document.querySelector(".circle"));
+    observer.observe(document.querySelector(".circle") as Element);
   });
 </script>
 
@@ -158,8 +158,8 @@
     grid-template-areas: "layer";
     place-items: center;
     --radius: 0;
-    width: 60vmin;
-    height: 60vmin;
+    width: 100%;
+    aspect-ratio: 1;
   }
 
   .stat {
@@ -180,7 +180,7 @@
   }
 
   .visited {
-    --radius: min(30vmin, 260px);
+    --radius: min(28vmin, 260px);
   }
 
   @media (max-width: 550px) {

@@ -301,7 +301,7 @@
   <section id="why-calica" class="m-auto">
     <div
       id="why-calica-content"
-      class="px-6 pb-20 pt-32 lg:px-20 m-auto max-w-7xl flex flex-wrap gap-x-24 gap-y-32 items-center justify-center"
+      class="m-auto max-w-7xl flex flex-wrap gap-x-24 gap-y-8 items-center justify-center"
     >
       <div
         id="problems-text"
@@ -316,21 +316,22 @@
           Your business earned crypto, but now what?
         </p>
       </div>
-      <div class="flex-auto min-w-[min(580px,100%)] max-w-[800px]">
+      <div class="flex-auto min-w-[min(580px,100%)] max-w-[600px]">
         <ProblemCircle />
       </div>
     </div>
   </section>
 
-  <section id="use-cases">
-    <div class="bg-gradient-to-b from-gray-50 to-gray-50 via-tertiary-50">
-      <UseCases />
-    </div>
+  <section
+    id="use-cases"
+    class="bg-gradient-to-b from-gray-50 to-gray-50 via-tertiary-50"
+  >
+    <UseCases />
   </section>
 
   <section id="how-it-works">
     <div
-      class="px-6 pb-8 pt-16 lg:px-20 m-auto max-w-7xl flex flex-wrap-reverse gap-x-24 gap-y-20 items-center justify-center"
+      class="m-auto max-w-7xl flex flex-wrap-reverse gap-x-24 gap-y-20 items-center justify-center"
     >
       <div class="flex-auto min-w-[min(580px,100%)] max-w-[600px]">
         <HowItWorks />
@@ -357,11 +358,11 @@
     <Security />
   </section>
 
-  <section id="contact" class="mt-[-20px] mb-16">
+  <section id="contact">
     <Contact />
   </section>
 
-  <footer>
+  <footer class="mt-10">
     <div class="mx-auto max-w-7xl overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
       <nav
         class="-mx-5 -my-2 flex flex-wrap justify-center"
@@ -433,13 +434,27 @@
 </div>
 
 <style>
+  section {
+    padding-top: 7rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    section {
+      padding-left: 5rem;
+      padding-right: 5rem;
+    }
+  }
+
   @media (min-width: 1246px) {
     #problems-text {
       text-align: start;
     }
 
-    #why-calica-content {
-      padding-top: 32px;
+    #why-calica {
+      padding-top: 0;
+      margin-top: -3rem;
     }
   }
 

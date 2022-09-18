@@ -1,5 +1,5 @@
 <script>
-  import ContractCard from "$lib/Components/ContractCard.svelte";
+  import ContractCard from "./ContractCard.svelte";
 
   /** @type {import('./$types').PageData} */
   export let data;

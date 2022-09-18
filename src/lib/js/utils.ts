@@ -1,26 +1,23 @@
 import { ethers } from "ethers";
-import { CONTRACT_ABIS, CONTRACT_ADDRESSES, ALCHEMY_KEY } from "./globals";
+import { CONTRACT_ABIS, CONTRACT_ADDRESSES } from "./globals";
 
-export function getContractInstance(address: string, contract: string, provider) {
-  return new ethers.Contract(
-    address,
-    CONTRACT_ABIS[contract],
-    provider
-  );
+export function getContractInstance(
+  address: string,
+  contract: string,
+  provider: ethers.Signer | ethers.providers.Provider
+) {
+  return new ethers.Contract(address, CONTRACT_ABIS[contract], provider);
 }
 
-export function getFactoryContract(contract: string, provider, chain) {
+export function getFactoryContract(
+  contract: string,
+  provider: ethers.Signer | ethers.providers.Provider,
+  chain: string
+) {
   return new ethers.Contract(
     CONTRACT_ADDRESSES[contract][chain],
     CONTRACT_ABIS[contract],
     provider
-  )
-}
-
-export function getAlchemyProvider(chain: string) {
-  return new ethers.providers.AlchemyProvider(
-    chain,
-    ALCHEMY_KEY,
   );
 }
 
@@ -52,7 +49,7 @@ export function getReadableChainFromId(chainId: number) {
   }
 }
 
-export function getBadgeColor(chain) {
+export function getBadgeColor(chain: any) {
   switch (chain) {
     case "homestead":
       return "ethereum";
@@ -71,19 +68,13 @@ export function getCurrency(chain: string | number) {
   if (typeof chain === "string") {
     if (chain == "maticmum" || chain == "matic") {
       return "MATIC";
-    } else if (
-      chain == "goerli" ||
-      chain == "homestead"
-    ) {
+    } else if (chain == "goerli" || chain == "homestead") {
       return "ETH";
     }
   } else {
     if (chain == 1 || chain == 5) {
       return "ETH";
-    } else if (
-      chain == 80001 ||
-      chain == 137
-    ) {
+    } else if (chain == 80001 || chain == 137) {
       return "MATIC";
     }
   }
@@ -114,7 +105,7 @@ export function getIconName(chainId: number) {
 
 export function getHexCode(name: string) {
   let style = getComputedStyle(document.body);
-  return style.getPropertyValue(name).trim().replace(/['"]+/g, '');
+  return style.getPropertyValue(name).trim().replace(/['"]+/g, "");
 }
 
 export function roundNumber(number: number) {
@@ -134,12 +125,18 @@ export function convertTimestamp(timestamp: ethers.BigNumber) {
 export function hexToRgbA(hex: string, alpha: number) {
   var c;
   if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
-    c = hex.substring(1).split('');
+    c = hex.substring(1).split("");
     if (c.length == 3) {
       c = [c[0], c[0], c[1], c[1], c[2], c[2]];
     }
-    c = '0x' + c.join('');
-    return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + ',' + alpha.toString() + ')';
+    c = "0x" + c.join("");
+    return (
+      "rgba(" +
+      [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") +
+      "," +
+      alpha.toString() +
+      ")"
+    );
   }
-  throw new Error('Bad Hex');
+  throw new Error("Bad Hex");
 }

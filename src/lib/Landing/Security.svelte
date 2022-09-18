@@ -2,9 +2,7 @@
   import { Check, LockClosed } from "svelte-heros";
 </script>
 
-<div
-  class="w-full py-20 px-6 sm:px-10 relative bg-gradient-to-b from-gray-50 to-gray-50 via-white"
->
+<div class="w-full relative bg-gray-50">
   <div class="m-auto max-w-7xl flex flex-wrap gap-20 items-center">
     <div class="flex-1 min-w-[min(320px,100%)]">
       <div>

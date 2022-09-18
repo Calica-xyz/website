@@ -2,8 +2,8 @@
   import "../app.css";
   import AuthLogin from "$lib/Components/AuthLogin.svelte";
   import Analytics from "$lib/Components/Analytics.svelte";
-  import Navbar from "$lib/Navbar.svelte";
-  import Footer from "$lib/Footer.svelte";
+  import Navbar from "$lib/Components/Navbar.svelte";
+  import Footer from "$lib/Components/Footer.svelte";
   import Loader from "$lib/Components/Loader.svelte";
 
   import { signerAddress } from "svelte-ethers-store";
@@ -26,7 +26,7 @@
     </div>
   {/if}
 
-  <div id="content-container" class="w-full h-full">
+  <div id="content-container" class="w-full h-full min-h-[calc(100vh-200px)]">
     {#if $signerAddress || showContent}
       {#if $navigating}
         <Loader />
@@ -42,9 +42,3 @@
     <Footer />
   {/if}
 </div>
-
-<style>
-  #content-container {
-    min-height: calc(100vh - 200px); /* Viewport - navbar + footer */
-  }
-</style>

@@ -2,21 +2,7 @@
   import classNames from "classnames";
   import CloseButton from "$lib/Flowbite/utils/CloseButton.svelte";
 
-  type Colors =
-    | "ethereum"
-    | "polygon"
-    | "blue"
-    | "gray"
-    | "red"
-    | "yellow"
-    | "purple"
-    | "green"
-    | "indigo"
-    | "pink"
-    | "white"
-    | "custom";
-
-  export let color: Colors = "blue";
+  export let color: string = "blue";
   export let large: boolean = false;
   export let href: string = undefined;
   export let rounded: boolean = false;

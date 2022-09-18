@@ -2,7 +2,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider/dist/umd/index.m
 import Web3Modal from "web3modal";
 import { defaultEvmStores } from "svelte-ethers-store";
 
-let web3Modal;
+let web3Modal: Web3Modal;
 
 const providerOptions = {
   walletconnect: {
@@ -29,13 +29,13 @@ export async function connectWeb3Modal() {
   try {
     const provider = await web3Modal.connect();
     defaultEvmStores.setProvider(provider);
-  } catch (err) { }
+  } catch (err) {}
 }
 
 export async function disconnectWeb3Modal() {
   if (web3Modal) {
     window.localStorage.clear();
+    web3Modal.clearCachedProvider();
     await defaultEvmStores.disconnect();
-    await web3Modal.clearCachedProvider();
   }
 }

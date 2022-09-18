@@ -26,7 +26,9 @@
       });
     });
 
-    howWorksObserver.observe(document.querySelector(".how-it-works"));
+    howWorksObserver.observe(
+      document.querySelector(".how-it-works") as Element
+    );
   });
 </script>
 

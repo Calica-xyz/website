@@ -2,11 +2,11 @@
   import { goto } from "$app/navigation";
 </script>
 
-<div class="relative mt-20 sm:mt-24 sm:py-16">
+<div class="relative">
   <div aria-hidden="true" class="hidden sm:block">
-    <div class="absolute inset-y-0 left-0 w-1/2 rounded-r-3xl bg-gray-100" />
+    <!-- <div class="absolute inset-y-0 left-0 w-1/2 rounded-r-3xl bg-gray-100" /> -->
     <svg
-      class="absolute top-8 left-1/2 -ml-3"
+      class="absolute right-[70%]"
       width="404"
       height="392"
       fill="none"
