@@ -33,6 +33,11 @@
   let currentChart: Chart;
   let configs = getConfigs(data);
 
+  $: onChange(data);
+  function onChange(data: any) {
+    redrawChart(10);
+  }
+
   function getConfigs(data: string | any[]) {
     let configs = {
       unit: "",
@@ -168,15 +173,15 @@
     ],
   };
 
-  function redrawChart() {
-    currentChart.destroy();
+  function redrawChart(delay: number) {
+    if (currentChart) currentChart.destroy();
     setTimeout(function () {
       try {
         drawChart();
       } catch (err) {
         // Chart.js bug that throws an an ugly exception in console
       }
-    }, 500);
+    }, delay);
   }
 
   function drawChart() {
@@ -245,4 +250,4 @@
 </div>
 
 <!-- TODO: This triggers on mobile when the user scrolls the page. Need to fix this. -->
-<svelte:window on:resize={redrawChart} />
+<svelte:window on:resize={() => redrawChart(500)} />

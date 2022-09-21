@@ -7,8 +7,6 @@
   export let pagesState: any[];
   export let onSubmit: (values: any) => void;
   export let onBack: (values: any) => void;
-
-  console.log(initialValues);
 </script>
 
 {#if pagesState[0].type == "simple"}

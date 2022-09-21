@@ -19,6 +19,21 @@ export async function load({ params, fetch }) {
   let res = await fetch(`/api/my-contracts?address=${params.address}`);
   let data = await res.json();
 
+  let permissionedContracts = await fetch(
+    `/api/permissions?address=${params.address}`
+  );
+  let jsonRes = await permissionedContracts.json();
+
+  for (let [key, value] of Object.entries(jsonRes)) {
+    data.push({
+      blockNumber: 0,
+      chain: value.contractChain,
+      cloneAddress: key,
+      contractName: value.contractName,
+      contractType: value.contractType,
+    });
+  }
+
   // if (browser) {
   //   localStorage.setItem(
   //     "my-contracts/" + params.address,

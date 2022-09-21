@@ -6,17 +6,25 @@
   import Spinner from "$lib/Flowbite/Spinner.svelte";
   import AlertMessage from "$lib/Components/AlertMessage.svelte";
   import { convertWei, roundNumber } from "$lib/js/utils";
-  import { signer } from "svelte-ethers-store";
+  import { signer, signerAddress } from "svelte-ethers-store";
   import { page } from "$app/stores";
-  import { getIntegration } from "$lib/js/integrations";
+  import { withdraw } from "../+page";
 
-  let integrationDetails = getIntegration($page.params.address);
-  let isTransacting = false;
+  export let integrationData: any;
+
+  $: isTransacting = false;
+  $: currentBalance = "";
+  $: canWithdraw =
+    integrationData.allowedCallers == "*" ||
+    (typeof integrationData.allowedCallers == "object" &&
+      $signerAddress in integrationData.allowedCallers);
+
+  let isIntegrated =
+    integrationData != null && Object.keys(integrationData).length > 0;
   let showMessage: (message: string, color: string | undefined) => void;
 
-  $: currentBalance = "";
-  if (integrationDetails != null) {
-    updateBalance(integrationDetails.revenueContractAddress);
+  if (isIntegrated) {
+    updateBalance(integrationData.revenueContractAddress);
   }
 
   async function updateBalance(address: string) {
@@ -29,7 +37,7 @@
 </script>
 
 <div class="m-8">
-  {#if integrationDetails != null}
+  {#if isIntegrated}
     <div class="flex flex-col gap-10">
       <div>
         <h2 class="text-gray-700">Integrated Contract</h2>
@@ -41,7 +49,7 @@
 
       <Card class="p-8 flex flex-col gap-2 max-w-[500px]">
         <div class="flex justify-between gap-4">
-          <h4>{integrationDetails.revenueContractName}</h4>
+          <h4>{integrationData.revenueContractName}</h4>
           <ChainBadge class="self-start" chain={$page.params.chain} />
         </div>
 
@@ -49,7 +57,7 @@
           <p class="text-gray-500 mr-2">Address:</p>
           <CopyButton
             class="truncate max-w-[200px]"
-            text={integrationDetails.revenueContractAddress}
+            text={integrationData.revenueContractAddress}
           />
         </div>
         <p class="text-gray-500 ">
@@ -59,20 +67,30 @@
         </p>
       </Card>
 
-      <Button
-        on:click={async () => {
-          isTransacting = true;
-          await integrationDetails.withdrawHandler(showMessage);
-          isTransacting = false;
+      {#if canWithdraw}
+        <Button
+          on:click={async () => {
+            isTransacting = true;
 
-          updateBalance(integrationDetails.revenueContractAddress);
-        }}
-        class="mt-4 max-w-[220px]"
-        >Distribute Funds
-        {#if isTransacting}
-          <Spinner class="ml-3" size="4" color="white" />
-        {/if}
-      </Button>
+            await withdraw(
+              integrationData.withdrawType,
+              integrationData.revenueContractAddress,
+              $page.params.address,
+              integrationData.abi,
+              showMessage
+            );
+
+            isTransacting = false;
+
+            updateBalance(integrationData.revenueContractAddress);
+          }}
+          class="mt-4 max-w-[220px]"
+          >Distribute Funds
+          {#if isTransacting}
+            <Spinner class="ml-3" size="4" color="white" />
+          {/if}
+        </Button>
+      {/if}
     </div>
 
     <AlertMessage bind:showMessage />

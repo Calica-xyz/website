@@ -26,7 +26,7 @@
     </div>
   {/if}
 
-  <div id="content-container" class="w-full h-full min-h-[calc(100vh-200px)]">
+  <div class="w-full h-full min-h-[calc(100vh-64px)]">
     {#if $signerAddress || showContent}
       {#if $navigating}
         <Loader />

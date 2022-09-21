@@ -23,6 +23,12 @@
       }> = "bottom";
   export let currentChart: Chart<"doughnut", any, unknown> | null = null;
 
+  $: onChange(data);
+
+  function onChange(data: any) {
+    redrawChart(10);
+  }
+
   export async function redrawChart(delay: number) {
     if (currentChart) currentChart.destroy();
     setTimeout(function () {

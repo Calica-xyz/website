@@ -1,10 +1,14 @@
 <script lang="ts">
-  import { Code, Cog, ChartBar } from "svelte-heros";
+  import { Code, Cog, ChartBar, DocumentReport } from "svelte-heros";
   import { Transition } from "@rgossiaux/svelte-headlessui";
+  import { signerAddress } from "svelte-ethers-store";
 
   export let page: number;
+  export let ownerAddress: string;
+  export let reconfigurable: boolean;
 
   $: sidebarOpen = false;
+  $: isOwner = $signerAddress == ownerAddress;
 
   function clickOutside(
     element: HTMLDivElement,
@@ -139,22 +143,42 @@
                   Contract Integration
                 </div>
 
-                <div
-                  on:click={() => {
-                    page = 2;
-                    sidebarOpen = false;
-                  }}
-                  class="{page == 2
-                    ? 'bg-gray-900 text-white'
-                    : 'text-gray-300 hover:bg-gray-700 hover:text-white'} cursor-pointer flex items-center px-2 py-2 text-base font-medium rounded-md"
-                >
-                  <Cog
+                {#if isOwner && reconfigurable}
+                  <div
+                    on:click={() => {
+                      page = 2;
+                      sidebarOpen = false;
+                    }}
                     class="{page == 2
-                      ? 'text-gray-300'
-                      : 'text-gray-400 group-hover:text-gray-300'} mr-3 flex-shrink-0 h-6 w-6"
-                  />
-                  Configuration
-                </div>
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'} cursor-pointer flex items-center px-2 py-2 text-base font-medium rounded-md"
+                  >
+                    <DocumentReport
+                      class="{page == 2
+                        ? 'text-gray-300'
+                        : 'text-gray-400 group-hover:text-gray-300'} mr-3 flex-shrink-0 h-6 w-6"
+                    />
+                    Reconfigure
+                  </div>
+                {/if}
+                {#if isOwner}
+                  <div
+                    on:click={() => {
+                      page = 3;
+                      sidebarOpen = false;
+                    }}
+                    class="{page == 3
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'} cursor-pointer flex items-center px-2 py-2 text-base font-medium rounded-md"
+                  >
+                    <Cog
+                      class="{page == 3
+                        ? 'text-gray-300'
+                        : 'text-gray-400 group-hover:text-gray-300'} mr-3 flex-shrink-0 h-6 w-6"
+                    />
+                    Settings
+                  </div>
+                {/if}
               </nav>
             </div>
           </div>
@@ -208,21 +232,40 @@
             Contract Integration
           </div>
 
-          <div
-            on:click={() => {
-              page = 2;
-            }}
-            class="{page == 2
-              ? 'bg-gray-900 text-white'
-              : 'text-gray-300 hover:bg-gray-700 hover:text-white'} cursor-pointer group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-          >
-            <Cog
+          {#if isOwner && reconfigurable}
+            <div
+              on:click={() => {
+                page = 2;
+              }}
               class="{page == 2
-                ? 'text-gray-300'
-                : 'text-gray-400 group-hover:text-gray-300'} mr-3 flex-shrink-0 h-6 w-6"
-            />
-            Configuration
-          </div>
+                ? 'bg-gray-900 text-white'
+                : 'text-gray-300 hover:bg-gray-700 hover:text-white'} cursor-pointer group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+            >
+              <DocumentReport
+                class="{page == 2
+                  ? 'text-gray-300'
+                  : 'text-gray-400 group-hover:text-gray-300'} mr-3 flex-shrink-0 h-6 w-6"
+              />
+              Reconfigure
+            </div>
+          {/if}
+          {#if isOwner}
+            <div
+              on:click={() => {
+                page = 3;
+              }}
+              class="{page == 3
+                ? 'bg-gray-900 text-white'
+                : 'text-gray-300 hover:bg-gray-700 hover:text-white'} cursor-pointer group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+            >
+              <Cog
+                class="{page == 3
+                  ? 'text-gray-300'
+                  : 'text-gray-400 group-hover:text-gray-300'} mr-3 flex-shrink-0 h-6 w-6"
+              />
+              Settings
+            </div>
+          {/if}
         </nav>
       </div>
     </div>

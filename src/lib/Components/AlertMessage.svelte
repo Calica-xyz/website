@@ -29,7 +29,7 @@
 {#if shown}
   <div in:fade={{ duration: 300 }}>
     <Alert
-      class="fixed top-20 right-10 w-[260px]"
+      class="fixed top-20 right-10 max-w-[260px]"
       color={shownColor}
       dismissable
       on:handleAlert={() => {

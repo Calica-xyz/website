@@ -3,28 +3,37 @@
   import Footer from "$lib/Components/Footer.svelte";
   import Dashboard from "./Dashboard/Dashboard.svelte";
   import ContractIntegration from "./Integration/ContractIntegration.svelte";
-  import ReconfigureContract from "./Configuration/ReconfigureContract.svelte";
+  import ReconfigureContract from "./Reconfigure/ReconfigureContract.svelte";
+  import Settings from "./Settings/Settings.svelte";
 
   /** @type {import('./$types').PageData} */
   export let data;
 
-  let page = 0;
+  let integrationData = data.integrationData;
+  let contractData = data.contractData;
+  let currentPage = 0;
 </script>
 
 <svelte:head>
-  <title>{data.contractName}</title>
+  <title>{contractData.contractName}</title>
   <meta charset="utf-8" />
 </svelte:head>
 
-<SidebarLayout bind:page>
+<SidebarLayout
+  bind:page={currentPage}
+  ownerAddress={contractData.ownerAddress}
+  reconfigurable={contractData.reconfigurable}
+>
   <div class="my-6 flex w-full justify-center">
-    <div id="content-container" class="flex-1">
-      {#if page === 0}
-        <Dashboard {...data} />
-      {:else if page === 1}
-        <ContractIntegration />
-      {:else if page === 2}
-        <ReconfigureContract {...data} />
+    <div id="content-container" class="h-full flex-1">
+      {#if currentPage === 0}
+        <Dashboard {...contractData} />
+      {:else if currentPage === 1}
+        <ContractIntegration {integrationData} />
+      {:else if currentPage === 2}
+        <ReconfigureContract {...contractData} />
+      {:else if currentPage === 3}
+        <Settings contractName={contractData.contractName} />
       {/if}
     </div>
   </div>

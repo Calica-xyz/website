@@ -22,7 +22,6 @@
     extend: reporter,
     onSubmit,
     validate: (values: { name: string; capped: any }) => {
-      console.log(JSON.stringify(values));
       return {
         name: validateContractName(values.name),
         capped: validateCappedSplits(values.capped),

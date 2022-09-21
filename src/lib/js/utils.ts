@@ -140,3 +140,10 @@ export function hexToRgbA(hex: string, alpha: number) {
   }
   throw new Error("Bad Hex");
 }
+
+export async function getContractSettings(address: string) {
+  let res = await fetch("/api/contract/settings?address=" + address);
+  let data = await res.json();
+
+  return data;
+}

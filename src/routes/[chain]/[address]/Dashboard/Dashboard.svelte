@@ -13,7 +13,8 @@
 
   import { signerAddress } from "svelte-ethers-store";
   import { page } from "$app/stores";
-  import { getCurrency, roundNumber } from "$lib/js/utils";
+  import { getContractSettings, getCurrency, roundNumber } from "$lib/js/utils";
+  import { onMount } from "svelte";
 
   export let ownerAddress: string;
   export let contractName: string;
@@ -22,6 +23,7 @@
   export let chartData: any = [];
   export let withdrawalHistory: any;
   export let addressMappings: any;
+  export let contractSettings: any;
 
   let relativeDeployDate = moment.unix(deployDate as number).fromNow();
   let formattedDeployDate = moment
@@ -30,17 +32,26 @@
   let currency = getCurrency($page.params.chain);
   let contractType = $page.url.searchParams.get("type");
 
-  $: isOwner = determineIsOwner();
+  $: contractSettings = [];
+  $: stakeholders = [];
+  $: isOwner = determineIsOwner($signerAddress, stakeholders);
 
-  function determineIsOwner() {
+  onMount(async () => {
+    contractSettings = await getContractSettings($page.params.address);
+    stakeholders = JSON.parse(JSON.stringify(contractSettings.stakeholders));
+  });
+
+  function determineIsOwner(signerAddress: string, stakeholders: string[]) {
     return (
-      $signerAddress === ownerAddress ||
-      $signerAddress == "0xAb0279E49891416EADA65e36aE1AEd1A67A15d24" // Calica Wallet
+      signerAddress === ownerAddress ||
+      signerAddress == "0xAb0279E49891416EADA65e36aE1AEd1A67A15d24" || // Calica Wallet
+      stakeholders.includes(signerAddress)
     );
   }
 
   function getDoughnutChartData(
-    splits: { name: string; percentage: number }[]
+    splits: { name: string; percentage: number }[],
+    isOwner: boolean
   ) {
     splits = splits.filter(function (split: any) {
       if (isOwner || split.account == $signerAddress) return true;
@@ -63,26 +74,29 @@
     };
   }
 
-  function getCappedChartData(cappedSplits: any[]) {
+  function getCappedChartData(cappedSplits: any[], isOwner: boolean) {
     return cappedSplits.map(function (cappedSplit: any) {
       return {
         cap: cappedSplit.cap,
-        splits: getDoughnutChartData(cappedSplit.splits),
+        splits: getDoughnutChartData(cappedSplit.splits, isOwner),
       };
     });
   }
 
-  function getNFTChartData(nftSplits: {
-    primary: { name: string; percentage: number }[];
-    secondary: { name: string; percentage: number }[];
-  }) {
+  function getNFTChartData(
+    nftSplits: {
+      primary: { name: string; percentage: number }[];
+      secondary: { name: string; percentage: number }[];
+    },
+    isOwner: boolean
+  ) {
     return {
-      primary: getDoughnutChartData(nftSplits.primary),
-      secondary: getDoughnutChartData(nftSplits.secondary),
+      primary: getDoughnutChartData(nftSplits.primary, isOwner),
+      secondary: getDoughnutChartData(nftSplits.secondary, isOwner),
     };
   }
 
-  function getTotalAmountPaid() {
+  function getTotalAmountPaid(isOwner: boolean) {
     let totalPaid = 0;
 
     for (let i = 0; i < withdrawalHistory.length; i++) {
@@ -117,7 +131,7 @@
     return stakeholderList;
   }
 
-  function getPayoutHistory() {
+  function getPayoutHistory(isOwner: boolean) {
     let payoutHistoryMap: any = {};
     let payoutHistory: any[] = [];
 
@@ -143,7 +157,7 @@
     return payoutHistory;
   }
 
-  function getCumulativeEarningsData() {
+  function getCumulativeEarningsData(isOwner: boolean) {
     let datasets: { label: any; data: unknown }[] = [];
     let data = {
       datasets,
@@ -228,7 +242,7 @@
     <TotalPaid
       {isOwner}
       class="flex-auto min-w-[180px]"
-      amount={getTotalAmountPaid()}
+      amount={getTotalAmountPaid(isOwner)}
       {currency}
     />
     <StakeholderList
@@ -244,7 +258,7 @@
     <SimpleRevShare
       {isOwner}
       class="flex-1"
-      data={getDoughnutChartData(chartData)}
+      data={getDoughnutChartData(chartData, isOwner)}
       displayLegend={isOwner}
     />
   {:else if agreementType === "capped"}
@@ -252,18 +266,18 @@
       {isOwner}
       chain={$page.params.chain}
       class="flex-1 {getAgreementChartBasisClass()}"
-      data={getCappedChartData(chartData)}
+      data={getCappedChartData(chartData, isOwner)}
     />
   {:else if agreementType === "nft"}
     <NFTRevShare
       {isOwner}
       chain={$page.params.chain}
       class="flex-1"
-      data={getNFTChartData(chartData)}
+      data={getNFTChartData(chartData, isOwner)}
     />
   {/if}
 
-  <Earnings class="flex-1" data={getCumulativeEarningsData()} />
+  <Earnings class="flex-1" data={getCumulativeEarningsData(isOwner)} />
 
-  <Payouts class="flex-1" data={getPayoutHistory()} {currency} />
+  <Payouts class="flex-1" data={getPayoutHistory(isOwner)} {currency} />
 </div>

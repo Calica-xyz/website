@@ -4,6 +4,7 @@ import {
   convertWei,
   getContractInstance,
 } from "$lib/js/utils";
+import { getRedisClient } from "./redis";
 
 export async function getContractDeployedEvents(
   factoryContract,
@@ -142,4 +143,19 @@ export function getAddressMappingsFromSplits(splits: any) {
   }
 
   return addressMappings;
+}
+
+export async function getContractSettings(address: string) {
+  let client = getRedisClient();
+
+  try {
+    let contractSettings = await client.json.get("contractSettings", {
+      path: `$["${address}"]`,
+    });
+
+    return contractSettings.length == 0 ? [] : contractSettings[0];
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
 }

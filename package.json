@@ -48,9 +48,11 @@
   },
   "type": "module",
   "dependencies": {
+    "@redis/json": "^1.0.4",
     "date-fns": "^2.29.2",
     "ethers": "^5.7.0",
     "felte": "^1.2.3",
+    "redis": "^4.3.1",
     "svelte-web3": "^3.6.0"
   }
 }
