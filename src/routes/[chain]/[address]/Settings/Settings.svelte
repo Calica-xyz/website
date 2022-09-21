@@ -16,14 +16,11 @@
   let contractType = $page.url.searchParams.get("type");
   let showMessage: (message: string, color: string) => void;
 
-  $: contractSettings = {
-    stakeholders: [],
-  };
+  $: contractSettings = {};
+  $: stakeholders =
+    "stakeholders" in contractSettings ? contractSettings.stakeholders : [];
   $: inputStakeholder = "";
-  $: if (
-    isValidInputStakeholder(inputStakeholder, contractSettings.stakeholders) ==
-    null
-  ) {
+  $: if (isValidInputStakeholder(inputStakeholder, stakeholders) == null) {
     message = null;
   }
 
@@ -63,7 +60,7 @@
           chain: $page.params.chain,
           type: contractType,
         },
-        stakeholders: contractSettings.stakeholders,
+        stakeholders,
       }),
     });
 
@@ -114,13 +111,10 @@
               on:click={() => {
                 message = isValidInputStakeholder(
                   inputStakeholder,
-                  contractSettings.stakeholders
+                  stakeholders
                 );
                 if (message != null) return;
-                contractSettings.stakeholders = [
-                  inputStakeholder,
-                  ...contractSettings.stakeholders,
-                ];
+                stakeholders = [inputStakeholder, ...stakeholders];
                 inputStakeholder = "";
               }}
               type="button"
@@ -132,7 +126,7 @@
         </div>
         <div class="mt-6 overflow-y-auto">
           <ul class="divide-y divide-gray-200">
-            {#each contractSettings.stakeholders as stakeholder, i}
+            {#each stakeholders as stakeholder, i}
               <li
                 class={(i == 0 ? "pb-3" : "py-3") + " flex gap-1 items-center"}
               >
@@ -149,9 +143,9 @@
                 <button
                   type="button"
                   on:click={() => {
-                    contractSettings.stakeholders = [
-                      ...contractSettings.stakeholders.slice(0, i),
-                      ...contractSettings.stakeholders.slice(i + 1),
+                    stakeholders = [
+                      ...stakeholders.slice(0, i),
+                      ...stakeholders.slice(i + 1),
                     ];
                   }}
                   class="p-2 hover:bg-gray-100 rounded-md"

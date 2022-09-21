@@ -84,8 +84,11 @@ async function initializeContractSettings(
 
 // Add the contract details to the stakeholders' permissions and remove from the nonStakeholders
 async function updateUserPermissions(client, contractData, stakeholders) {
-  let currentStakeholders = (await getContractSettings(contractData.address))
-    .stakeholders;
+  let currentContractSettings = await getContractSettings(contractData.address);
+  let currentStakeholders =
+    "stakeholders" in currentContractSettings
+      ? currentContractSettings.stakeholders
+      : [];
   let nonStakeholders = currentStakeholders.filter(
     (stakeholder) => !stakeholders.includes(stakeholder)
   );

@@ -32,13 +32,16 @@
   let currency = getCurrency($page.params.chain);
   let contractType = $page.url.searchParams.get("type");
 
-  $: contractSettings = [];
+  $: contractSettings = {};
   $: stakeholders = [];
   $: isOwner = determineIsOwner($signerAddress, stakeholders);
 
   onMount(async () => {
     contractSettings = await getContractSettings($page.params.address);
-    stakeholders = JSON.parse(JSON.stringify(contractSettings.stakeholders));
+    stakeholders =
+      "stakeholders" in contractSettings
+        ? JSON.parse(JSON.stringify(contractSettings.stakeholders))
+        : [];
   });
 
   function determineIsOwner(signerAddress: string, stakeholders: string[]) {
