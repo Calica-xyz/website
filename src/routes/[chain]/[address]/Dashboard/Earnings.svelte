@@ -125,7 +125,7 @@
 
 <div class={`${$$props.class}`} style="min-width: min(350px, 100%);">
   <Card class="h-full">
-    <h4 class="mb-3">Earnings over Time</h4>
+    <h4 class="mb-3">Total Paid</h4>
     <div
       class="flex-1 flex items-center justify-center"
       style="min-width: min(350px, 100%);"

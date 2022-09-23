@@ -11,7 +11,7 @@
 
 <Card class={$$props.class}>
   <div class="flex justify-between items-center mb-4">
-    <h5 class="dark:text-white">Earners</h5>
+    <h5 class="dark:text-white">Recipients</h5>
   </div>
   <List
     items={data}

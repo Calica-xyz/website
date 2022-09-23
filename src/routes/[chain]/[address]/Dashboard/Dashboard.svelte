@@ -243,7 +243,6 @@
     style="min-width: min(650px, 100%)"
   >
     <TotalPaid
-      {isOwner}
       class="flex-auto min-w-[180px]"
       amount={getTotalAmountPaid(isOwner)}
       {currency}
