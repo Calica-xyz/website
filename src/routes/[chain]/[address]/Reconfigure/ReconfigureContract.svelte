@@ -11,6 +11,7 @@
   export let agreementType: string;
   export let contractName: string;
   export let chartData: any;
+  export let profitAddress: string = "";
 
   let currentPage = 0;
   let pages = [ReconfigureSelection, Configure, ReviewDeploy];
@@ -22,6 +23,7 @@
     },
     {
       name: contractName,
+      profitAddress,
       reconfigurable: reconfigurable.toString(),
       [agreementType]: JSON.parse(JSON.stringify(chartData)),
     },
@@ -75,6 +77,31 @@
     }
 
     return cappedSplits;
+  }
+
+  function convertExpenseFormData(formData: any) {
+    let contractData = [formData.name];
+    let expenses = [];
+
+    let filteredData = formData.expense.filter((expense: any) => {
+      return expense.name && expense.address && expense.cost;
+    });
+
+    for (let expense of filteredData) {
+      expenses.push([
+        expense.name,
+        expense.address,
+        ethers.utils.parseEther(expense.cost.toString()),
+        ethers.utils.parseEther(expense.amountPaid.toString()),
+      ]);
+    }
+
+    contractData.push(expenses);
+    contractData.push(formData.profitAddress);
+
+    console.log(contractData);
+
+    return contractData;
   }
 
   async function onSubmit(values: any) {
@@ -140,7 +167,31 @@
             break;
 
           case "expense":
-            // TODO: Implement expense reconfiguration
+            contractData = convertExpenseFormData(pagesState[1]);
+
+            console.log(contractData);
+
+            contract = getContractInstance(
+              $page.params.address,
+              "expenseSubmission",
+              $signer
+            );
+
+            try {
+              let res = await contract.reconfigureExpenses(contractData[1]);
+              await res.wait();
+
+              showMessage(
+                "Transaction was successful. Refresh to see the new terms.",
+                "green"
+              );
+            } catch (err) {
+              console.log(err);
+              showMessage(
+                "There was a problem while reconfiguring the contract.",
+                "red"
+              );
+            }
             break;
         }
       } catch (err) {

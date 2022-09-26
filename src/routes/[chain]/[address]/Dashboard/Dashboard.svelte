@@ -25,6 +25,7 @@
   export let withdrawalHistory: any;
   export let addressMappings: any;
   export let contractSettings: any;
+  export let profitAddress: string = "";
 
   let relativeDeployDate = moment.unix(deployDate as number).fromNow();
   let formattedDeployDate = moment

@@ -4,6 +4,7 @@ import {
   convertWei,
   getContractInstance,
 } from "$lib/js/utils";
+import { formatEther } from "ethers/lib/utils";
 import { getRedisClient } from "./redis";
 
 export async function getContractDeployedEvents(
@@ -49,6 +50,23 @@ export function translateSplits(splits) {
       address: split.account,
       name: split.name,
       percentage: split.percentage.toNumber() / 1000,
+    };
+  });
+}
+
+export function translateExpenses(expenses: any) {
+  return expenses.map(function (expense: {
+    name: string;
+    account: string;
+    cost: any;
+    amountPaid: any;
+  }) {
+    return {
+      account: expense.account,
+      address: expense.account,
+      name: expense.name,
+      cost: parseFloat(formatEther(expense.cost)),
+      amountPaid: parseFloat(formatEther(expense.amountPaid)),
     };
   });
 }
@@ -131,11 +149,26 @@ export function getAddressMappings(chartData: any, agreementType: string) {
         ...getAddressMappingsFromSplits(chartData.primary),
         ...getAddressMappingsFromSplits(chartData.secondary),
       };
-    case "expense":
-      return getAddressMappingsFromExpenses(chartData);
     default:
       return {};
   }
+}
+
+export function getAddressMappingsFromExpenses(
+  expenses: any,
+  profitAddress: string
+) {
+  let addressMappings = {};
+
+  for (let expense of expenses) {
+    addressMappings[expense.account] = expense.name;
+  }
+
+  if (!addressMappings[profitAddress]) {
+    addressMappings[profitAddress] = "Profit Contract";
+  }
+
+  return addressMappings;
 }
 
 export function getAddressMappingsFromSplits(splits: any) {
@@ -143,16 +176,6 @@ export function getAddressMappingsFromSplits(splits: any) {
 
   for (let split of splits) {
     addressMappings[split.account] = split.name;
-  }
-
-  return addressMappings;
-}
-
-export function getAddressMappingsFromExpenses(expenses: any) {
-  let addressMappings = {};
-
-  for (let expense of expenses) {
-    addressMappings[expense.account] = expense.name;
   }
 
   return addressMappings;

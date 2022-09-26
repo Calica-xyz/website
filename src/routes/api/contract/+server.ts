@@ -3,8 +3,10 @@ import { getContractInstance, getFactoryContract } from "$lib/js/utils";
 import { getAlchemyProvider } from "$lib/server/nodeProvider";
 import {
   getAddressMappings,
+  getAddressMappingsFromExpenses,
   getBaseContractData,
   getWithdrawalData,
+  translateExpenses,
   translateSplits,
 } from "$lib/server/utils";
 import { error, json } from "@sveltejs/kit";
@@ -122,22 +124,13 @@ export async function GET({ url }) {
       chain
     );
 
-    let expenses = await contract.getExpenses();
-    expenses = expenses.map(function (expense: {
-      name: string,
-      account: string,
-      cost: any,
-      amountPaid: any
-    }) {
-      return {
-        name: expense.name,
-        account: expense.account,
-        cost: parseFloat(formatEther(expense.cost)),
-        amountPaid: parseFloat(formatEther(expense.amountPaid)),
-      };
-    });
+    let expenses = translateExpenses(await contract.getExpenses());
 
-    let addressMappings = getAddressMappings(expenses, contractType);
+    let profitAddress = await contract.profitAddress();
+    let addressMappings = getAddressMappingsFromExpenses(
+      expenses,
+      profitAddress
+    );
 
     return json({
       agreementType: contractType,
@@ -150,6 +143,7 @@ export async function GET({ url }) {
         alchemyProvider,
         address
       )),
+      profitAddress,
     });
   }
 

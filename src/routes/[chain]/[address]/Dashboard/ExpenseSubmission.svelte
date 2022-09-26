@@ -1,4 +1,50 @@
 <script lang="ts">
+  import Card from "$lib/Flowbite/Card.svelte";
+  import Table from "$lib/Flowbite/Table.svelte";
+  import TableHead from "$lib/Flowbite/utils/TableHead.svelte";
+  import Progressbar from "$lib/Flowbite/Progressbar.svelte";
+  import { getCurrency } from "$lib/js/utils";
+  import {
+    TableBody,
+    TableBodyCell,
+    TableBodyRow,
+    TableHeadCell,
+  } from "flowbite-svelte";
+
+  export let data: any;
+  export let chain: string;
+
+  let currency = getCurrency(chain);
+  console.log(data, chain);
 </script>
 
-<!-- TODO: Dashboard component for displaying the expense submission agreement -->
+<div class={$$props.class + " min-w-[100%]"}>
+  <Card class="h-full">
+    <h4 class="mb-3">Cost Totals</h4>
+    <Table noborder={false} class="flex-1 rounded-lg">
+      <TableHead>
+        <TableHeadCell>Name</TableHeadCell>
+        <TableHeadCell>Total Costs</TableHeadCell>
+        <TableHeadCell>Total Reimbursed</TableHeadCell>
+      </TableHead>
+      <TableBody class="divide-y">
+        {#each data as expense}
+          <TableBodyRow class="">
+            <TableBodyCell>{expense.name}</TableBodyCell>
+            <TableBodyCell>{`${expense.cost} ${currency}`}</TableBodyCell>
+            <TableBodyCell
+              ><Progressbar
+                progress={(
+                  (expense.cost / expense.amountPaid) *
+                  100
+                ).toString()}
+                labelInside
+                color="secondary"
+              /></TableBodyCell
+            >
+          </TableBodyRow>
+        {/each}
+      </TableBody>
+    </Table>
+  </Card>
+</div>

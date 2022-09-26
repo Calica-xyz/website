@@ -9,7 +9,7 @@
   <div class="flex flex-col gap-2">
     <h2 class="text-gray-600">This contract can be reconfigured</h2>
     <p>
-      All past splits are unaffected. Only future funds will be affected by a
+      All past payments are unaffected. Only future funds will be affected by a
       new configuration.
     </p>
   </div>
