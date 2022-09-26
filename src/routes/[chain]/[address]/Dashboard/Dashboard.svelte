@@ -15,6 +15,7 @@
   import { page } from "$app/stores";
   import { getContractSettings, getCurrency, roundNumber } from "$lib/js/utils";
   import { onMount } from "svelte";
+  import ExpenseSubmission from "./ExpenseSubmission.svelte";
 
   export let ownerAddress: string;
   export let contractName: string;
@@ -276,6 +277,13 @@
       chain={$page.params.chain}
       class="flex-1"
       data={getNFTChartData(chartData, isOwner)}
+    />
+  {:else if agreementType === "expense"}
+    <ExpenseSubmission
+      {isOwner}
+      chain={$page.params.chain}
+      class="flex-1"
+      data={chartData}
     />
   {/if}
 

@@ -112,6 +112,7 @@
               );
             }
             break;
+
           case "capped":
             contractData = convertCappedFormData(pagesState[1]);
 
@@ -136,6 +137,10 @@
                 "red"
               );
             }
+            break;
+
+          case "expense":
+            // TODO: Implement expense reconfiguration
             break;
         }
       } catch (err) {

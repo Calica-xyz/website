@@ -32,12 +32,13 @@
       type: "capped",
     },
     {
-      title: "Profit-only Distribution",
-      subtitle: "Distribute profits after costs are subtracted",
+      title: "Expense Reimbursement",
+      subtitle:
+        "Submit costs and that get paid back first. Choose where to send the rest.",
       icon: Calculator,
-      color: "bg-gray-300",
-      enabled: false,
-      type: "profit",
+      color: "bg-accent-300",
+      enabled: true,
+      type: "expense",
     },
     {
       title: "Primary & Secondary Splits",

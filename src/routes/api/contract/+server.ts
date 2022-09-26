@@ -38,6 +38,7 @@ export async function GET({ url }) {
       chartData: splits,
       addressMappings: getAddressMappings(splits, contractType),
       ...(await getBaseContractData(
+        contractType,
         contract,
         factoryContract,
         alchemyProvider,
@@ -74,6 +75,7 @@ export async function GET({ url }) {
       chartData: cappedSplits,
       addressMappings,
       ...(await getBaseContractData(
+        contractType,
         contract,
         factoryContract,
         alchemyProvider,
@@ -107,6 +109,47 @@ export async function GET({ url }) {
       chartData: rollupDetails.chartData,
       addressMappings,
       reconfigurable: false,
+    });
+  } else if (contractType == "expense") {
+    let contract = getContractInstance(
+      address,
+      "expenseSubmission",
+      alchemyProvider
+    );
+    let factoryContract = getFactoryContract(
+      "expenseSubmissionFactory",
+      alchemyProvider,
+      chain
+    );
+
+    let expenses = await contract.getExpenses();
+    expenses = expenses.map(function (expense: {
+      name: string,
+      account: string,
+      cost: any,
+      amountPaid: any
+    }) {
+      return {
+        name: expense.name,
+        account: expense.account,
+        cost: parseFloat(formatEther(expense.cost)),
+        amountPaid: parseFloat(formatEther(expense.amountPaid)),
+      };
+    });
+
+    let addressMappings = getAddressMappings(expenses, contractType);
+
+    return json({
+      agreementType: contractType,
+      chartData: expenses,
+      addressMappings,
+      ...(await getBaseContractData(
+        contractType,
+        contract,
+        factoryContract,
+        alchemyProvider,
+        address
+      )),
     });
   }
 

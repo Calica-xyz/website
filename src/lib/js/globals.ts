@@ -2,12 +2,16 @@ import simpleRevShareABI from "$lib/ABIs/RevenueShare.json";
 import simpleRevShareFactoryABI from "$lib/ABIs/RevenueShareFactory.json";
 import cappedRevShareABI from "$lib/ABIs/CappedRevenueShare.json";
 import cappedRevShareFactoryABI from "$lib/ABIs/CappedRevenueShareFactory.json";
+import expenseSubmissionABI from "$lib/ABIs/ExpenseSubmission.json";
+import expenseSubmissionFactoryABI from "$lib/ABIs/ExpenseSubmissionFactory.json";
 
 export const CONTRACT_ABIS = {
   simpleRevShare: simpleRevShareABI,
   simpleRevShareFactory: simpleRevShareFactoryABI,
   cappedRevShare: cappedRevShareABI,
   cappedRevShareFactory: cappedRevShareFactoryABI,
+  expenseSubmission: expenseSubmissionABI,
+  expenseSubmissionFactory: expenseSubmissionFactoryABI,
 };
 
 export const CONTRACT_ADDRESSES = {
@@ -20,9 +24,13 @@ export const CONTRACT_ADDRESSES = {
     maticmum: "0x8fbFA1FA46dBbd8B52e894e418183549e7bB75c9",
     goerli: "0xFF7Bd8f4f1aF122240BBd62100096072fbBA4C1e",
   },
+  expenseSubmissionFactory: {
+    maticmum: "0x07964ccC51b105CBbC23Dc19859F290cfF75d7fc",
+    goerli: "0x1Eab4dD2A748F486A968057910DB0aEA80311102",
+  }
 };
 
-export const CONTRACT_TYPES = ["simple", "capped"];
+export const CONTRACT_TYPES = ["simple", "capped", "expense"];
 
 export const SUPPORTED_NETWORKS = [
   "maticmum",

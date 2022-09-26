@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
 /** @type {import('./$types').PageLoad} */
-export function load({}) {
+export function load({ }) {
   return {};
 }
 
@@ -42,6 +42,26 @@ export function convertCappedFormData(formData: any) {
   }
 
   contractData.push(cappedSplits);
+
+  return contractData;
+}
+
+export function convertExpenseFormData(formData: any) {
+  let contractData = [formData.name];
+  let expenses = [];
+
+  let filteredData = formData.expense.filter((expense: any) => {
+    return expense.name && expense.address && expense.cost;
+  });
+
+  for (let expense of filteredData) {
+    expenses.push([expense.name, expense.address, ethers.utils.parseEther(expense.cost.toString()), ethers.utils.parseEther("0")]);
+  }
+
+  contractData.push(expenses);
+  contractData.push(formData.profitAddress);
+
+  console.log(contractData);
 
   return contractData;
 }

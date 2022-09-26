@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ChartBar, ChartPie, Collection } from "svelte-heros";
+  import { Calculator, ChartBar, ChartPie, Collection } from "svelte-heros";
 
   export let size: string;
   export let contractType: string;
@@ -7,6 +7,7 @@
   const contractTypeIcons: { [key: string]: any } = {
     simple: ChartPie,
     capped: ChartBar,
+    expense: Calculator,
     rollup: Collection,
   };
 </script>

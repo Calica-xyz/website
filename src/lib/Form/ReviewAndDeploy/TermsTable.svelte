@@ -7,6 +7,7 @@
   import ContractTypeIcon from "$lib/Icons/ContractTypeIcon.svelte";
 
   export let name: string;
+  export let profitAddress = "";
   export let agreement: string;
   export let onValidNetwork: boolean = false;
   export let agreementTerms: object[];
@@ -22,6 +23,11 @@
         return [
           "Milestone-based Revenue Share",
           "Funds are distributed to earners differently once milestones are hit",
+        ];
+      case "expense":
+        return [
+          "Expense Reimbursement",
+          "Funds are distributed to cover costs first.",
         ];
       default:
         return ["Agreement", ""];
@@ -46,7 +52,38 @@
     return simpleStr;
   }
 
-  function getAgreementText(terms: any[]) {
+  function getExpenseText(expenses: any[], profitAddress: string) {
+    let expenseStr = "<div class='flex flex-col gap-6'>";
+
+    expenses = expenses.filter((expense) => {
+      return expense.name && expense.address && expense.cost;
+    });
+
+    expenseStr += '<div class="flex flex-col gap-1">';
+    expenseStr +=
+      "<p class='mb-0.5 text-gray-800 underline'>Profit Address</p>";
+    expenseStr += `<p class="subtitle-text text-gray-400">${profitAddress}</p>`;
+    expenseStr += "</div>";
+
+    expenseStr += '<div class="flex flex-col gap-1">';
+    expenseStr += "<p class='mb-0.5 text-gray-800 underline'>Initial Costs</p>";
+
+    for (let term of expenses) {
+      expenseStr += '<div class="flex flex-col">';
+      expenseStr += `<p class="text-sm text-gray-800">${term.name}: ${
+        term.cost
+      } ${getCurrency($chainId)}</p>`;
+      expenseStr += `<p class="subtitle-text text-gray-400">${term.address}</p>`;
+      expenseStr += "</div>";
+    }
+
+    expenseStr += "</div>";
+
+    expenseStr += "</div>";
+    return expenseStr;
+  }
+
+  function getAgreementText(terms: any[], profitAddress: string) {
     switch (agreement) {
       case "simple":
         return getSplitText(terms);
@@ -69,14 +106,16 @@
           cappedStr += "</div>";
         }
         return cappedStr + "</div>";
+      case "expense":
+        return getExpenseText(terms, profitAddress);
       default:
         return "";
     }
   }
 
   let titles = getAgreementTitles();
-  let agreementText = getAgreementText(agreementTerms);
-  let oldAgreementText = getAgreementText(oldAgreementTerms);
+  let agreementText = getAgreementText(agreementTerms, profitAddress);
+  let oldAgreementText = getAgreementText(oldAgreementTerms, profitAddress);
 
   $: chainName = getReadableChainFromId($chainId as number);
 </script>
@@ -111,7 +150,7 @@
           {name}
         </dd>
       </div>
-      {#if !reconfiguring}
+      {#if !reconfiguring && agreement != "expense"}
         <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">Reconfigurable?</dt>
           <dd

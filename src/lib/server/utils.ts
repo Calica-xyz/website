@@ -54,6 +54,7 @@ export function translateSplits(splits) {
 }
 
 export async function getBaseContractData(
+  contractType,
   contract,
   factoryContract,
   provider,
@@ -61,7 +62,7 @@ export async function getBaseContractData(
 ) {
   let ownerAddress = await contract.owner();
   let contractName = await contract.contractName();
-  let reconfigurable = false;
+  let reconfigurable = contractType == "expense";
 
   try {
     reconfigurable = await contract.isReconfigurable();
@@ -130,6 +131,8 @@ export function getAddressMappings(chartData: any, agreementType: string) {
         ...getAddressMappingsFromSplits(chartData.primary),
         ...getAddressMappingsFromSplits(chartData.secondary),
       };
+    case "expense":
+      return getAddressMappingsFromExpenses(chartData);
     default:
       return {};
   }
@@ -140,6 +143,16 @@ export function getAddressMappingsFromSplits(splits: any) {
 
   for (let split of splits) {
     addressMappings[split.account] = split.name;
+  }
+
+  return addressMappings;
+}
+
+export function getAddressMappingsFromExpenses(expenses: any) {
+  let addressMappings = {};
+
+  for (let expense of expenses) {
+    addressMappings[expense.account] = expense.name;
   }
 
   return addressMappings;

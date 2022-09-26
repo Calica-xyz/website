@@ -32,7 +32,7 @@ function validateName(
   return null;
 }
 
-function validateAddress(
+function validateSplitAddress(
   address: string,
   addressMap: object,
   name: string,
@@ -60,6 +60,13 @@ function validateCap(cap) {
   return null;
 }
 
+function validateCost(cost) {
+  if (cost <= 0) return "Must be > 0";
+  if (!cost) return "Can't be empty";
+
+  return null;
+}
+
 export function validateSplits(splits) {
   let errorMessages = [];
   let totalPercentages = 0;
@@ -81,7 +88,7 @@ export function validateSplits(splits) {
         split.address,
         split.percentage
       ),
-      address: validateAddress(
+      address: validateSplitAddress(
         split.address,
         addressMap,
         split.name,
@@ -128,9 +135,37 @@ export function validateSplits(splits) {
   return errorMessages;
 }
 
+export function validateExpenses(expenses: any) {
+  if (!expenses || expenses.length == 0) return null;
+
+  let errorMessages = [];
+
+  for (let expense of expenses) {
+    errorMessages.push({
+      name: validateContractName(expense.name),
+      address: validateAddress(expense.address),
+      cost: validateCost(expense.cost),
+    });
+  }
+
+  return errorMessages;
+}
+
 export function validateContractName(name: string) {
   if (!name || name == "") {
-    return "Name is required";
+    return "Name required";
+  }
+
+  return null;
+}
+
+export function validateAddress(address: string) {
+  if (!address || address == "") {
+    return "Address is required";
+  }
+
+  if (!utils.isAddress(address)) {
+    return "Invalid address";
   }
 
   return null;

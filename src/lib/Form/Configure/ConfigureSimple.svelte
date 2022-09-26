@@ -10,7 +10,6 @@
   import { validateContractName, validateSplits } from "$lib/js/validators";
 
   export let initialValues: any;
-  export let pagesState: any[];
   export let onSubmit: (values: any) => void;
   export let onBack: (values: any) => void;
   export let reconfiguring = false;
@@ -81,7 +80,7 @@
       <Splits
         bind:doughnut
         class="my-10 flex-1 min-w-[300px]"
-        formPrefix={pagesState[0].type}
+        formPrefix={"simple"}
         list={initialValues.simple}
       />
 

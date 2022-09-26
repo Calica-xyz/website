@@ -15,11 +15,13 @@ export async function GET({ url }) {
 
     for (let contractType of CONTRACT_TYPES) {
       try {
+        let factoryName = contractType == "expense" ? "expenseSubmissionFactory" : contractType + "RevShareFactory";
         let factoryContract = getFactoryContract(
-          contractType + "RevShareFactory",
+          factoryName,
           alchemyProvider,
           chain
         );
+
         deployedContracts = [
           ...deployedContracts,
           ...(await getContractDeployedEvents(

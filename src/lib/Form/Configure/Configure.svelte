@@ -1,6 +1,7 @@
 <script lang="ts">
   import ConfigureCapped from "./ConfigureCapped.svelte";
   import ConfigureSimple from "./ConfigureSimple.svelte";
+  import ConfigureExpense from "./ConfigureExpense.svelte";
 
   export let reconfiguring: boolean = false;
   export let initialValues: any;
@@ -10,13 +11,9 @@
 </script>
 
 {#if pagesState[0].type == "simple"}
-  <ConfigureSimple
-    {initialValues}
-    {pagesState}
-    {onSubmit}
-    {onBack}
-    {reconfiguring}
-  />
+  <ConfigureSimple {initialValues} {onSubmit} {onBack} {reconfiguring} />
 {:else if pagesState[0].type == "capped"}
   <ConfigureCapped {initialValues} {onSubmit} {onBack} {reconfiguring} />
+{:else if pagesState[0].type == "expense"}
+  <ConfigureExpense {initialValues} {onSubmit} {onBack} {reconfiguring} />
 {/if}
