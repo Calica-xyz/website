@@ -64,7 +64,7 @@ async function directWithdraw(
 
   try {
     // Call the NFT contract's withdraw function.
-    let res = await eval(`contract.${abi[0].name}()`);
+    let res = await contract[abi[0].name]();
     await res.wait();
   } catch (err) {
     console.log(err);
@@ -94,7 +94,7 @@ async function missocoolgirlsWithdraw(
   try {
     // Call the NFT contract's withdraw function.
     // This will make internal transfers defined by a hardcoded split.
-    let res = await eval(`contract.${abi[0].name}()`);
+    let res = await contract[abi[0].name]();
     await res.wait();
   } catch (err) {
     console.log(err);
