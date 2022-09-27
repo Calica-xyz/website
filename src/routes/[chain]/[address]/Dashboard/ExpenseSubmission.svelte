@@ -20,28 +20,21 @@
 
 <div class={$$props.class + " min-w-[100%]"}>
   <Card class="h-full">
-    <h4 class="mb-3">Cost Totals</h4>
+    <h4 class="mb-5">Expenses</h4>
     <Table noborder={false} class="flex-1 rounded-lg">
       <TableHead>
-        <TableHeadCell>Name</TableHeadCell>
+        <TableHeadCell>Recipient</TableHeadCell>
+        <TableHeadCell>Description</TableHeadCell>
         <TableHeadCell>Total Costs</TableHeadCell>
-        <TableHeadCell>Total Reimbursed</TableHeadCell>
+        <TableHeadCell>Reimbursed</TableHeadCell>
       </TableHead>
       <TableBody class="divide-y">
         {#each data as expense}
           <TableBodyRow class="">
             <TableBodyCell>{expense.name}</TableBodyCell>
+            <TableBodyCell>Dummy</TableBodyCell>
             <TableBodyCell>{`${expense.cost} ${currency}`}</TableBodyCell>
-            <TableBodyCell
-              ><Progressbar
-                progress={(
-                  (expense.cost / expense.amountPaid) *
-                  100
-                ).toString()}
-                labelInside
-                color="secondary"
-              /></TableBodyCell
-            >
+            <TableBodyCell>{`${expense.amountPaid} ${currency}`}</TableBodyCell>
           </TableBodyRow>
         {/each}
       </TableBody>

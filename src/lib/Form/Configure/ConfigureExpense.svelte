@@ -20,7 +20,7 @@
   let name = initialValues.name;
   let profitAddress = initialValues.profitAddress;
 
-  const { form, data, setData } = createForm({
+  const { form, data } = createForm({
     extend: reporter,
     onSubmit,
     validate: (values: {

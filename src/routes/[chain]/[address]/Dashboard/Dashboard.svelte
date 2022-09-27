@@ -283,7 +283,7 @@
     <ExpenseSubmission
       {isOwner}
       chain={$page.params.chain}
-      class="flex-1"
+      class="flex-1 order-1"
       data={chartData}
     />
   {/if}
