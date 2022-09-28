@@ -7,10 +7,9 @@
   export let formPrefix: string = "";
   export let name: string = "";
   export let address: string = "";
+  export let description: string = "";
   export let cost: string = "";
   export let amountPaid: number = 0;
-
-  
 </script>
 
 <div class={`${$$props.class} flex flex-1 flex-wrap`}>
@@ -20,10 +19,34 @@
         color={message != null ? "red" : "base"}
         class="rounded-r-none rounded-b-none sm:rounded-b-lg sm:rounded-r-none"
         style="outlined"
+        id={`${formPrefix}description`}
+        name={`${formPrefix}description`}
+        type="text"
+        label="Description"
+        size="small"
+        bind:value={description}
+        disabled={amountPaid > 0}
+      />
+      {#if message != null}
+        <Helper class="mb-2 sm:mb-0" color="red">{message}</Helper>
+      {/if}
+    </div>
+  </ValidationMessage>
+
+  <ValidationMessage for={`${formPrefix}name`} let:messages={message}>
+    <div
+      class={`ml-[-1px] flex-1 focus-within:z-10 ${
+        message != null ? "z-10" : ""
+      }`}
+    >
+      <FloatingLabelInput
+        color={message != null ? "red" : "base"}
+        class="rounded-none"
+        style="outlined"
         id={`${formPrefix}name`}
         name={`${formPrefix}name`}
         type="text"
-        label="Name"
+        label="Recipient"
         size="small"
         bind:value={name}
         disabled={amountPaid > 0}

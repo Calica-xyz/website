@@ -6,6 +6,9 @@
   export let page: number;
   export let ownerAddress: string;
   export let reconfigurable: boolean;
+  export let agreementType: string;
+
+  console.log(agreementType);
 
   $: sidebarOpen = false;
   $: isOwner = $signerAddress == ownerAddress;
@@ -158,7 +161,9 @@
                         ? 'text-gray-300'
                         : 'text-gray-400 group-hover:text-gray-300'} mr-3 flex-shrink-0 h-6 w-6"
                     />
-                    Reconfigure
+                    {agreementType == "expense"
+                      ? "Update Expenses"
+                      : "Reconfigure"}
                   </div>
                 {/if}
                 {#if isOwner}
@@ -246,7 +251,7 @@
                   ? 'text-gray-300'
                   : 'text-gray-400 group-hover:text-gray-300'} mr-3 flex-shrink-0 h-6 w-6"
               />
-              Reconfigure
+              {agreementType == "expense" ? "Update Expenses" : "Reconfigure"}
             </div>
           {/if}
           {#if isOwner}

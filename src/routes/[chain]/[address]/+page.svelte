@@ -23,9 +23,10 @@
   bind:page={currentPage}
   ownerAddress={contractData.ownerAddress}
   reconfigurable={contractData.reconfigurable}
+  agreementType={contractData.agreementType}
 >
   <div class="my-6 flex w-full justify-center">
-    <div id="content-container" class="h-full flex-1">
+    <div id="content-container" class="w-full h-full flex-1">
       {#if currentPage === 0}
         <Dashboard {...contractData} />
       {:else if currentPage === 1}

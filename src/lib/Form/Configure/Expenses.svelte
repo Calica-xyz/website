@@ -9,6 +9,7 @@
     {
       name: "Owner",
       address: $signerAddress,
+      description: "First Expense",
       cost: "",
     },
   ];
@@ -20,6 +21,7 @@
       {
         name: "",
         address: "",
+        description: "",
         cost: "",
       },
     ];
@@ -40,6 +42,7 @@
         formPrefix={`${formPrefix}.${i}.`}
         bind:name={item.name}
         bind:address={item.address}
+        bind:description={item.description}
         bind:cost={item.cost}
         amountPaid={item.amountPaid}
       />

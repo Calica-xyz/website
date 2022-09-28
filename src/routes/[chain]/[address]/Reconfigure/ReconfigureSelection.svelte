@@ -2,9 +2,9 @@
   import Button from "$lib/Flowbite/Button.svelte";
 
   export let onSubmit: (values: any) => void;
+  export let initialValues: any;
 </script>
 
-<!-- TODO: Update the copy here for expense submission -->
 <div class="m-8 flex flex-col gap-10">
   <div class="flex flex-col gap-2">
     <h2 class="text-gray-600">This contract can be reconfigured</h2>
@@ -14,5 +14,7 @@
     </p>
   </div>
 
-  <Button class="max-w-[140px]" on:click={onSubmit}>Configure</Button>
+  <Button class="max-w-[140px]" on:click={onSubmit}>
+    {initialValues.type == "expense" ? "Update" : "Configure"}
+  </Button>
 </div>

@@ -15,7 +15,6 @@
   export let chain: string;
 
   let currency = getCurrency(chain);
-  console.log(data, chain);
 </script>
 
 <div class={$$props.class + " min-w-[100%]"}>
@@ -32,7 +31,7 @@
         {#each data as expense}
           <TableBodyRow class="">
             <TableBodyCell>{expense.name}</TableBodyCell>
-            <TableBodyCell>Dummy</TableBodyCell>
+            <TableBodyCell>{expense.description}</TableBodyCell>
             <TableBodyCell>{`${expense.cost} ${currency}`}</TableBodyCell>
             <TableBodyCell>{`${expense.amountPaid} ${currency}`}</TableBodyCell>
           </TableBodyRow>

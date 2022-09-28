@@ -8,6 +8,7 @@
 
   export let name: string;
   export let profitAddress = "";
+  export let oldProfitAddress = "";
   export let agreement: string;
   export let onValidNetwork: boolean = false;
   export let agreementTerms: object[];
@@ -115,7 +116,7 @@
 
   let titles = getAgreementTitles();
   let agreementText = getAgreementText(agreementTerms, profitAddress);
-  let oldAgreementText = getAgreementText(oldAgreementTerms, profitAddress);
+  let oldAgreementText = getAgreementText(oldAgreementTerms, oldProfitAddress);
 
   $: chainName = getReadableChainFromId($chainId as number);
 </script>
@@ -206,7 +207,11 @@
         </div>
       {:else}
         <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt class="text-sm font-medium text-gray-500">Old Terms</dt>
+          <dt class="text-sm font-medium text-gray-500">
+            {agreement == "expense"
+              ? "Previous Expenses & Profit Address"
+              : "Old Terms"}
+          </dt>
           <dd
             class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
             style="overflow-wrap: anywhere;"
@@ -216,7 +221,11 @@
         </div>
 
         <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt class="text-sm font-medium text-gray-500">New Terms</dt>
+          <dt class="text-sm font-medium text-gray-500">
+            {agreement == "expense"
+              ? "Updated Expenses & Profit Address"
+              : "Old Terms"}
+          </dt>
           <dd
             class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
             style="overflow-wrap: anywhere;"

@@ -4,7 +4,7 @@
   import { ValidationMessage } from "@felte/reporter-svelte";
   import { reporter } from "@felte/reporter-svelte";
   import { createForm } from "felte";
-  import { Helper } from "flowbite-svelte";
+  import { Helper, InformationCircle, Tooltip } from "flowbite-svelte";
   import {
     validateContractName,
     validateExpenses,
@@ -67,7 +67,7 @@
       <div>
         <ValidationMessage for="name" let:messages={message}>
           <div class="flex flex-wrap gap-x-6 gap-y-2 items-center">
-            <h5 class="text-gray-600">Contract Name</h5>
+            <h5 class="text-gray-600 pr-4">Contract Name</h5>
             <Input
               color={message != null ? "red" : "base"}
               class="max-w-[200px]"
@@ -88,7 +88,20 @@
       <div>
         <ValidationMessage for="profitAddress" let:messages={message}>
           <div class="flex flex-wrap gap-x-6 gap-y-2 items-center">
-            <h5 class="text-gray-600 pr-4">Profit Address</h5>
+            <div class="flex gap-2 items-center">
+              <h5 class="text-gray-600">Profit Address</h5>
+              <div id="profitAddressInfo">
+                <InformationCircle class="size-15 text-gray-700" />
+              </div>
+              <Tooltip
+                style="dark"
+                placement="bottom"
+                triggeredBy="#profitAddressInfo"
+                >Choose where to send any excess funds after all expenses have
+                been reimbursed</Tooltip
+              >
+            </div>
+
             <Input
               color={message != null ? "red" : "base"}
               class="max-w-[200px]"
@@ -96,7 +109,6 @@
               name="profitAddress"
               id="profitAddress"
               bind:value={profitAddress}
-              disabled={reconfiguring}
             />
           </div>
 

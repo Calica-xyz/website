@@ -58,12 +58,14 @@ export function translateExpenses(expenses: any) {
   return expenses.map(function (expense: {
     name: string;
     account: string;
+    description: string;
     cost: any;
     amountPaid: any;
   }) {
     return {
       account: expense.account,
       address: expense.account,
+      description: expense.description,
       name: expense.name,
       cost: parseFloat(formatEther(expense.cost)),
       amountPaid: parseFloat(formatEther(expense.amountPaid)),

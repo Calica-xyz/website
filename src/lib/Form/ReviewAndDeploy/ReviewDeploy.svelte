@@ -16,6 +16,7 @@
   export let isDeploying = false;
   export let reconfiguring = false;
   export let oldAgreementTerms: any = [];
+  export let oldProfitAddress: string = "";
   export let showMessage: (message: string, color: string | undefined) => void;
 
   $: onValidNetwork = isOnValidNetwork($chainId as number);
@@ -42,7 +43,7 @@
 <form use:form>
   <AlertMessage bind:showMessage />
 
-  <div class="flex flex-col gap-10 max-w-3xl mx-auto sm:px-12 my-4">
+  <div class="flex flex-col gap-10 max-w-4xl mx-auto sm:px-12 my-4">
     <div class="mb-6">
       <h3 class="text-gray-600">
         {reconfiguring ? "Review and Reconfigure" : "Review and Deploy"}
@@ -61,6 +62,7 @@
       agreement={pagesState[0].type}
       agreementTerms={pagesState[1][pagesState[0].type]}
       {oldAgreementTerms}
+      {oldProfitAddress}
       reconfigurable={pagesState[1].reconfigurable == "true"}
       {reconfiguring}
     />

@@ -34,7 +34,7 @@
     {
       title: "Expense Reimbursement",
       subtitle:
-        "Submit costs and that get paid back first. Choose where to send the rest.",
+        "Submit costs and that get paid back. Choose where to send the rest.",
       icon: Calculator,
       color: "bg-accent-300",
       enabled: true,

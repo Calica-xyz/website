@@ -84,6 +84,8 @@
           case "expense":
             contractData = convertExpenseFormData(pagesState[1]);
 
+            console.log("DATA:", contractData);
+
             factoryContract = getFactoryContract(
               "expenseSubmissionFactory",
               $signer,

@@ -55,7 +55,7 @@ export function convertExpenseFormData(formData: any) {
   });
 
   for (let expense of filteredData) {
-    expenses.push([expense.name, expense.address, ethers.utils.parseEther(expense.cost.toString()), ethers.utils.parseEther("0")]);
+    expenses.push([expense.name, expense.address, expense.description, ethers.utils.parseEther(expense.cost.toString()), ethers.utils.parseEther("0")]);
   }
 
   contractData.push(expenses);

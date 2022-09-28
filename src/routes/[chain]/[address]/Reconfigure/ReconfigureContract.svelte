@@ -23,7 +23,7 @@
     },
     {
       name: contractName,
-      profitAddress,
+      profitAddress: new String(profitAddress),
       reconfigurable: reconfigurable.toString(),
       [agreementType]: JSON.parse(JSON.stringify(chartData)),
     },
@@ -91,6 +91,7 @@
       expenses.push([
         expense.name,
         expense.address,
+        expense.description,
         ethers.utils.parseEther(expense.cost.toString()),
         ethers.utils.parseEther(expense.amountPaid.toString()),
       ]);
@@ -98,8 +99,6 @@
 
     contractData.push(expenses);
     contractData.push(formData.profitAddress);
-
-    console.log(contractData);
 
     return contractData;
   }
@@ -169,16 +168,20 @@
           case "expense":
             contractData = convertExpenseFormData(pagesState[1]);
 
-            console.log(contractData);
-
             contract = getContractInstance(
               $page.params.address,
               "expenseSubmission",
               $signer
             );
 
+            console.log(contractData[2].toString());
+
             try {
-              let res = await contract.reconfigureExpenses(contractData[1]);
+              // params: expenses, profitAddresss
+              let res = await contract.reconfigure(
+                contractData[1],
+                contractData[2].toString()
+              );
               await res.wait();
 
               showMessage(
@@ -224,6 +227,7 @@
       {onBack}
       {pagesState}
       oldAgreementTerms={chartData}
+      oldProfitAddress={profitAddress}
       initialValues={pagesState[currentPage]}
     />
   {:else}
