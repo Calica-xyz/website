@@ -165,7 +165,7 @@
   let barData = {
     datasets: [
       {
-        backgroundColor: getHexCode("--color-tertiary"),
+        backgroundColor: getHexCode("--color-primary"),
         label: currency,
         data: configs.data,
         maxBarThickness: 100,

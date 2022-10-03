@@ -50,9 +50,9 @@
 <div class="">
   <div class="mx-auto max-w-7xl ">
     <div class="lg:text-center">
-      <h2 class="text-lg font-semibold text-primary-100">The Solution</h2>
+      <h2 class="text-lg font-semibold text-primary-400">The Solution</h2>
       <p
-        class="mt-2 text-4xl font-bold tracking-tight text-gray-800 lg:text-5xl"
+        class="mt-2 text-4xl font-bold tracking-tight text-other-800 lg:text-5xl"
       >
         Set business rules and watch earnings flow
       </p>
@@ -71,11 +71,11 @@
               <div
                 class="{useCase.title == 'Custom use case'
                   ? 'bg-primary-800'
-                  : 'bg-primary-300'} absolute flex h-12 w-12 items-center justify-center rounded-md text-white"
+                  : 'bg-primary-400'} absolute flex h-12 w-12 items-center justify-center rounded-md text-white"
               >
                 <svelte:component this={useCase.icon} />
               </div>
-              <p class="ml-16 font-semibold text-lg leading-6 text-gray-800">
+              <p class="ml-16 font-semibold text-lg leading-6 text-other-700">
                 {useCase.title}
               </p>
             </dt>

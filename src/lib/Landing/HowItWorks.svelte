@@ -38,7 +38,7 @@
       <div class="step-list__item__inner">
         <div class="content">
           <div class="body">
-            <h2 class="text-gray-800">Build</h2>
+            <h2 class="text-other-800">Build</h2>
             <p class="text-base text-gray-500">
               Compose business rules in our <a
                 class="text-primary hover:underline"
@@ -51,7 +51,7 @@
             </p>
           </div>
 
-          <div class="icon xs:bg-tertiary-50 bg-secondary-50">
+          <div class="icon xs:bg-primary-100 bg-primary-100">
             <CursorClick
               class="text-gray-700 absolute left-[6px] bottom-[5px] mobile-icons xs:hidden"
             />
@@ -192,14 +192,14 @@
       <div class="step-list__item__inner">
         <div class="content">
           <div class="body">
-            <h2 class="text-gray-800">Deploy & Earn</h2>
+            <h2 class="text-other-800">Deploy & Earn</h2>
             <p class="text-base text-gray-500">
               Calica's smart contract factory deploys a contract that connects
               to your revenue
             </p>
           </div>
 
-          <div class="icon xs:bg-gray-200 bg-secondary-50">
+          <div class="icon xs:bg-gray-200 bg-primary-100">
             <Cash
               class="text-gray-700 absolute left-[6px] bottom-[5px] mobile-icons xs:hidden"
             />
@@ -388,7 +388,7 @@
       <div class="step-list__item__inner">
         <div class="content">
           <div class="body">
-            <h2 class="text-gray-800">View & Manage</h2>
+            <h2 class="text-other-800">View & Manage</h2>
             <p class="text-base text-gray-500">
               Access <a class="hover:underline" href="/my-contracts"
                 >your portal</a
@@ -396,7 +396,7 @@
             </p>
           </div>
 
-          <div class="icon bg-secondary-50">
+          <div class="icon bg-primary-100">
             <ChartSquareBar
               class="text-gray-700 absolute left-[6px] bottom-[5px] mobile-icons xs:hidden"
             />

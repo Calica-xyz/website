@@ -129,7 +129,7 @@
         class="problem-card w-[190px] p-4 pt-6 h-[100px] text-center"
       >
         <div
-          class="absolute top-[-20px] bg-accent-100 p-2 rounded-md left-[40%] text-white"
+          class="absolute top-[-20px] bg-accent-400 p-2 rounded-md left-[40%] text-white"
         >
           <svelte:component this={problem.icon} />
         </div>

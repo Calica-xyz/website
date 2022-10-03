@@ -47,12 +47,14 @@
   let canvas: HTMLCanvasElement;
 
   const doughnutColors = [
-    getHexCode("--color-secondary"),
-    getHexCode("--color-accent"),
-    getHexCode("--color-tertiary"),
     getHexCode("--color-primary"),
+    getHexCode("--color-tertiary"),
+    getHexCode("--color-secondary"),
     getHexCode("--color-quaternary"),
     getHexCode("--color-quinary"),
+    getHexCode("--color-senary"),
+    getHexCode("--color-septenary"),
+    getHexCode("--color-octonary"),
   ];
 
   $: chartData = {

@@ -16,12 +16,12 @@
 <div class="relative bg-white">
   <div class="absolute inset-0">
     <div
-      class="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-b from-tertiary-50 to-white"
+      class="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-b from-primary-100 to-white"
     />
   </div>
   <div class="relative mx-auto max-w-7xl lg:grid lg:grid-cols-5">
     <div
-      class="bg-gradient-to-b from-tertiary-50 to-white py-16 px-4 sm:px-6 lg:col-span-2 lg:px-8 lg:py-24 xl:pr-12"
+      class="bg-gradient-to-b from-primary-100 to-white py-16 px-4 sm:px-6 lg:col-span-2 lg:px-8 lg:py-24 xl:pr-12"
     >
       <div class="mx-auto max-w-lg">
         <h2 class="text-2xl font-bold tracking-tight text-gray-700 sm:text-3xl">
@@ -125,7 +125,7 @@
             />
           </div>
           <div class="flex gap-8">
-            <Button class="bg-primary-300" type="submit">Submit</Button>
+            <Button type="submit">Submit</Button>
             {#if redirect}
               <div in:fade>
                 <Alert class="p-2 mb-0  w-[120px]" color="green"

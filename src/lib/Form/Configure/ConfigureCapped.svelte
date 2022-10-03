@@ -4,7 +4,8 @@
   import Input from "$lib/Flowbite/Input.svelte";
   import { createForm } from "felte";
   import { reporter, ValidationMessage } from "@felte/reporter-svelte";
-  import { Helper, Radio } from "flowbite-svelte";
+  import { Helper } from "flowbite-svelte";
+  import Radio from "$lib/Flowbite/utils/Radio.svelte";
   import {
     validateCappedSplits,
     validateContractName,
@@ -60,8 +61,11 @@
       {#if !reconfiguring}
         <div class="mt-6 flex gap-3">
           <p class="text-gray-600">Can the contract be reconfigured?</p>
-          <Radio name="reconfigurable" bind:group={reconfigurable} value="true"
-            >Yes</Radio
+          <Radio
+            color="primary"
+            name="reconfigurable"
+            bind:group={reconfigurable}
+            value="true">Yes</Radio
           >
           <Radio name="reconfigurable" bind:group={reconfigurable} value="false"
             >No</Radio

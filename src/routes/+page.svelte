@@ -179,7 +179,7 @@
               <span class="inline-flex rounded-md shadow">
                 <a
                   href="/create"
-                  class="inline-flex items-center rounded-md border border-transparent bg-white px-4 py-2 text-base font-medium text-primary-600 hover:bg-gray-50"
+                  class="inline-flex items-center rounded-md border border-transparent bg-white px-4 py-2 text-base font-medium text-primary-500 hover:bg-gray-50"
                   >Open App</a
                 >
               </span>
@@ -253,7 +253,7 @@
               </div>
               <a
                 href="/create"
-                class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-primary-600 hover:bg-gray-100 hover:text-primary-700"
+                class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-primary-500 hover:bg-gray-100 hover:text-primary-600"
                 >Open App</a
               >
             </div>
@@ -265,10 +265,10 @@
         {#if headerVisited}
           <div in:fade={{ duration: 500 }} class="w-full absolute px-4 sm:px-6">
             <h1
-              class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl md:text-6xl"
+              class="text-4xl font-bold tracking-tight text-other-800 sm:text-5xl md:text-6xl"
             >
               <span class="block">Manage and automate your</span>
-              <span class="block text-primary-100">on-chain revenue</span>
+              <span class="block text-primary">on-chain revenue</span>
             </h1>
             <p
               class="mx-auto mt-3 text-base text-gray-500 sm:text-lg md:mt-5 max-w-xl md:text-xl"
@@ -307,9 +307,11 @@
         id="problems-text"
         class="text-center flex-1 min-w-[min(400px,100%)] max-w-[max(500px,100%)]"
       >
-        <h1 class="text-4xl font-bold tracking-tight text-gray-800 lg:text-5xl">
+        <h1
+          class="text-4xl font-bold tracking-tight text-other-800 lg:text-5xl"
+        >
           <span class="inline">The </span>
-          <span class="text-accent-600 inline">challenges</span>
+          <span class="text-accent-500 inline">challenges</span>
           <span class="inline">with on-chain revenue </span>
         </h1>
         <p class="mt-3 text-md text-gray-500 sm:text-lg md:mt-5">
@@ -324,7 +326,7 @@
 
   <section
     id="use-cases"
-    class="bg-gradient-to-b from-gray-50 to-gray-50 via-tertiary-50"
+    class="bg-gradient-to-b from-gray-50 to-gray-50 via-primary-100"
   >
     <UseCases />
   </section>
@@ -341,7 +343,7 @@
       >
         <h1 class="text-4xl font-bold tracking-tight text-gray-800 lg:text-5xl">
           <span class="inline">How it </span>
-          <span class="text-primary-300 inline">works</span>
+          <span class="text-primary-400 inline">works</span>
         </h1>
         <p
           class="mt-3 text-md text-gray-500 sm:text-lg md:mt-5 max-w-[650px] m-auto"

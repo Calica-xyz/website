@@ -6,12 +6,14 @@
 
 @layer base {
     :root {
-        --color-primary: "#0E6BA8";
-        --color-secondary: "#74A3CD";
-        --color-tertiary: "#96BADA";
-        --color-accent: "#F2545B";
-        --color-quaternary: "#07004D";
-        --color-quinary: "#E8EDDF";
+        --color-primary: "#53b1fd";
+        --color-secondary: "#36bffa";
+        --color-tertiary: "#8098f9";
+        --color-quaternary: "#9b8afb";
+        --color-quinary: "#f670c7";
+        --color-senary: "#fd6f8e";
+        --color-septenary: "#fd853a";
+        --color-octonary: "#32d583";
     }
 }
 
@@ -25,7 +27,7 @@ html {
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 400;
 }
 
