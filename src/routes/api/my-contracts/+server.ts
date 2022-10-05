@@ -1,6 +1,9 @@
 import { CONTRACT_TYPES, SUPPORTED_NETWORKS } from "$lib/js/globals";
 import { getFactoryContract } from "$lib/js/utils";
-import { getAlchemyProvider } from "$lib/server/nodeProvider";
+import {
+  getAlchemyProvider,
+  getValidationCloudProvider,
+} from "$lib/server/nodeProvider";
 import { getContractDeployedEvents } from "$lib/server/utils";
 import { json } from "@sveltejs/kit";
 
@@ -11,14 +14,18 @@ export async function GET({ url }) {
   let deployedContracts = [];
 
   for (let chain of SUPPORTED_NETWORKS) {
-    let alchemyProvider = getAlchemyProvider(chain);
+    // let alchemyProvider = getAlchemyProvider(chain);
+    let nodeProvider = getValidationCloudProvider(chain);
 
     for (let contractType of CONTRACT_TYPES) {
       try {
-        let factoryName = contractType == "expense" ? "expenseSubmissionFactory" : contractType + "RevShareFactory";
+        let factoryName =
+          contractType == "expense"
+            ? "expenseSubmissionFactory"
+            : contractType + "RevShareFactory";
         let factoryContract = getFactoryContract(
           factoryName,
-          alchemyProvider,
+          nodeProvider,
           chain
         );
 
@@ -32,6 +39,7 @@ export async function GET({ url }) {
           )),
         ];
       } catch (err) {
+        console.log(err);
         let errorMessage =
           "There was a problem looking up deploy events for contractType: " +
           contractType +

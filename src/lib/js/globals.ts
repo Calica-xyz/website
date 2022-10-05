@@ -27,14 +27,14 @@ export const CONTRACT_ADDRESSES = {
   expenseSubmissionFactory: {
     maticmum: "0x07964ccC51b105CBbC23Dc19859F290cfF75d7fc",
     goerli: "0x4bb53A186B7B78475D0A95796CdcF5dA9823D9cb",
-  }
+  },
 };
 
 export const CONTRACT_TYPES = ["simple", "capped", "expense"];
 
 export const SUPPORTED_NETWORKS = [
-  "maticmum",
+  // "maticmum",
   "goerli",
-  "homestead",
+  // "homestead",
   // "matic",
 ];

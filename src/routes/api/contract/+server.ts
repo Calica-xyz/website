@@ -1,6 +1,9 @@
 import { getRollupDetails } from "$lib/js/rollups";
 import { getContractInstance, getFactoryContract } from "$lib/js/utils";
-import { getAlchemyProvider } from "$lib/server/nodeProvider";
+import {
+  getAlchemyProvider,
+  getValidationCloudProvider,
+} from "$lib/server/nodeProvider";
 import {
   getAddressMappings,
   getAddressMappingsFromExpenses,
@@ -18,17 +21,14 @@ export async function GET({ url }) {
   const chain = url.searchParams.get("chain");
   const contractType = url.searchParams.get("type");
 
-  let alchemyProvider = getAlchemyProvider(chain);
+  // let alchemyProvider = getAlchemyProvider(chain);
+  let nodeProvider = getValidationCloudProvider(chain);
 
   if (contractType == "simple") {
-    let contract = getContractInstance(
-      address,
-      "simpleRevShare",
-      alchemyProvider
-    );
+    let contract = getContractInstance(address, "simpleRevShare", nodeProvider);
     let factoryContract = getFactoryContract(
       "simpleRevShareFactory",
-      alchemyProvider,
+      nodeProvider,
       chain
     );
 
@@ -43,19 +43,15 @@ export async function GET({ url }) {
         contractType,
         contract,
         factoryContract,
-        alchemyProvider,
+        nodeProvider,
         address
       )),
     });
   } else if (contractType == "capped") {
-    let contract = getContractInstance(
-      address,
-      "cappedRevShare",
-      alchemyProvider
-    );
+    let contract = getContractInstance(address, "cappedRevShare", nodeProvider);
     let factoryContract = getFactoryContract(
       "cappedRevShareFactory",
-      alchemyProvider,
+      nodeProvider,
       chain
     );
 
@@ -80,7 +76,7 @@ export async function GET({ url }) {
         contractType,
         contract,
         factoryContract,
-        alchemyProvider,
+        nodeProvider,
         address
       )),
     });
@@ -95,7 +91,7 @@ export async function GET({ url }) {
     for (let address of rollupDetails.contracts) {
       withdrawals = [
         ...withdrawals,
-        ...(await getWithdrawalData(address, alchemyProvider)),
+        ...(await getWithdrawalData(address, nodeProvider)),
       ];
     }
 
@@ -116,11 +112,11 @@ export async function GET({ url }) {
     let contract = getContractInstance(
       address,
       "expenseSubmission",
-      alchemyProvider
+      nodeProvider
     );
     let factoryContract = getFactoryContract(
       "expenseSubmissionFactory",
-      alchemyProvider,
+      nodeProvider,
       chain
     );
 
@@ -140,7 +136,7 @@ export async function GET({ url }) {
         contractType,
         contract,
         factoryContract,
-        alchemyProvider,
+        nodeProvider,
         address
       )),
       profitAddress,
