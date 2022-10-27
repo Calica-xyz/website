@@ -33,8 +33,8 @@ export const CONTRACT_ADDRESSES = {
 export const CONTRACT_TYPES = ["simple", "capped", "expense"];
 
 export const SUPPORTED_NETWORKS = [
-  // "maticmum",
+  "maticmum",
   "goerli",
-  // "homestead",
+  "homestead",
   // "matic",
 ];

@@ -43,9 +43,12 @@
             );
 
             try {
+              console.log(pagesState[1]);
+
               let res = await factoryContract.createNewRevenueShare(
                 contractData,
-                pagesState[1].reconfigurable == "true"
+                pagesState[1].reconfigurable == "true",
+                true
               );
               let receipt = await res.wait();
 
