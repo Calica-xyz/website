@@ -4,14 +4,19 @@ import {
   convertWei,
   getContractInstance,
 } from "$lib/js/utils";
+import type { AlchemyProvider } from "@ethersproject/providers";
+import { ethers, type Contract } from "ethers";
+import type { Provider } from "@ethersproject/abstract-provider";
+import type { Signer } from "ethers";
 import { formatEther } from "ethers/lib/utils";
 import { getRedisClient } from "./redis";
+import { SUPPORTED_TOKENS } from "$lib/js/globals";
 
 export async function getContractDeployedEvents(
-  factoryContract,
-  contractType,
-  address,
-  chain
+  factoryContract: Contract,
+  contractType: string,
+  address: any,
+  chain: string
 ) {
   let filter = factoryContract.filters.ContractDeployed(address, null, null);
   let events = await factoryContract.queryFilter(filter);
@@ -43,8 +48,12 @@ export async function getContractDeployedEvents(
   return deployedContracts;
 }
 
-export function translateSplits(splits) {
-  return splits.map(function (split) {
+export function translateSplits(splits: any[]) {
+  return splits.map(function (split: {
+    account: any;
+    name: any;
+    percentage: { toNumber: () => number };
+  }) {
     return {
       account: split.account,
       address: split.account,
@@ -74,11 +83,12 @@ export function translateExpenses(expenses: any) {
 }
 
 export async function getBaseContractData(
-  contractType,
-  contract,
-  factoryContract,
-  provider,
-  address
+  contractType: string,
+  contract: Contract,
+  factoryContract: Contract,
+  provider: AlchemyProvider,
+  address: any,
+  chain: string
 ) {
   let ownerAddress = await contract.owner();
   let contractName = await contract.contractName();
@@ -101,20 +111,75 @@ export async function getBaseContractData(
     .timestamp;
   let withdrawalHistory = await getWithdrawalData(address, provider);
 
+  let tokenBalances = await getTokenBalances(address, provider, chain);
+
   return {
     ownerAddress,
     contractName,
     deployDate,
     withdrawalHistory,
     reconfigurable,
+    tokenBalances,
   };
 }
 
-export async function getWithdrawalData(address, provider) {
-  // Hard coding simpleRevShare for now bc all contracts have the same withdrawal event
-  let contract = getContractInstance(address, "simpleRevShare", provider);
-  let withdrawFilter = contract.filters.Withdrawal();
-  let withdrawalEvents = await contract.queryFilter(withdrawFilter);
+// Gets the ERC20 + Native token balances for a given Calica Contract
+export async function getTokenBalances(
+  address: string,
+  provider: Provider | Signer,
+  chain: string
+) {
+  let nativeTokenBalance = await provider.getBalance(address);
+  let tokenBalances = {
+    [ethers.constants.AddressZero]: {
+      symbol: chain == "homestead" || "goerli" ? "ETH" : "MATIC",
+      balance: convertWei(nativeTokenBalance),
+    },
+  };
+
+  for (let [tokenAddress, token] of Object.entries(SUPPORTED_TOKENS[chain])) {
+    let tokenContract = new ethers.Contract(
+      tokenAddress,
+      '["function balanceOf(address owner) view returns (uint256)"]',
+      provider
+    );
+    let balance = await tokenContract.balanceOf(address);
+    if (balance > 0) {
+      tokenBalances[tokenAddress] = {
+        symbol: token,
+        balance: convertWei(balance),
+      };
+    }
+  }
+
+  return tokenBalances;
+}
+
+export async function getWithdrawalData(
+  address: string,
+  provider: Provider | Signer
+) {
+  // Hardcoded ABIs for old + new withdrawal events
+  // NOTE: new withdrawal events have tokenAddress for ERC20 support
+  let filterContract = new ethers.Contract(
+    address,
+    '[{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":true,"internalType":"address","name":"account","type":"address"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"Withdrawal","type":"event"}]',
+    provider
+  );
+  let withdrawFilter = filterContract.filters.Withdrawal();
+  let withdrawalEvents = await filterContract.queryFilter(withdrawFilter);
+
+  let newerFilterContract = new ethers.Contract(
+    address,
+    '[{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":true,"internalType":"address","name":"account","type":"address"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"},{"indexed":false,"internalType":"address","name":"tokenAddress","type":"address"}],"name":"Withdrawal","type":"event"}]',
+    provider
+  );
+  let newerWithdrawFilter = newerFilterContract.filters.Withdrawal();
+  let newerWithdrawalEvents = await newerFilterContract.queryFilter(
+    newerWithdrawFilter
+  );
+
+  withdrawalEvents = withdrawalEvents.concat(newerWithdrawalEvents);
 
   let retEvents = [];
 
@@ -123,6 +188,9 @@ export async function getWithdrawalData(address, provider) {
       amount: convertWei(withdrawalEvent.args.amount),
       account: withdrawalEvent.args.account,
       timestamp: convertTimestamp(withdrawalEvent.args.timestamp),
+      tokenAddress:
+        withdrawalEvent.args.tokenAddress ||
+        "0x0000000000000000000000000000000000000000",
     });
   }
 

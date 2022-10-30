@@ -36,6 +36,8 @@
           case "simple":
             contractData = convertSimpleFormData(pagesState[1]);
 
+            console.log(contractData);
+
             factoryContract = getFactoryContract(
               "simpleRevShareFactory",
               $signer,
@@ -43,12 +45,10 @@
             );
 
             try {
-              console.log(pagesState[1]);
-
               let res = await factoryContract.createNewRevenueShare(
                 contractData,
                 pagesState[1].reconfigurable == "true",
-                true
+                pagesState[1].pushETH == "true"
               );
               let receipt = await res.wait();
 

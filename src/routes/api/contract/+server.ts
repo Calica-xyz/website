@@ -21,8 +21,8 @@ export async function GET({ url }) {
   const chain = url.searchParams.get("chain");
   const contractType = url.searchParams.get("type");
 
-  // let alchemyProvider = getAlchemyProvider(chain);
-  let nodeProvider = getValidationCloudProvider(chain);
+  let nodeProvider = getAlchemyProvider(chain);
+  // let nodeProvider = getValidationCloudProvider(chain);
 
   if (contractType == "simple") {
     let contract = getContractInstance(address, "simpleRevShare", nodeProvider);
@@ -44,7 +44,8 @@ export async function GET({ url }) {
         contract,
         factoryContract,
         nodeProvider,
-        address
+        address,
+        chain
       )),
     });
   } else if (contractType == "capped") {
@@ -77,7 +78,8 @@ export async function GET({ url }) {
         contract,
         factoryContract,
         nodeProvider,
-        address
+        address,
+        chain
       )),
     });
   } else if (contractType == "rollup") {
@@ -137,7 +139,8 @@ export async function GET({ url }) {
         contract,
         factoryContract,
         nodeProvider,
-        address
+        address,
+        chain
       )),
       profitAddress,
     });

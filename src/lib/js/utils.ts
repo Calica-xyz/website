@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { CONTRACT_ABIS, CONTRACT_ADDRESSES } from "./globals";
+import { CONTRACT_ABIS, CONTRACT_ADDRESSES, SUPPORTED_TOKENS } from "./globals";
 
 export function getContractInstance(
   address: string,
@@ -146,4 +146,15 @@ export async function getContractSettings(address: string) {
   let data = await res.json();
 
   return data;
+}
+
+export function getTokenSymbol(tokenAddress: string, chain: string) {
+  if (tokenAddress == ethers.constants.AddressZero) {
+    return chain == "maticmum" || chain == "matic" ? "MATIC" : "ETH";
+  }
+
+  let token = SUPPORTED_TOKENS[chain][tokenAddress];
+  if (token) return token;
+
+  return "Unknown";
 }

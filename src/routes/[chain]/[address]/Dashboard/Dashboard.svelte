@@ -4,7 +4,6 @@
   import SimpleRevShare from "./SimpleRevShare.svelte";
   import CappedRevShare from "./CappedRevShare.svelte";
   import NFTRevShare from "./NFTRevShare.svelte";
-  import TotalPaid from "./TotalPaid.svelte";
   import StakeholderList from "./StakeholderList.svelte";
   import Payouts from "./Payouts.svelte";
   import Earnings from "./Earnings.svelte";
@@ -13,9 +12,16 @@
 
   import { signerAddress } from "svelte-ethers-store";
   import { page } from "$app/stores";
-  import { getContractSettings, getCurrency, roundNumber } from "$lib/js/utils";
+  import {
+    getContractSettings,
+    getCurrency,
+    getTokenSymbol,
+    roundNumber,
+  } from "$lib/js/utils";
   import { onMount } from "svelte";
   import ExpenseSubmission from "./ExpenseSubmission.svelte";
+  import TokenBalance from "./TokenBalance.svelte";
+  import TokensPaid from "./TokensPaid.svelte";
 
   export let ownerAddress: string;
   export let contractName: string;
@@ -25,7 +31,15 @@
   export let withdrawalHistory: any;
   export let addressMappings: any;
   export let contractSettings: any;
-  export let profitAddress: string = "";
+  export let tokenBalances: any;
+
+  // let totalAmountsPaid: { [key: string]: number } = {
+  //   ETH: 18.239,
+  //   DAI: 1000,
+  //   USDC: 2.1,
+  //   USDT: 0.0001,
+  //   MATIC: 3,
+  // };
 
   let relativeDeployDate = moment.unix(deployDate as number).fromNow();
   let formattedDeployDate = moment
@@ -101,16 +115,19 @@
     };
   }
 
-  function getTotalAmountPaid(isOwner: boolean) {
-    let totalPaid = 0;
+  function getTotalAmountsPaid(withdrawalHistory: any) {
+    let totalAmountsPaid = {};
+    for (let withdrawal of withdrawalHistory) {
+      let symbol = getTokenSymbol(withdrawal.tokenAddress, $page.params.chain);
 
-    for (let i = 0; i < withdrawalHistory.length; i++) {
-      if (isOwner || $signerAddress == withdrawalHistory[i].account) {
-        totalPaid += withdrawalHistory[i].amount;
+      if (symbol in totalAmountsPaid) {
+        totalAmountsPaid[symbol] += withdrawal.amount;
+      } else {
+        totalAmountsPaid[symbol] = withdrawal.amount;
       }
     }
 
-    return roundNumber(totalPaid);
+    return totalAmountsPaid;
   }
 
   function getStakeholderListData() {
@@ -143,27 +160,37 @@
     for (let i = 0; i < withdrawalHistory.length; i++) {
       let amount = withdrawalHistory[i].amount;
       let timestamp = withdrawalHistory[i].timestamp;
+      let token = withdrawalHistory[i].tokenAddress;
 
       if (isOwner || $signerAddress == withdrawalHistory[i].account) {
-        payoutHistoryMap[timestamp] =
-          timestamp in payoutHistoryMap
-            ? payoutHistoryMap[timestamp] + amount
-            : amount;
+        if (token in payoutHistoryMap) {
+          payoutHistoryMap[token][timestamp] =
+            timestamp in payoutHistoryMap[token]
+              ? payoutHistoryMap[token][timestamp] + amount
+              : amount;
+        } else {
+          payoutHistoryMap[token] = {
+            [timestamp]: amount,
+          };
+        }
       }
     }
 
-    for (let [timestamp, amount] of Object.entries(payoutHistoryMap)) {
-      payoutHistory.push({
-        x: timestamp,
-        y: roundNumber(amount),
-      });
+    for (let [token, value] of Object.entries(payoutHistoryMap)) {
+      for (let [timestamp, amount] of Object.entries(value)) {
+        payoutHistory.push({
+          token: getTokenSymbol(token, $page.params.chain),
+          timestamp,
+          amount,
+        });
+      }
     }
 
     return payoutHistory;
   }
 
   function getCumulativeEarningsData(isOwner: boolean) {
-    let datasets: { label: any; data: unknown }[] = [];
+    let datasets: { label: any; data: unknown; token: string }[] = [];
     let data = {
       datasets,
     };
@@ -172,32 +199,50 @@
 
     for (let i = 0; i < withdrawalHistory.length; i++) {
       let account = withdrawalHistory[i].account;
+      let token = withdrawalHistory[i].tokenAddress;
 
       if (isOwner || $signerAddress == account) {
         if (account in accountMap) {
-          let previousAmount =
-            accountMap[account][accountMap[account].length - 1].y;
+          if (token in accountMap[account]) {
+            let previousAmount =
+              accountMap[account][token][accountMap[account][token].length - 1]
+                .y;
 
-          accountMap[account].push({
-            x: withdrawalHistory[i].timestamp,
-            y: previousAmount + withdrawalHistory[i].amount,
-          });
-        } else {
-          accountMap[account] = [
-            {
+            accountMap[account][token].push({
               x: withdrawalHistory[i].timestamp,
-              y: withdrawalHistory[i].amount,
-            },
-          ];
+              y: previousAmount + withdrawalHistory[i].amount,
+            });
+          } else {
+            accountMap[account][token] = [
+              {
+                x: withdrawalHistory[i].timestamp,
+                y: withdrawalHistory[i].amount,
+              },
+            ];
+          }
+        } else {
+          accountMap[account] = {
+            [token]: [
+              {
+                x: withdrawalHistory[i].timestamp,
+                y: withdrawalHistory[i].amount,
+              },
+            ],
+          };
         }
       }
     }
 
-    for (let [key, value] of Object.entries(accountMap)) {
-      datasets.push({
-        label: addressMappings[key],
-        data: value,
-      });
+    for (let [account, value] of Object.entries(accountMap)) {
+      for (let [token, data] of Object.entries(value)) {
+        let symbol = getTokenSymbol(token, $page.params.chain);
+
+        datasets.push({
+          label: addressMappings[account] + " (" + symbol + ")",
+          data,
+          token: symbol,
+        });
+      }
     }
 
     return data;
@@ -242,13 +287,8 @@
 
   <div
     class="flex-1 flex flex-wrap gap-x-8 gap-y-8 justify-between"
-    style="min-width: min(650px, 100%)"
+    style="min-width: min(340px, 100%)"
   >
-    <TotalPaid
-      class="flex-auto min-w-[180px]"
-      amount={getTotalAmountPaid(isOwner)}
-      {currency}
-    />
     <StakeholderList
       class="flex-auto"
       data={getStakeholderListData()}
@@ -257,7 +297,15 @@
   </div>
 </div>
 
-<div class="flex flex-wrap justify-center gap-x-8 gap-y-8">
+<div class="flex flex-wrap justify-center gap-8">
+  <div class="flex flex-row gap-8 flex-wrap w-full">
+    <TokensPaid
+      class="flex-auto min-w-[200px]"
+      totalAmountsPaid={getTotalAmountsPaid(withdrawalHistory)}
+    />
+    <TokenBalance class="flex-auto min-w-[250px]" {tokenBalances} />
+  </div>
+
   {#if agreementType === "simple"}
     <SimpleRevShare
       {isOwner}

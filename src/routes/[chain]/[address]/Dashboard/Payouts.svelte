@@ -29,6 +29,17 @@
   export let data: any;
   export let currency: string;
 
+  let labelColors = [
+    getHexCode("--color-primary"),
+    getHexCode("--color-tertiary"),
+    getHexCode("--color-secondary"),
+    getHexCode("--color-quaternary"),
+    getHexCode("--color-quinary"),
+    getHexCode("--color-senary"),
+    getHexCode("--color-septenary"),
+    getHexCode("--color-octonary"),
+  ];
+
   let canvas: HTMLCanvasElement;
   let currentChart: Chart;
   let configs = getConfigs(data);
@@ -48,12 +59,12 @@
     let formattedTimestamps = [];
 
     for (let i = 0; i < data.length; i++) {
-      let unixDate = fromUnixTime(data[i].x);
+      let unixDate = fromUnixTime(data[i].timestamp);
       dates.push(unixDate);
 
       formattedTimestamps.push({
-        x: data[i].x,
-        y: data[i].y,
+        x: data[i].timestamp,
+        y: data[i].amount,
       });
     }
 
@@ -85,7 +96,8 @@
     for (let i = 0; i < dates.length; i++) {
       dates[i] = {
         date: dates[i],
-        y: data[i].y,
+        y: data[i].amount,
+        token: data[i].token,
       };
     }
 
@@ -127,6 +139,7 @@
       allDates.push({
         date: startDay,
         y: null,
+        token: null,
       });
 
       startDay = addDays(startDay, 1);
@@ -139,39 +152,67 @@
       aggregatedDates.push({
         date: dateFunc(date.date),
         y: date.y,
+        token: date.token,
       });
     }
 
     let aggregatedDatesMap: any = {};
     for (let aggregateDate of aggregatedDates) {
       if (!aggregatedDatesMap[aggregateDate.date]) {
-        aggregatedDatesMap[aggregateDate.date] = aggregateDate.y;
+        aggregatedDatesMap[aggregateDate.date] = {
+          [aggregateDate.token]: aggregateDate.y,
+        };
       } else {
-        aggregatedDatesMap[aggregateDate.date] += aggregateDate.y;
+        if (aggregatedDatesMap[aggregateDate.date][aggregateDate.token]) {
+          aggregatedDatesMap[aggregateDate.date][aggregateDate.token] +=
+            aggregateDate.y;
+        } else {
+          aggregatedDatesMap[aggregateDate.date][aggregateDate.token] =
+            aggregateDate.y;
+        }
       }
     }
 
     aggregatedDates = [];
-    for (let [key, value] of Object.entries(aggregatedDatesMap)) {
-      aggregatedDates.push({
-        x: key,
-        y: value,
-      });
+    for (let [timestamp, value] of Object.entries(aggregatedDatesMap)) {
+      for (let [token, amount] of Object.entries(value)) {
+        aggregatedDates.push({
+          x: timestamp,
+          y: amount,
+          token: token,
+        });
+      }
     }
 
     return aggregatedDates;
   }
 
-  let barData = {
-    datasets: [
-      {
-        backgroundColor: getHexCode("--color-primary"),
-        label: currency,
-        data: configs.data,
+  function getDatasets() {
+    let datasets = [];
+    let labelColorInd = 0;
+
+    let tokens: string[] = [];
+    for (let i = 0; i < configs.data.length; i++) {
+      if (!tokens.includes(configs.data[i].token)) {
+        tokens.push(configs.data[i].token);
+      }
+    }
+
+    for (let i = 0; i < tokens.length; i++) {
+      let filteredData = configs.data.filter((item) => item.token == tokens[i]);
+
+      datasets.push({
+        backgroundColor: labelColors[labelColorInd++ % labelColors.length],
+        label: " " + tokens[i],
+        data: filteredData,
         maxBarThickness: 100,
-      },
-    ],
-  };
+      });
+    }
+
+    return {
+      datasets,
+    };
+  }
 
   function redrawChart(delay: number) {
     if (currentChart) currentChart.destroy();
@@ -198,6 +239,7 @@
         },
         scales: {
           x: {
+            stacked: true,
             offset: true,
             grid: {
               display: false,
@@ -205,13 +247,14 @@
             },
           },
           y: {
+            stacked: true,
             offset: true,
             startAtZero: true,
             drawBorder: false,
           },
         },
       },
-      data: barData,
+      data: getDatasets(),
     });
   }
 

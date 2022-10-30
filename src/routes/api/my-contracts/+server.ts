@@ -14,8 +14,8 @@ export async function GET({ url }) {
   let deployedContracts = [];
 
   for (let chain of SUPPORTED_NETWORKS) {
-    // let alchemyProvider = getAlchemyProvider(chain);
-    let nodeProvider = getValidationCloudProvider(chain);
+    let nodeProvider = getAlchemyProvider(chain);
+    // let nodeProvider = getValidationCloudProvider(chain);
 
     for (let contractType of CONTRACT_TYPES) {
       try {

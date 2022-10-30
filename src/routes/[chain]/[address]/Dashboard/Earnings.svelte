@@ -60,7 +60,6 @@
       dataset["propagate"] = true;
       dataset["tension"] = 0.1;
       dataset["pointBorderWidth"] = 5;
-      dataset.label = "  " + dataset.label;
 
       for (let i = 0; i < dataset.data.length; i++) {
         dataset.data[i].x = fromUnixTime(dataset.data[i].x);
@@ -93,6 +92,15 @@
           legend: {
             display: data.datasets.length > 1,
             position: "bottom",
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                let label = context.dataset.label || "";
+                let value = context.parsed.y;
+                return " " + label + ": " + value;
+              },
+            },
           },
         },
         scales: {
