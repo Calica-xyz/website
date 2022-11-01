@@ -9,12 +9,15 @@
   import { signerAddress } from "svelte-ethers-store";
   import { navigating, page } from "$app/stores";
 
-  $: showFooter = $page.routeId != "/[chain]/[address]" && $page.routeId != "";
+  $: showFooter =
+    $page.routeId != "/[chain]/[address]" &&
+    $page.routeId != "[chain]/[address]" &&
+    $page.routeId != "";
   $: showContent =
     $page.routeId == "blog" ||
     $page.routeId == "contact" ||
     $page.routeId == "";
-  $: showNavbar = $page.routeId != "";
+  $: showNavbar = $page.routeId != "/" && $page.routeId != "";
 </script>
 
 <Analytics />

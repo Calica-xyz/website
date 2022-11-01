@@ -45,7 +45,7 @@ export async function GET({ url }) {
           contractType +
           " on chain: " +
           chain;
-        console.log(errorMessage);
+        // console.log(errorMessage);
         // throw error(500, errorMessage);
       }
     }

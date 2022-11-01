@@ -44,6 +44,7 @@ export const SUPPORTED_TOKENS = {
   maticmum: {},
   goerli: {
     "0xBA62BCfcAaFc6622853cca2BE6Ac7d845BC0f2Dc": "FAU",
+    "0x07865c6e87b9f70255377e024ace6630c1eaa37f": "USDC",
   },
   homestead: {
     "0x6b175474e89094c44da98b954eedeac495271d0f": "DAI",
