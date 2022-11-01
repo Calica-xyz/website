@@ -1,10 +1,11 @@
 <script lang="ts">
   import ButtonGroup from "$lib/Flowbite/ButtonGroup.svelte";
   import Input from "$lib/Flowbite/Input.svelte";
+  import InformationCircle from "$lib/Icons/InformationCircle.svelte";
   import { ValidationMessage } from "@felte/reporter-svelte";
   import { reporter } from "@felte/reporter-svelte";
   import { createForm } from "felte";
-  import { Helper, InformationCircle, Tooltip } from "flowbite-svelte";
+  import { Helper, Tooltip } from "flowbite-svelte";
   import {
     validateContractName,
     validateExpenses,
@@ -20,7 +21,7 @@
   let name = initialValues.name;
   let profitAddress = initialValues.profitAddress;
 
-  const { form, data } = createForm({
+  const { form, data, setData } = createForm({
     extend: reporter,
     onSubmit,
     validate: (values: {
@@ -91,7 +92,7 @@
             <div class="flex gap-2 items-center">
               <h5 class="text-gray-600">Profit Address</h5>
               <div id="profitAddressInfo">
-                <InformationCircle class="size-15 text-gray-700" />
+                <InformationCircle size="20" />
               </div>
               <Tooltip
                 style="dark"
@@ -127,17 +128,13 @@
       class="my-10 max-w-[700px]"
       formPrefix={"expense"}
       list={initialValues.expense}
+      {setData}
     />
 
     <ButtonGroup
       class="mb-8 float-right"
       buttonNames={["Prev", "Next"]}
-      buttonCallbacks={[
-        () => onBack($data),
-        () => {
-          console.log($data);
-        },
-      ]}
+      buttonCallbacks={[() => onBack($data), () => {}]}
       buttonTypes={["button", "submit"]}
     />
   </div>

@@ -2,7 +2,9 @@
   import FloatingLabelInput from "$lib/Flowbite/FloatingLabelInput.svelte";
   import CurrencyIcon from "$lib/Icons/CurrencyIcon.svelte";
   import { ValidationMessage } from "@felte/reporter-svelte";
+  import { ethers } from "ethers";
   import { Helper } from "flowbite-svelte";
+  import TokenDropdown from "./TokenDropdown.svelte";
 
   export let formPrefix: string = "";
   export let name: string = "";
@@ -10,6 +12,8 @@
   export let description: string = "";
   export let cost: string = "";
   export let amountPaid: number = 0;
+  export let tokenAddress: string = ethers.constants.AddressZero;
+  export let setData;
 </script>
 
 <div class={`${$$props.class} flex flex-1 flex-wrap`}>
@@ -59,11 +63,11 @@
 
   <ValidationMessage for={`${formPrefix}cost`} let:messages={message}>
     <div
-      class={`ml-[-1px] flex max-w-[120px] flex-1 order-2 focus-within:z-10 ${
+      class={`ml-[-1px] flex flex-1 order-2 focus-within:z-10 ${
         message != null ? "z-10" : ""
       }`}
     >
-      <div>
+      <div class="max-w-[100px] min-w-[50px]">
         <FloatingLabelInput
           color={message != null ? "red" : "base"}
           class="rounded-none"
@@ -86,9 +90,9 @@
       </div>
 
       <div
-        class="text-white ml-[-1px] h-10 min-w-[30px] bg-gray-100 w-8 border grid place-items-center rounded-lg rounded-l-none rounded-b-none sm:rounded-r-lg"
+        class="text-white ml-[-1px] h-10 bg-gray-100 border grid place-items-center rounded-lg rounded-l-none rounded-b-none sm:rounded-r-lg"
       >
-        <CurrencyIcon size="15" />
+        <TokenDropdown bind:tokenAddress {formPrefix} {setData} />
       </div>
     </div>
   </ValidationMessage>

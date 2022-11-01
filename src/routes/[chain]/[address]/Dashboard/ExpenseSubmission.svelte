@@ -2,14 +2,20 @@
   import Card from "$lib/Flowbite/Card.svelte";
   import Table from "$lib/Flowbite/Table.svelte";
   import TableHead from "$lib/Flowbite/utils/TableHead.svelte";
-  import Progressbar from "$lib/Flowbite/Progressbar.svelte";
-  import { getCurrency } from "$lib/js/utils";
+  import { page } from "$app/stores";
+  import { signer } from "svelte-ethers-store";
+  import {
+    getContractInstance,
+    getCurrency,
+    getTokenSymbol,
+  } from "$lib/js/utils";
   import {
     TableBody,
     TableBodyCell,
     TableBodyRow,
     TableHeadCell,
   } from "flowbite-svelte";
+  import Button from "$lib/Flowbite/Button.svelte";
 
   export let data: any;
   export let chain: string;
@@ -28,12 +34,36 @@
         <TableHeadCell>Reimbursed</TableHeadCell>
       </TableHead>
       <TableBody class="divide-y">
-        {#each data as expense}
+        {#each data as expense, i}
           <TableBodyRow class="">
             <TableBodyCell>{expense.name}</TableBodyCell>
             <TableBodyCell>{expense.description}</TableBodyCell>
-            <TableBodyCell>{`${expense.cost} ${currency}`}</TableBodyCell>
-            <TableBodyCell>{`${expense.amountPaid} ${currency}`}</TableBodyCell>
+            <TableBodyCell
+              >{`${expense.cost} ${getTokenSymbol(
+                expense.tokenAddress,
+                chain
+              )}`}</TableBodyCell
+            >
+            <TableBodyCell
+              >{`${expense.amountPaid} ${getTokenSymbol(
+                expense.tokenAddress,
+                chain
+              )}`}</TableBodyCell
+            >
+            <TableBodyCell
+              ><Button
+                on:click={async () => {
+                  let contract = getContractInstance(
+                    $page.params.address,
+                    "expenseSubmission",
+                    $signer
+                  );
+
+                  await contract.reimburseExpenses([i]);
+                }}
+                size="xs">Pay</Button
+              ></TableBodyCell
+            >
           </TableBodyRow>
         {/each}
       </TableBody>

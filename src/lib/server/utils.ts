@@ -78,6 +78,7 @@ export function translateExpenses(expenses: any) {
       name: expense.name,
       cost: parseFloat(formatEther(expense.cost)),
       amountPaid: parseFloat(formatEther(expense.amountPaid)),
+      tokenAddress: expense.tokenAddress,
     };
   });
 }

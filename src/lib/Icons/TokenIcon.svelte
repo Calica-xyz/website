@@ -1,14 +1,15 @@
 <script lang="ts">
   export let token: string;
+  export let size = "25";
 </script>
 
 {#if token == "ETH"}
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="25"
-    height="25"
+    width={size}
+    height={size}
     viewBox="0 0 32 32"
-    ><g fill="none" fill-rule="evenodd"
+    ><title>{token}</title><g fill="none" fill-rule="evenodd"
       ><circle cx="16" cy="16" r="16" fill="#627EEA" /><g
         fill="#FFF"
         fill-rule="nonzero"
@@ -27,9 +28,9 @@
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 2000 2000"
-    width="25"
-    height="25"
-    ><path
+    width={size}
+    height={size}
+    ><title>{token}</title><path
       d="M1000,0c552.26,0,1000,447.74,1000,1000S1552.24,2000,1000,2000,0,1552.38,0,1000,447.68,0,1000,0"
       fill="#53ae94"
     /><path
@@ -42,9 +43,9 @@
     xmlns="http://www.w3.org/2000/svg"
     data-name="86977684-12db-4850-8f30-233a7c267d11"
     viewBox="0 0 2000 2000"
-    width="25"
-    height="25"
-  >
+    width={size}
+    height={size}
+    ><title>{token}</title>
     <path
       d="M1000 2000c554.17 0 1000-445.83 1000-1000S1554.17 0 1000 0 0 445.83 0 1000s445.83 1000 1000 1000z"
       fill="#2775ca"
@@ -64,8 +65,8 @@
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:xodm="http://www.corel.com/coreldraw/odm/2003"
     xml:space="preserve"
-    width="25"
-    height="25"
+    width={size}
+    height={size}
     version="1.1"
     shape-rendering="geometricPrecision"
     text-rendering="geometricPrecision"
@@ -73,7 +74,7 @@
     fill-rule="evenodd"
     clip-rule="evenodd"
     viewBox="0 0 444.44 444.44"
-  >
+    ><title>{token}</title>
     <g id="Layer_x0020_1">
       <metadata id="CorelCorpID_0Corel-Layer" />
       <path
@@ -94,10 +95,10 @@
     id="katman_1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
-    width="25"
-    height="25"
+    width={size}
+    height={size}
     viewBox="150 50 500 500"
-  >
+    ><title>{token}</title>
     <path
       class="st0"
       d="M399.8,45.4L399.8,45.4C540.2,45.4,654,159.2,654,299.6l0,0c0,140.4-113.8,254.1-254.1,254.1l0,0
@@ -120,13 +121,26 @@
       </g>
     </g>
   </svg>
+{:else if token == "OCEAN"}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    id="Layer_1"
+    data-name="Layer 1"
+    viewBox="0 0 368.47 372.75"
+    width={size}
+    height={size}
+    ><title>{token}</title><path
+      d="M47.13,179.41A19.82,19.82,0,1,1,27.31,159.6a19.82,19.82,0,0,1,19.82,19.81m314.91,0a19.82,19.82,0,1,1-19.81-19.81A19.82,19.82,0,0,1,362,179.41M204.59,257.6a19.82,19.82,0,1,1-19.81-19.81,19.82,19.82,0,0,1,19.81,19.81M125.32,219a19.82,19.82,0,1,1-19.82-19.82A19.82,19.82,0,0,1,125.32,219m157.46,0A19.82,19.82,0,1,1,263,199.23,19.82,19.82,0,0,1,282.78,219M40.7,239.4A13.39,13.39,0,1,1,27.32,226,13.39,13.39,0,0,1,40.7,239.4m314.91,0A13.39,13.39,0,1,1,342.23,226a13.4,13.4,0,0,1,13.39,13.39M198.16,318.65a13.39,13.39,0,1,1-13.38-13.38,13.4,13.4,0,0,1,13.38,13.38M118.9,279a13.39,13.39,0,1,1-13.38-13.39A13.38,13.38,0,0,1,118.9,279m157.46,0A13.39,13.39,0,1,1,263,265.64,13.39,13.39,0,0,1,276.35,279M34.28,286.52a7,7,0,1,1-7-7,7,7,0,0,1,7,7m314.91,0a7,7,0,1,1-7-7,7,7,0,0,1,7,7M191.73,365.79a7,7,0,1,1-7-7,7,7,0,0,1,7,7m-79.26-39.63a7,7,0,1,1-7-7,7,7,0,0,1,7,7m157.46,0a7,7,0,1,1-7-7,7,7,0,0,1,7,7M211,26.78A26.78,26.78,0,1,1,184.24,0,26.78,26.78,0,0,1,211,26.78M211,106a26.78,26.78,0,1,1-26.77-26.78A26.78,26.78,0,0,1,211,106m0,78.2a26.78,26.78,0,1,1-26.77-26.78A26.78,26.78,0,0,1,211,184.24M368.47,106a26.78,26.78,0,1,1-26.78-26.78A26.78,26.78,0,0,1,368.47,106M53.56,106A26.78,26.78,0,1,1,26.78,79.26,26.78,26.78,0,0,1,53.56,106m79.26-39.63A26.78,26.78,0,1,1,106,39.63a26.78,26.78,0,0,1,26.78,26.78m0,78.19A26.78,26.78,0,1,1,106,117.82a26.78,26.78,0,0,1,26.78,26.78M290.28,66.41A26.78,26.78,0,1,1,263.5,39.63a26.78,26.78,0,0,1,26.78,26.78m0,78.19a26.78,26.78,0,1,1-26.78-26.78,26.78,26.78,0,0,1,26.78,26.78"
+      style="fill:#141414"
+    /></svg
+  >
 {:else}
   <svg
     class="svg-icon"
     style="vertical-align: middle;fill: currentColor;overflow: hidden;"
     viewBox="0 0 1024 1024"
-    width="25"
-    height="25"
+    width={size}
+    height={size}
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     ><path

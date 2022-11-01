@@ -4,6 +4,7 @@
   import { fade } from "svelte/transition";
   import { X, Plus } from "svelte-heros";
   import { signerAddress } from "svelte-ethers-store";
+  import { ethers } from "ethers";
 
   export let list: any[] = [
     {
@@ -11,9 +12,11 @@
       address: $signerAddress,
       description: "First Expense",
       cost: "",
+      tokenAddress: ethers.constants.AddressZero,
     },
   ];
   export let formPrefix = "";
+  export let setData;
 
   function add() {
     list = [
@@ -23,6 +26,7 @@
         address: "",
         description: "",
         cost: "",
+        tokenAddress: ethers.constants.AddressZero,
       },
     ];
   }
@@ -44,7 +48,9 @@
         bind:address={item.address}
         bind:description={item.description}
         bind:cost={item.cost}
+        bind:tokenAddress={item.tokenAddress}
         amountPaid={item.amountPaid}
+        {setData}
       />
       {#if item.amountPaid && item.amountPaid > 0}
         <div class="w-[38px] h-[40px]" />

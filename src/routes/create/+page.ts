@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
 /** @type {import('./$types').PageLoad} */
-export function load({ }) {
+export function load({}) {
   return {};
 }
 
@@ -51,17 +51,28 @@ export function convertExpenseFormData(formData: any) {
   let expenses = [];
 
   let filteredData = formData.expense.filter((expense: any) => {
-    return expense.name && expense.address && expense.cost;
+    return (
+      expense.name &&
+      expense.address &&
+      expense.cost &&
+      expense.description &&
+      expense.tokenAddress
+    );
   });
 
   for (let expense of filteredData) {
-    expenses.push([expense.name, expense.address, expense.description, ethers.utils.parseEther(expense.cost.toString()), ethers.utils.parseEther("0")]);
+    expenses.push([
+      expense.name,
+      expense.address,
+      ethers.utils.parseEther(expense.cost.toString()),
+      ethers.utils.parseEther("0"),
+      expense.tokenAddress,
+      expense.description,
+    ]);
   }
 
   contractData.push(expenses);
   contractData.push(formData.profitAddress);
-
-  console.log(contractData);
 
   return contractData;
 }

@@ -16,7 +16,6 @@
     getContractSettings,
     getCurrency,
     getTokenSymbol,
-    roundNumber,
   } from "$lib/js/utils";
   import { onMount } from "svelte";
   import ExpenseSubmission from "./ExpenseSubmission.svelte";
@@ -32,14 +31,6 @@
   export let addressMappings: any;
   export let contractSettings: any;
   export let tokenBalances: any;
-
-  // let totalAmountsPaid: { [key: string]: number } = {
-  //   ETH: 18.239,
-  //   DAI: 1000,
-  //   USDC: 2.1,
-  //   USDT: 0.0001,
-  //   MATIC: 3,
-  // };
 
   let relativeDeployDate = moment.unix(deployDate as number).fromNow();
   let formattedDeployDate = moment
@@ -303,7 +294,11 @@
       class="flex-auto min-w-[200px]"
       totalAmountsPaid={getTotalAmountsPaid(withdrawalHistory)}
     />
-    <TokenBalance class="flex-auto min-w-[250px]" {tokenBalances} />
+    <TokenBalance
+      class="flex-auto min-w-[250px]"
+      {tokenBalances}
+      expenses={chartData}
+    />
   </div>
 
   {#if agreementType === "simple"}

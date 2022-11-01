@@ -2,7 +2,12 @@
   import { signerAddress, chainId } from "svelte-ethers-store";
   import { fade } from "svelte/transition";
   import { Alert } from "flowbite-svelte";
-  import { getCurrency, getReadableChainFromId } from "$lib/js/utils";
+  import {
+    getChainFromId,
+    getCurrency,
+    getReadableChainFromId,
+    getTokenSymbol,
+  } from "$lib/js/utils";
   import CurrencyIcon from "$lib/Icons/CurrencyIcon.svelte";
   import ContractTypeIcon from "$lib/Icons/ContractTypeIcon.svelte";
 
@@ -73,7 +78,7 @@
       expenseStr += '<div class="flex flex-col">';
       expenseStr += `<p class="text-sm text-gray-800">${term.name}: ${
         term.cost
-      } ${getCurrency($chainId)}</p>`;
+      } ${getTokenSymbol(term.tokenAddress, getChainFromId($chainId))}</p>`;
       expenseStr += `<p class="subtitle-text text-gray-400">${term.address}</p>`;
       expenseStr += "</div>";
     }

@@ -8,6 +8,10 @@
   import { Dropdown, DropdownItem, ToolbarButton } from "flowbite-svelte";
 
   export let tokenBalances: any;
+  export let expenses: any[];
+
+  console.log(expenses);
+  let contractType = $page.url.searchParams.get("type");
 
   async function distributeAllTokens() {
     let tokenAddresses = [];
@@ -18,7 +22,11 @@
       }
     }
 
-    await withdrawTokens(tokenAddresses);
+    if (contractType == "expense") {
+      await reimburseExpenses(tokenAddresses);
+    } else {
+      await withdrawTokens(tokenAddresses);
+    }
   }
 
   async function withdrawTokens(tokenAddresses: string[]) {
@@ -30,6 +38,53 @@
     );
 
     await contract.withdrawTokens(tokenAddresses);
+  }
+
+  async function reimburseExpenses(tokenAddresses: string[]) {
+    let expenseIDs = [];
+
+    for (let tokenAddress of tokenAddresses) {
+      for (let i = 0; i < expenses.length; i++) {
+        let expense = expenses[i];
+
+        if (
+          expense.tokenAddress == tokenAddress &&
+          expense.amountPaid < expense.cost
+        ) {
+          expenseIDs.push(i);
+        }
+      }
+    }
+
+    if (expenseIDs.length > 0) {
+      let contract = getContractInstance(
+        $page.params.address,
+        "expenseSubmission",
+        $signer
+      );
+
+      await contract.reimburseExpenses(expenseIDs);
+    }
+  }
+
+  async function sendAllToProfitAddress() {
+    let tokenAddresses = [];
+
+    for (let [tokenAddress, tokenBalance] of Object.entries(tokenBalances)) {
+      if (tokenBalance.balance > 0) {
+        tokenAddresses.push(tokenAddress);
+      }
+    }
+
+    if (tokenAddresses.length == 0) return;
+
+    let contract = getContractInstance(
+      $page.params.address,
+      "expenseSubmission",
+      $signer
+    );
+
+    await contract.sendToProfitAddress(tokenAddresses);
   }
 </script>
 
@@ -56,8 +111,17 @@
     </ToolbarButton>
     <Dropdown triggeredBy=".dots-menu">
       <div on:click={distributeAllTokens}>
-        <DropdownItem>Pay All</DropdownItem>
+        <DropdownItem
+          >{contractType == "expense"
+            ? "Reimburse All Expenses"
+            : "Distribute All"}</DropdownItem
+        >
       </div>
+      {#if contractType == "expense"}
+        <div on:click={sendAllToProfitAddress}>
+          <DropdownItem>Send All to Profit Address</DropdownItem>
+        </div>
+      {/if}
       <DropdownItem>Swap Tokens</DropdownItem>
     </Dropdown>
   </div>
@@ -74,7 +138,11 @@
           <p>{tokenBalance.balance}</p>
           <Button
             on:click={async () => {
-              await withdrawTokens([tokenAddress]);
+              if (contractType == "expense") {
+                await reimburseExpenses([tokenAddress]);
+              } else {
+                await withdrawTokens([tokenAddress]);
+              }
             }}
             outline
             class="w-10 h-6 text-xs">Pay</Button
