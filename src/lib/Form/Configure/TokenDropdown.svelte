@@ -11,7 +11,8 @@
 
   export let tokenAddress: string = ethers.constants.AddressZero;
   export let formPrefix: string = "";
-  export let setData;
+  export let setData: any;
+  export let disabled: boolean;
 
   $: chain = getChainFromId($chainId);
   $: tokens = [
@@ -27,7 +28,7 @@
   });
 </script>
 
-<Button class="rounded-l-none rounded-r-lg px-2" color="alternative">
+<Button {disabled} class="rounded-l-none rounded-r-lg px-2" color="alternative">
   <Chevron><TokenIcon size="17" token={selectedToken} /></Chevron>
 </Button>
 <Dropdown bind:open={dropdownOpen}>
@@ -40,7 +41,10 @@
       }}
     >
       <DropdownItem
-        ><TokenIcon token={getTokenSymbol(token, chain)} /></DropdownItem
+        ><div class="flex gap-2 items-center">
+          <TokenIcon token={getTokenSymbol(token, chain)} />
+          {getTokenSymbol(token, chain)}
+        </div></DropdownItem
       >
     </div>
   {/each}

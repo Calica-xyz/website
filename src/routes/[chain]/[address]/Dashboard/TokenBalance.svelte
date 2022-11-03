@@ -5,12 +5,17 @@
   import { getContractInstance } from "$lib/js/utils";
   import { page } from "$app/stores";
   import { signer } from "svelte-ethers-store";
-  import { Dropdown, DropdownItem, ToolbarButton } from "flowbite-svelte";
+  import {
+    Dropdown,
+    DropdownItem,
+    InformationCircle,
+    ToolbarButton,
+    Tooltip,
+  } from "flowbite-svelte";
 
   export let tokenBalances: any;
   export let expenses: any[];
 
-  console.log(expenses);
   let contractType = $page.url.searchParams.get("type");
 
   async function distributeAllTokens() {
@@ -86,6 +91,39 @@
 
     await contract.sendToProfitAddress(tokenAddresses);
   }
+
+  function hasExpenseBalanceForToken(tokenAddress: string) {
+    for (let expense of expenses) {
+      if (
+        expense.tokenAddress == tokenAddress &&
+        expense.amountPaid < expense.cost
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function canReimburseExpenses() {
+    for (let [tokenAddress, tokenBalance] of Object.entries(tokenBalances)) {
+      if (tokenBalance.balance > 0 && hasExpenseBalanceForToken(tokenAddress)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function hasContractBalance() {
+    for (let [tokenAddress, tokenBalance] of Object.entries(tokenBalances)) {
+      if (tokenBalance.balance > 0) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 </script>
 
 <Card class={`${$$props.class}`}>
@@ -112,6 +150,7 @@
     <Dropdown triggeredBy=".dots-menu">
       <div on:click={distributeAllTokens}>
         <DropdownItem
+          class={!canReimburseExpenses() ? "cursor-not-allowed " : ""}
           >{contractType == "expense"
             ? "Reimburse All Expenses"
             : "Distribute All"}</DropdownItem
@@ -119,10 +158,13 @@
       </div>
       {#if contractType == "expense"}
         <div on:click={sendAllToProfitAddress}>
-          <DropdownItem>Send All to Profit Address</DropdownItem>
+          <DropdownItem
+            class={!hasContractBalance() ? "cursor-not-allowed " : ""}
+            >Send All to Profit Address</DropdownItem
+          >
         </div>
       {/if}
-      <DropdownItem>Swap Tokens</DropdownItem>
+      <DropdownItem class="cursor-not-allowed">Swap Tokens</DropdownItem>
     </Dropdown>
   </div>
 
@@ -136,17 +178,25 @@
 
         <div class="flex flex-row items-center gap-x-5">
           <p>{tokenBalance.balance}</p>
-          <Button
-            on:click={async () => {
-              if (contractType == "expense") {
-                await reimburseExpenses([tokenAddress]);
-              } else {
-                await withdrawTokens([tokenAddress]);
-              }
-            }}
-            outline
-            class="w-10 h-6 text-xs">Pay</Button
-          >
+          {#if hasExpenseBalanceForToken(tokenAddress)}
+            <Button
+              on:click={async () => {
+                if (contractType == "expense") {
+                  await reimburseExpenses([tokenAddress]);
+                } else {
+                  await withdrawTokens([tokenAddress]);
+                }
+              }}
+              outline
+              class="w-14 h-6 text-xs"
+              >Pay <div id="payButton">
+                <InformationCircle size="16" />
+              </div>
+              <Tooltip style="dark" placement="bottom" triggeredBy="#payButton"
+                >Pay all expenses in this currency</Tooltip
+              ></Button
+            >
+          {/if}
         </div>
       </div>
     {/each}

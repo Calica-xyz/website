@@ -149,7 +149,6 @@ export async function getContractSettings(address: string) {
 }
 
 export function getTokenSymbol(tokenAddress: string, chain: string) {
-  console.log(tokenAddress, chain);
   if (tokenAddress == ethers.constants.AddressZero) {
     return chain == "maticmum" || chain == "matic" ? "MATIC" : "ETH";
   }

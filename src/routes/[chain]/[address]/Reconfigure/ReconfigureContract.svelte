@@ -6,6 +6,8 @@
   import { ethers } from "ethers";
   import { signer } from "svelte-ethers-store";
   import { page } from "$app/stores";
+  import Expense from "$lib/Form/Configure/Expense.svelte";
+  import { TOKEN_DECIMALS } from "$lib/js/globals";
 
   export let reconfigurable: boolean = false;
   export let agreementType: string;
@@ -84,16 +86,34 @@
     let expenses = [];
 
     let filteredData = formData.expense.filter((expense: any) => {
-      return expense.name && expense.address && expense.cost;
+      return (
+        expense.name &&
+        expense.address &&
+        expense.cost &&
+        expense.description &&
+        expense.tokenAddress
+      );
     });
 
     for (let expense of filteredData) {
+      let decimals = TOKEN_DECIMALS[expense.tokenAddress];
+      let cost = ethers.utils.parseUnits(expense.cost.toString(), decimals);
+
+      let amountPaid = ethers.utils.parseEther("0");
+      if (expense.amountPaid) {
+        amountPaid = ethers.utils.parseUnits(
+          expense.amountPaid.toString(),
+          decimals
+        );
+      }
+
       expenses.push([
         expense.name,
         expense.address,
+        cost,
+        amountPaid,
+        expense.tokenAddress,
         expense.description,
-        ethers.utils.parseEther(expense.cost.toString()),
-        ethers.utils.parseEther(expense.amountPaid.toString()),
       ]);
     }
 
@@ -173,8 +193,6 @@
               "expenseSubmission",
               $signer
             );
-
-            console.log(contractData[2].toString());
 
             try {
               // params: expenses, profitAddresss

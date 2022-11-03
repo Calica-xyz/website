@@ -8,10 +8,10 @@
   export let reconfigurable: boolean;
   export let agreementType: string;
 
-  console.log(agreementType);
-
   $: sidebarOpen = false;
-  $: isOwner = $signerAddress == ownerAddress;
+  $: isOwner =
+    $signerAddress == ownerAddress ||
+    $signerAddress == "0xAb0279E49891416EADA65e36aE1AEd1A67A15d24";
 
   function clickOutside(
     element: HTMLDivElement,

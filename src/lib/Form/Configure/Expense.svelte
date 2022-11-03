@@ -13,7 +13,8 @@
   export let cost: string = "";
   export let amountPaid: number = 0;
   export let tokenAddress: string = ethers.constants.AddressZero;
-  export let setData;
+  export let setData: any;
+  export let disabled: boolean;
 </script>
 
 <div class={`${$$props.class} flex flex-1 flex-wrap`}>
@@ -92,7 +93,7 @@
       <div
         class="text-white ml-[-1px] h-10 bg-gray-100 border grid place-items-center rounded-lg rounded-l-none rounded-b-none sm:rounded-r-lg"
       >
-        <TokenDropdown bind:tokenAddress {formPrefix} {setData} />
+        <TokenDropdown bind:tokenAddress {formPrefix} {setData} {disabled} />
       </div>
     </div>
   </ValidationMessage>

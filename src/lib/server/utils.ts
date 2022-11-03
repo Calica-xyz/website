@@ -10,7 +10,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "ethers";
 import { formatEther } from "ethers/lib/utils";
 import { getRedisClient } from "./redis";
-import { SUPPORTED_TOKENS } from "$lib/js/globals";
+import { SUPPORTED_TOKENS, TOKEN_DECIMALS } from "$lib/js/globals";
 
 export async function getContractDeployedEvents(
   factoryContract: Contract,
@@ -71,13 +71,17 @@ export function translateExpenses(expenses: any) {
     cost: any;
     amountPaid: any;
   }) {
+    let decimals = TOKEN_DECIMALS[expense.tokenAddress];
+    let cost = ethers.utils.formatUnits(expense.cost, decimals);
+    let amountPaid = ethers.utils.formatUnits(expense.amountPaid, decimals);
+
     return {
       account: expense.account,
       address: expense.account,
       description: expense.description,
       name: expense.name,
-      cost: parseFloat(formatEther(expense.cost)),
-      amountPaid: parseFloat(formatEther(expense.amountPaid)),
+      cost,
+      amountPaid,
       tokenAddress: expense.tokenAddress,
     };
   });
@@ -99,6 +103,11 @@ export async function getBaseContractData(
     reconfigurable = await contract.isReconfigurable();
   } catch (err) {
     // Older contracts don't have this function
+
+    // Exception for Miss O Cool Girls
+    if (address == "0x4F3bb2Efa4C6Ff7090637c0Ca2c0bdE6fCa9454a") {
+      reconfigurable = true;
+    }
   }
 
   let deployFilter = factoryContract.filters.ContractDeployed(
@@ -141,14 +150,16 @@ export async function getTokenBalances(
   for (let [tokenAddress, token] of Object.entries(SUPPORTED_TOKENS[chain])) {
     let tokenContract = new ethers.Contract(
       tokenAddress,
-      '["function balanceOf(address owner) view returns (uint256)"]',
+      '["function balanceOf(address owner) view returns (uint256)","function decimals() view returns (uint256)"]',
       provider
     );
     let balance = await tokenContract.balanceOf(address);
+    let decimals = await tokenContract.decimals();
+
     if (balance > 0) {
       tokenBalances[tokenAddress] = {
         symbol: token,
-        balance: convertWei(balance),
+        balance: ethers.utils.formatUnits(balance, decimals),
       };
     }
   }
@@ -185,8 +196,14 @@ export async function getWithdrawalData(
   let retEvents = [];
 
   for (let withdrawalEvent of withdrawalEvents) {
+    let decimals = TOKEN_DECIMALS[withdrawalEvent.args.tokenAddress];
+    let amount = ethers.utils.formatUnits(
+      withdrawalEvent.args.amount,
+      decimals
+    );
+
     retEvents.push({
-      amount: convertWei(withdrawalEvent.args.amount),
+      amount,
       account: withdrawalEvent.args.account,
       timestamp: convertTimestamp(withdrawalEvent.args.timestamp),
       tokenAddress:

@@ -19,8 +19,18 @@
 
   export let data: any;
   export let chain: string;
+  export let tokenBalances: any;
 
-  let currency = getCurrency(chain);
+  function enablePayOption(
+    cost: number,
+    reimbursed: number,
+    tokenAddress: string
+  ) {
+    if (!(tokenAddress in tokenBalances)) return false;
+    if (tokenBalances[tokenAddress].balance <= 0) return false;
+
+    return reimbursed < cost;
+  }
 </script>
 
 <div class={$$props.class + " min-w-[100%]"}>
@@ -50,20 +60,23 @@
                 chain
               )}`}</TableBodyCell
             >
-            <TableBodyCell
-              ><Button
-                on:click={async () => {
-                  let contract = getContractInstance(
-                    $page.params.address,
-                    "expenseSubmission",
-                    $signer
-                  );
 
-                  await contract.reimburseExpenses([i]);
-                }}
-                size="xs">Pay</Button
-              ></TableBodyCell
-            >
+            {#if enablePayOption(expense.cost, expense.amountPaid, expense.tokenAddress)}
+              <TableBodyCell
+                ><Button
+                  on:click={async () => {
+                    let contract = getContractInstance(
+                      $page.params.address,
+                      "expenseSubmission",
+                      $signer
+                    );
+
+                    await contract.reimburseExpenses([i]);
+                  }}
+                  size="xs">Pay</Button
+                ></TableBodyCell
+              >
+            {/if}
           </TableBodyRow>
         {/each}
       </TableBody>

@@ -72,7 +72,7 @@
     expenseStr += "</div>";
 
     expenseStr += '<div class="flex flex-col gap-1">';
-    expenseStr += "<p class='mb-0.5 text-gray-800 underline'>Initial Costs</p>";
+    expenseStr += "<p class='mb-0.5 text-gray-800 underline'>Expenses</p>";
 
     for (let term of expenses) {
       expenseStr += '<div class="flex flex-col">';

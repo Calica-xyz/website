@@ -36,8 +36,6 @@
           case "simple":
             contractData = convertSimpleFormData(pagesState[1]);
 
-            console.log(contractData);
-
             factoryContract = getFactoryContract(
               "simpleRevShareFactory",
               $signer,
@@ -86,9 +84,6 @@
 
           case "expense":
             contractData = convertExpenseFormData(pagesState[1]);
-
-            console.log("VALUES: ", pagesState[1]);
-            console.log("DATA:", contractData);
 
             factoryContract = getFactoryContract(
               "expenseSubmissionFactory",

@@ -1,3 +1,4 @@
+import { TOKEN_DECIMALS } from "$lib/js/globals";
 import { ethers } from "ethers";
 
 /** @type {import('./$types').PageLoad} */
@@ -61,10 +62,13 @@ export function convertExpenseFormData(formData: any) {
   });
 
   for (let expense of filteredData) {
+    let decimals = TOKEN_DECIMALS[expense.tokenAddress];
+    let cost = ethers.utils.parseUnits(expense.cost.toString(), decimals);
+
     expenses.push([
       expense.name,
       expense.address,
-      ethers.utils.parseEther(expense.cost.toString()),
+      cost,
       ethers.utils.parseEther("0"),
       expense.tokenAddress,
       expense.description,

@@ -27,7 +27,6 @@
   Chart.register(...registerables);
 
   export let data: any;
-  export let currency: string;
 
   let labelColors = [
     getHexCode("--color-primary"),
@@ -65,6 +64,7 @@
       formattedTimestamps.push({
         x: data[i].timestamp,
         y: data[i].amount,
+        token: data[i].token,
       });
     }
 
@@ -76,6 +76,7 @@
       return {
         x: formattedTimestamp,
         y: item.y,
+        token: item.token,
       };
     });
 
@@ -160,15 +161,15 @@
     for (let aggregateDate of aggregatedDates) {
       if (!aggregatedDatesMap[aggregateDate.date]) {
         aggregatedDatesMap[aggregateDate.date] = {
-          [aggregateDate.token]: aggregateDate.y,
+          [aggregateDate.token]: parseFloat(aggregateDate.y),
         };
       } else {
         if (aggregatedDatesMap[aggregateDate.date][aggregateDate.token]) {
           aggregatedDatesMap[aggregateDate.date][aggregateDate.token] +=
-            aggregateDate.y;
+            parseFloat(aggregateDate.y);
         } else {
           aggregatedDatesMap[aggregateDate.date][aggregateDate.token] =
-            aggregateDate.y;
+            parseFloat(aggregateDate.y);
         }
       }
     }
@@ -283,7 +284,7 @@
           {#each configs.formattedTimestamps as dataItem}
             <TableBodyRow class="">
               <TableBodyCell>{dataItem.x}</TableBodyCell>
-              <TableBodyCell>{dataItem.y + " " + currency}</TableBodyCell>
+              <TableBodyCell>{dataItem.y + " " + dataItem.token}</TableBodyCell>
             </TableBodyRow>
           {/each}
         </TableBody>

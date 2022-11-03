@@ -16,7 +16,7 @@
     },
   ];
   export let formPrefix = "";
-  export let setData;
+  export let setData: any;
 
   function add() {
     list = [
@@ -51,6 +51,7 @@
         bind:tokenAddress={item.tokenAddress}
         amountPaid={item.amountPaid}
         {setData}
+        disabled={item.amountPaid > 0}
       />
       {#if item.amountPaid && item.amountPaid > 0}
         <div class="w-[38px] h-[40px]" />

@@ -39,13 +39,12 @@ export async function GET({ url }) {
           )),
         ];
       } catch (err) {
-        console.log(err);
         let errorMessage =
           "There was a problem looking up deploy events for contractType: " +
           contractType +
           " on chain: " +
           chain;
-        // console.log(errorMessage);
+        console.log(errorMessage);
         // throw error(500, errorMessage);
       }
     }

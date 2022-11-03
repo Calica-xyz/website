@@ -8,7 +8,7 @@ export async function GET({ url }) {
     let contractSettings = await getContractSettings(address);
     return json(contractSettings);
   } catch (err) {
-    console.log(err);
+    console.log("There was a problem getting contract settings:", err);
     return json({
       stakeholders: [],
     });

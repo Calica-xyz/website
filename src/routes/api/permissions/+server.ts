@@ -17,7 +17,7 @@ export async function GET({ url }) {
 
     return json(permissions);
   } catch (err) {
-    console.log(err);
+    console.log("There was a problem getting user permissions:", err);
     return json({});
   }
 }

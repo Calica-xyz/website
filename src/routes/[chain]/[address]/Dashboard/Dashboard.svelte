@@ -36,7 +36,6 @@
   let formattedDeployDate = moment
     .unix(deployDate as number)
     .format("MMM Do YYYY, h:mm a");
-  let currency = getCurrency($page.params.chain);
   let contractType = $page.url.searchParams.get("type");
 
   $: contractSettings = {};
@@ -112,9 +111,9 @@
       let symbol = getTokenSymbol(withdrawal.tokenAddress, $page.params.chain);
 
       if (symbol in totalAmountsPaid) {
-        totalAmountsPaid[symbol] += withdrawal.amount;
+        totalAmountsPaid[symbol] += parseFloat(withdrawal.amount);
       } else {
-        totalAmountsPaid[symbol] = withdrawal.amount;
+        totalAmountsPaid[symbol] = parseFloat(withdrawal.amount);
       }
     }
 
@@ -247,91 +246,104 @@
   }
 </script>
 
-<div class="flex flex-wrap justify-between gap-x-16 gap-y-8 items-center mb-8">
-  <div class="flex-1 flex flex-wrap gap-x-6 min-w-[240px] m-auto">
-    <h1 class="text-gray-600" style="overflow-wrap: anywhere;">
-      {contractName}
-    </h1>
+{#if !isOwner && contractType == "expense"}
+  <h3 class="text-gray-600">
+    You don't have access to this dashboard. <br /> Please contact the contract owner
+    to gain access.
+  </h3>
+{:else}
+  <div
+    class="flex flex-wrap justify-between gap-x-16 gap-y-8 items-center mb-8"
+  >
+    <div class="flex-1 flex flex-wrap gap-x-6 min-w-[240px] m-auto">
+      <h1 class="text-gray-600" style="overflow-wrap: anywhere;">
+        {contractName}
+      </h1>
 
-    {#if deployDate || contractType != "rollup"}
-      <div class="flex flex-col justify-center">
-        {#if deployDate}
-          <Popover placement="right" class="max-w-[128px] text-sm font-light ">
-            <p slot="trigger" class="py-2 text-gray-500 subtitle-text">
-              Deployed {relativeDeployDate}
-            </p>
-            {formattedDeployDate}
-          </Popover>
-        {/if}
+      {#if deployDate || contractType != "rollup"}
+        <div class="flex flex-col justify-center">
+          {#if deployDate}
+            <Popover
+              placement="right"
+              class="max-w-[128px] text-sm font-light "
+            >
+              <p slot="trigger" class="py-2 text-gray-500 subtitle-text">
+                Deployed {relativeDeployDate}
+              </p>
+              {formattedDeployDate}
+            </Popover>
+          {/if}
 
-        {#if contractType != "rollup"}
-          <div class="flex flex-1 items-center justify-center">
-            <p class="text-gray-500 subtitle-text mr-2">Address:</p>
-            <CopyButton class="max-w-[100px]" text={$page.params.address} />
-          </div>
-        {/if}
-      </div>
+          {#if contractType != "rollup"}
+            <div class="flex flex-1 items-center justify-center">
+              <p class="text-gray-500 subtitle-text mr-2">Address:</p>
+              <CopyButton class="max-w-[100px]" text={$page.params.address} />
+            </div>
+          {/if}
+        </div>
+      {/if}
+
+      <ChainBadge class="mt-2 self-start" chain={$page.params.chain} />
+    </div>
+
+    <div
+      class="flex-1 flex flex-wrap gap-x-8 gap-y-8 justify-between"
+      style="min-width: min(340px, 100%)"
+    >
+      <StakeholderList
+        class="flex-auto"
+        data={getStakeholderListData()}
+        {ownerAddress}
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-8">
+    <div class="flex flex-row gap-8 flex-wrap w-full">
+      <TokensPaid
+        class="flex-auto min-w-[200px]"
+        totalAmountsPaid={getTotalAmountsPaid(withdrawalHistory)}
+      />
+      <TokenBalance
+        class="flex-auto min-w-[250px]"
+        {tokenBalances}
+        expenses={chartData}
+      />
+    </div>
+
+    {#if agreementType === "simple"}
+      <SimpleRevShare
+        {isOwner}
+        class="flex-1"
+        data={getDoughnutChartData(chartData, isOwner)}
+        displayLegend={isOwner}
+      />
+    {:else if agreementType === "capped"}
+      <CappedRevShare
+        {isOwner}
+        chain={$page.params.chain}
+        class="flex-1 {getAgreementChartBasisClass()}"
+        data={getCappedChartData(chartData, isOwner)}
+      />
+    {:else if agreementType === "nft"}
+      <NFTRevShare
+        {isOwner}
+        chain={$page.params.chain}
+        class="flex-1"
+        data={getNFTChartData(chartData, isOwner)}
+      />
+    {:else if agreementType === "expense"}
+      <ExpenseSubmission
+        {isOwner}
+        chain={$page.params.chain}
+        class="flex-1 order-1"
+        data={chartData}
+        {tokenBalances}
+      />
     {/if}
 
-    <ChainBadge class="mt-2 self-start" chain={$page.params.chain} />
+    <Earnings class="flex-1" data={getCumulativeEarningsData(isOwner)} />
+
+    <Payouts class="flex-1" data={getPayoutHistory(isOwner)} />
   </div>
-
-  <div
-    class="flex-1 flex flex-wrap gap-x-8 gap-y-8 justify-between"
-    style="min-width: min(340px, 100%)"
-  >
-    <StakeholderList
-      class="flex-auto"
-      data={getStakeholderListData()}
-      {ownerAddress}
-    />
-  </div>
-</div>
-
-<div class="flex flex-wrap justify-center gap-8">
-  <div class="flex flex-row gap-8 flex-wrap w-full">
-    <TokensPaid
-      class="flex-auto min-w-[200px]"
-      totalAmountsPaid={getTotalAmountsPaid(withdrawalHistory)}
-    />
-    <TokenBalance
-      class="flex-auto min-w-[250px]"
-      {tokenBalances}
-      expenses={chartData}
-    />
-  </div>
-
-  {#if agreementType === "simple"}
-    <SimpleRevShare
-      {isOwner}
-      class="flex-1"
-      data={getDoughnutChartData(chartData, isOwner)}
-      displayLegend={isOwner}
-    />
-  {:else if agreementType === "capped"}
-    <CappedRevShare
-      {isOwner}
-      chain={$page.params.chain}
-      class="flex-1 {getAgreementChartBasisClass()}"
-      data={getCappedChartData(chartData, isOwner)}
-    />
-  {:else if agreementType === "nft"}
-    <NFTRevShare
-      {isOwner}
-      chain={$page.params.chain}
-      class="flex-1"
-      data={getNFTChartData(chartData, isOwner)}
-    />
-  {:else if agreementType === "expense"}
-    <ExpenseSubmission
-      {isOwner}
-      chain={$page.params.chain}
-      class="flex-1 order-1"
-      data={chartData}
-    />
-  {/if}
-
-  <Earnings class="flex-1" data={getCumulativeEarningsData(isOwner)} />
-
-  <Payouts class="flex-1" data={getPayoutHistory(isOwner)} {currency} />
-</div>
+{/if}
