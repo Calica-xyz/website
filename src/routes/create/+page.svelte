@@ -4,6 +4,7 @@
   import Configure from "$lib/Form/Configure/Configure.svelte";
   import ReviewDeploy from "$lib/Form/ReviewAndDeploy/ReviewDeploy.svelte";
   import Steps from "$lib/Form/Steps.svelte";
+  import { page } from "$app/stores";
   import { signer, chainId } from "svelte-ethers-store";
   import { getChainFromId, getFactoryContract } from "$lib/js/utils";
   import {
@@ -11,20 +12,22 @@
     convertExpenseFormData,
     convertSimpleFormData,
   } from "./+page";
+  import { goto } from "$app/navigation";
 
   const stepNames = ["Choose Contract", "Configure", "Review & Deploy"];
 
-  let page = 0;
+  let pageIndex = 0;
   let pages = [ChooseContract, Configure, ReviewDeploy, Congrats];
   let pagesState = [{}, {}, {}];
   let isDeploying: boolean = false;
   let deployAddress: string;
   let showMessage: (message: string, color: string | undefined) => void;
 
+  let oceanAddress = $page.url.searchParams.get("oceanAddress");
   $: chain = getChainFromId($chainId as number);
 
   async function onSubmit(values: any) {
-    if (page == 2) {
+    if (pageIndex == 2) {
       // On our final page, we transact with the smart contract factory
       isDeploying = true;
 
@@ -49,9 +52,14 @@
                 pagesState[1].pushETH == "true"
               );
               let receipt = await res.wait();
-
               deployAddress = receipt.events[0].args[1];
-              page += 1;
+
+              if (oceanAddress) {
+                goto(
+                  `/ocean/integrate?oceanAddress=${oceanAddress}&calicaAddress=${deployAddress}&contractType=simple`
+                );
+              }
+              pageIndex += 1;
             } catch (err) {
               console.log(err);
               showMessage("There was a problem deploying the contract.", "red");
@@ -73,9 +81,15 @@
                 pagesState[1].reconfigurable == "true"
               );
               let receipt = await res.wait();
-
               deployAddress = receipt.events[0].args[1];
-              page += 1;
+
+              if (oceanAddress) {
+                goto(
+                  `/ocean/integrate?oceanAddress=${oceanAddress}&calicaAddress=${deployAddress}&contractType=capped`
+                );
+              }
+
+              pageIndex += 1;
             } catch (err) {
               console.log(err);
               showMessage("There was a problem deploying the contract.", "red");
@@ -96,9 +110,15 @@
                 contractData
               );
               let receipt = await res.wait();
-
               deployAddress = receipt.events[0].args[1];
-              page += 1;
+
+              if (oceanAddress) {
+                goto(
+                  `/ocean/integrate?oceanAddress=${oceanAddress}&calicaAddress=${deployAddress}&contractType=expense`
+                );
+              }
+
+              pageIndex += 1;
             } catch (err) {
               console.log(err);
               showMessage("There was a problem deploying the contract.", "red");
@@ -114,17 +134,17 @@
       return;
     } else {
       // If we're not on the last page, store our data and increase a step
-      pagesState[page] = { ...pagesState[page], ...values };
+      pagesState[pageIndex] = { ...pagesState[pageIndex], ...values };
       pagesState = pagesState; // Triggering update
-      page += 1;
+      pageIndex += 1;
     }
   }
 
   function onBack(values: any) {
-    if (page === 0) return;
-    pagesState[page] = { ...pagesState[page], ...values };
+    if (pageIndex === 0) return;
+    pagesState[pageIndex] = { ...pagesState[pageIndex], ...values };
     pagesState = pagesState; // Triggering update
-    page -= 1;
+    pageIndex -= 1;
   }
 </script>
 
@@ -134,15 +154,15 @@
 </svelte:head>
 
 <div class="m-8 sm:px-12 ">
-  <Steps {stepNames} currentStep={page} />
+  <Steps {stepNames} currentStep={pageIndex} />
   <svelte:component
-    this={pages[page]}
+    this={pages[pageIndex]}
     bind:showMessage
     bind:isDeploying
     {deployAddress}
     {onSubmit}
     {onBack}
     {pagesState}
-    initialValues={pagesState[page]}
+    initialValues={pagesState[pageIndex]}
   />
 </div>
