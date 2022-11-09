@@ -10,14 +10,16 @@
   import { navigating, page } from "$app/stores";
 
   $: showFooter =
-    $page.routeId != "/[chain]/[address]" &&
-    $page.routeId != "[chain]/[address]" &&
-    $page.routeId != "";
+    !isRoute($page.routeId, "[chain]/[address]") && !isRoute($page.routeId, "");
   $: showContent =
-    $page.routeId == "blog" ||
-    $page.routeId == "contact" ||
-    $page.routeId == "";
-  $: showNavbar = $page.routeId != "/" && $page.routeId != "";
+    isRoute($page.routeId, "blog") ||
+    isRoute($page.routeId, "contact") ||
+    isRoute($page.routeId, "");
+  $: showNavbar = !isRoute($page.routeId, "");
+
+  function isRoute(routeId: any, route: string) {
+    return routeId == route || routeId == "/" + route;
+  }
 </script>
 
 <Analytics />
