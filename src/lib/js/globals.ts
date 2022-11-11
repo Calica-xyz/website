@@ -27,6 +27,7 @@ export const CONTRACT_ADDRESSES = {
   expenseSubmissionFactory: {
     maticmum: "0x07964ccC51b105CBbC23Dc19859F290cfF75d7fc",
     goerli: "0x4bb53A186B7B78475D0A95796CdcF5dA9823D9cb",
+    homestead: "0xF4D5c4996288B9171299E25082E2C977A5fdB5C0"
   },
 };
 
