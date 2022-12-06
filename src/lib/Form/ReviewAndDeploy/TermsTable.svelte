@@ -4,7 +4,6 @@
   import { Alert } from "flowbite-svelte";
   import {
     getChainFromId,
-    getCurrency,
     getReadableChainFromId,
     getTokenSymbol,
   } from "$lib/js/utils";
@@ -20,6 +19,7 @@
   export let oldAgreementTerms: object[] = [];
   export let reconfigurable: boolean;
   export let reconfiguring: boolean = false;
+  export let tokenAddress: string;
 
   function getAgreementTitles() {
     switch (agreement) {
@@ -78,7 +78,10 @@
       expenseStr += '<div class="flex flex-col">';
       expenseStr += `<p class="text-sm text-gray-800">${term.name}: ${
         term.cost
-      } ${getTokenSymbol(term.tokenAddress, getChainFromId($chainId))}</p>`;
+      } ${getTokenSymbol(
+        term.tokenAddress,
+        getChainFromId($chainId as number)
+      )}</p>`;
       expenseStr += `<p class="subtitle-text text-gray-400">${term.address}</p>`;
       expenseStr += "</div>";
     }
@@ -101,11 +104,12 @@
             cappedStr +=
               "<p class='mb-0.5 text-gray-800 underline'>Initial Split</p>";
           } else {
-            cappedStr += `<div class='flex'><p class='mb-0.5 text-gray-800 underline'>Milestone ${
-              i + 1
-            }</p><p class='text-gray-800 mb-0.5'>: ${
+            cappedStr += `<div class='flex'><p class='mb-0.5 text-gray-800 underline'>Milestone ${i}</p><p class='text-gray-800 mb-0.5'>: ${
               terms[i].cap
-            } ${getCurrency($chainId)}</p></div>`;
+            } ${getTokenSymbol(
+              tokenAddress,
+              getChainFromId($chainId as number)
+            )}</p></div>`;
           }
 
           cappedStr += getSplitText(terms[i].splits);

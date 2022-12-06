@@ -13,6 +13,7 @@
   export let formPrefix: string = "";
   export let setData: any;
   export let disabled: boolean;
+  export let showText = false;
 
   $: chain = getChainFromId($chainId);
   $: tokens = [
@@ -29,7 +30,11 @@
 </script>
 
 <Button {disabled} class="rounded-l-none rounded-r-lg px-2" color="alternative">
-  <Chevron><TokenIcon size="17" token={selectedToken} /></Chevron>
+  <Chevron
+    ><div class="flex gap-2 items-center">
+      <TokenIcon size="17" token={selectedToken} />{selectedToken}
+    </div></Chevron
+  >
 </Button>
 <Dropdown bind:open={dropdownOpen}>
   {#each tokens as token}

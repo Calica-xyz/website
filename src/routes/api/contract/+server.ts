@@ -13,6 +13,7 @@ import {
   translateSplits,
 } from "$lib/server/utils";
 import { error, json } from "@sveltejs/kit";
+import { ethers } from "ethers";
 import { formatEther } from "ethers/lib/utils";
 
 /** @type {import('./$types').RequestHandler} */
@@ -68,10 +69,20 @@ export async function GET({ url }) {
     });
 
     let addressMappings = getAddressMappings(cappedSplits, contractType);
+    let tokenAddress = ethers.constants.AddressZero;
+
+    try {
+      tokenAddress = await contract.tokenAddress();
+    } catch (err) {
+      console.log(err);
+    }
+
+    console.log(tokenAddress);
 
     return json({
       agreementType: contractType,
       chartData: cappedSplits,
+      tokenAddress,
       addressMappings,
       ...(await getBaseContractData(
         contractType,

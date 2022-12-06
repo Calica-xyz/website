@@ -58,6 +58,7 @@
     <TermsTable
       {onValidNetwork}
       name={pagesState[1].name}
+      tokenAddress={pagesState[1].tokenAddress}
       profitAddress={pagesState[1].profitAddress}
       agreement={pagesState[0].type}
       agreementTerms={pagesState[1][pagesState[0].type]}

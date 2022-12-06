@@ -67,6 +67,7 @@
             break;
 
           case "capped":
+            console.log(pagesState);
             contractData = convertCappedFormData(pagesState[1]);
 
             factoryContract = getFactoryContract(
@@ -78,7 +79,9 @@
             try {
               let res = await factoryContract.createNewCappedRevenueShare(
                 contractData,
-                pagesState[1].reconfigurable == "true"
+                pagesState[1].tokenAddress,
+                pagesState[1].reconfigurable == "true",
+                pagesState[1].pushETH == "true"
               );
               let receipt = await res.wait();
               deployAddress = receipt.events[0].args[1];

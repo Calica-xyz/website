@@ -2,10 +2,17 @@
   import Card from "$lib/Flowbite/Card.svelte";
   import Badge from "$lib/Flowbite/Badge.svelte";
   import Doughnut from "$lib/Components/Doughnut.svelte";
-  import { getBadgeColor, getCurrency } from "$lib/js/utils";
+  import {
+    getBadgeColor,
+    getChainFromId,
+    getCurrency,
+    getTokenSymbol,
+  } from "$lib/js/utils";
+  import { chainId } from "svelte-ethers-store";
 
   export let data: any;
   export let chain: string;
+  export let tokenAddress: string;
 
   let charts: any[] = [];
   let capColor = getBadgeColor(chain);
@@ -68,7 +75,11 @@
                 >
               {:else}
                 <Badge class="text-center" color={capColor}
-                  >{cappedSplit.cap} {getCurrency(chain)}</Badge
+                  >{cappedSplit.cap}
+                  {getTokenSymbol(
+                    tokenAddress,
+                    getChainFromId($chainId)
+                  )}</Badge
                 >
               {/if}
             </div>

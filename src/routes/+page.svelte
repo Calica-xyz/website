@@ -178,9 +178,10 @@
             >
               <span class="inline-flex rounded-md shadow">
                 <a
-                  href="/create"
+                  target="_blank"
+                  href="https://calendly.com/calicaadam/calica-consultation"
                   class="inline-flex items-center rounded-md border border-transparent bg-white px-4 py-2 text-base font-medium text-primary-500 hover:bg-gray-50"
-                  >Open App</a
+                  >Book a Demo</a
                 >
               </span>
             </div>
@@ -252,9 +253,10 @@
                 >
               </div>
               <a
-                href="/create"
+                target="_blank"
+                href="https://calendly.com/calicaadam/calica-consultation"
                 class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-primary-500 hover:bg-gray-100 hover:text-primary-600"
-                >Open App</a
+                >Book a Demo</a
               >
             </div>
           </div>

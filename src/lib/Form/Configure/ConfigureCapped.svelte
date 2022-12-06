@@ -10,6 +10,10 @@
     validateCappedSplits,
     validateContractName,
   } from "$lib/js/validators";
+  import TokenDropdown from "./TokenDropdown.svelte";
+  import { ethers } from "ethers";
+  import { getChainFromId } from "$lib/js/utils";
+  import { chainId } from "svelte-ethers-store";
 
   export let initialValues: any;
   export let onSubmit: (values: any) => void;
@@ -18,8 +22,10 @@
 
   let name = initialValues.name;
   let reconfigurable = initialValues.reconfigurable || "false";
+  let pushETH = initialValues.pushETH || "false";
+  let tokenAddress = initialValues.tokenAddress || ethers.constants.AddressZero;
 
-  const { form, data } = createForm({
+  const { form, data, setData } = createForm({
     extend: reporter,
     onSubmit,
     validate: (values: { name: string; capped: any }) => {
@@ -58,6 +64,13 @@
         {/if}
       </ValidationMessage>
 
+      <div class="mt-6 flex gap-3 items-center">
+        <h5 class="text-gray-600">Milestone Token</h5>
+        <TokenDropdown bind:tokenAddress {setData} disabled={reconfiguring} />
+      </div>
+
+      <div class="h-10" />
+
       {#if !reconfiguring}
         <div class="mt-6 flex gap-3">
           <p class="text-gray-600">Can the contract be reconfigured?</p>
@@ -72,11 +85,20 @@
           >
         </div>
       {/if}
+
+      <div class="mt-6 flex gap-3">
+        <p class="text-gray-600">Automatically distribute ETH when received?</p>
+        <Radio color="primary" name="pushETH" bind:group={pushETH} value="true"
+          >Yes</Radio
+        >
+        <Radio name="pushETH" bind:group={pushETH} value="false">No</Radio>
+      </div>
     </div>
 
     <CappedSplits
       class="mb-20"
       cappedSplits={initialValues.capped}
+      formData={$data}
       formPrefix="capped"
     />
 

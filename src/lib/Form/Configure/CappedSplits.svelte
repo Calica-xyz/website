@@ -3,14 +3,13 @@
   import Doughnut from "$lib/Components/Doughnut.svelte";
   import Button from "$lib/Flowbite/Button.svelte";
   import Input from "$lib/Flowbite/Input.svelte";
-  import Eth from "$lib/Icons/Eth.svelte";
-  import Polygon from "$lib/Icons/Polygon.svelte";
-  import { getIconName } from "$lib/js/utils";
+  import { getChainFromId, getIconName, getTokenSymbol } from "$lib/js/utils";
   import { ValidationMessage } from "@felte/reporter-svelte";
   import { Helper } from "flowbite-svelte";
   import { signerAddress, chainId } from "svelte-ethers-store";
 
   export let formPrefix: string = "";
+  export let formData: any;
   export let cappedSplits: any = [
     {
       cap: 0,
@@ -30,7 +29,7 @@
   ];
 
   let doughnuts: Doughnut[] = [];
-  $: chainIconName = getIconName($chainId as number);
+  $: chain = getChainFromId($chainId as number);
 
   function addCappedSplit() {
     let prevCappedSplits = cappedSplits[cappedSplits.length - 1];
@@ -65,7 +64,7 @@
               <div class="max-w-[125px]">
                 <div class="flex">
                   <Input
-                    class="z-10 flex-1 rounded-lg rounded-r-none"
+                    class="z-10 flex-1 rounded-lg"
                     color={message != null ? "red" : "base"}
                     style="outlined"
                     name={`${formPrefix}.${i}.cap`}
@@ -74,13 +73,14 @@
                     bind:value={cappedSplit.cap}
                   />
                   <div
-                    class="h-11 border border-l-0 w-9 grid place-items-center rounded-lg rounded-l-none"
+                    class="h-11 border border-l-0 p-2 grid place-items-center rounded-lg rounded-l-none"
                   >
-                    {#if chainIconName == "Polygon"}
+                    <!-- {#if chainIconName == "Polygon"}
                       <Polygon size="18" />
                     {:else if chainIconName == "Eth"}
                       <Eth size="18" />
-                    {/if}
+                    {/if} -->
+                    <p>{getTokenSymbol(formData.tokenAddress, chain)}</p>
                   </div>
                 </div>
 

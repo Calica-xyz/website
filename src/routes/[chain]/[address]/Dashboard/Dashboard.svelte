@@ -23,6 +23,7 @@
   import TokensPaid from "./TokensPaid.svelte";
 
   export let ownerAddress: string;
+  export let tokenAddress: string;
   export let contractName: string;
   export let agreementType: string;
   export let deployDate: number | null = null;
@@ -31,6 +32,8 @@
   export let addressMappings: any;
   export let contractSettings: any;
   export let tokenBalances: any;
+
+  console.log(tokenAddress);
 
   let relativeDeployDate = moment.unix(deployDate as number).fromNow();
   let formattedDeployDate = moment
@@ -324,6 +327,7 @@
         chain={$page.params.chain}
         class="flex-1 {getAgreementChartBasisClass()}"
         data={getCappedChartData(chartData, isOwner)}
+        {tokenAddress}
       />
     {:else if agreementType === "nft"}
       <NFTRevShare
