@@ -12,11 +12,7 @@
 
   import { signerAddress } from "svelte-ethers-store";
   import { page } from "$app/stores";
-  import {
-    getContractSettings,
-    getCurrency,
-    getTokenSymbol,
-  } from "$lib/js/utils";
+  import { getContractSettings, getTokenSymbol } from "$lib/js/utils";
   import { onMount } from "svelte";
   import ExpenseSubmission from "./ExpenseSubmission.svelte";
   import TokenBalance from "./TokenBalance.svelte";
@@ -114,9 +110,9 @@
       let symbol = getTokenSymbol(withdrawal.tokenAddress, $page.params.chain);
 
       if (symbol in totalAmountsPaid) {
-        totalAmountsPaid[symbol] += parseFloat(withdrawal.amount);
+        totalAmountsPaid[symbol] += withdrawal.amount;
       } else {
-        totalAmountsPaid[symbol] = parseFloat(withdrawal.amount);
+        totalAmountsPaid[symbol] = withdrawal.amount;
       }
     }
 
@@ -147,6 +143,7 @@
   }
 
   function getPayoutHistory(isOwner: boolean) {
+    console.log(withdrawalHistory);
     let payoutHistoryMap: any = {};
     let payoutHistory: any[] = [];
 
@@ -178,6 +175,8 @@
         });
       }
     }
+
+    console.log(payoutHistory);
 
     return payoutHistory;
   }

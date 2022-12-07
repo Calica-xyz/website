@@ -164,7 +164,7 @@
           >
         </div>
       {/if}
-      <DropdownItem class="cursor-not-allowed">Swap Tokens</DropdownItem>
+      <!-- <DropdownItem class="cursor-not-allowed">Swap Tokens</DropdownItem> -->
     </Dropdown>
   </div>
 

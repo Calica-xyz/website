@@ -28,6 +28,8 @@
 
   export let data: any;
 
+  console.log(data);
+
   let labelColors = [
     getHexCode("--color-primary"),
     getHexCode("--color-tertiary"),
@@ -75,7 +77,7 @@
 
       return {
         x: formattedTimestamp,
-        y: item.y,
+        y: parseFloat(item.y),
         token: item.token,
       };
     });
