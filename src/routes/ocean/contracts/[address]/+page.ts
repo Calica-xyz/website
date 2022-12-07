@@ -15,8 +15,6 @@ export async function load({ params, fetch }) {
     }
   }
     `;
-
-  console.log(query);
   let deployedContracts = [];
 
   const queryRes = await fetch(url, {

@@ -28,8 +28,6 @@
 
   export let data: any;
 
-  console.log(data);
-
   let labelColors = [
     getHexCode("--color-primary"),
     getHexCode("--color-tertiary"),

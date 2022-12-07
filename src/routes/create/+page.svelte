@@ -67,7 +67,6 @@
             break;
 
           case "capped":
-            console.log(pagesState);
             contractData = convertCappedFormData(pagesState[1]);
 
             factoryContract = getFactoryContract(

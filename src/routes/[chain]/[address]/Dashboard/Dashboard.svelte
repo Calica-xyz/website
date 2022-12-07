@@ -29,8 +29,6 @@
   export let contractSettings: any;
   export let tokenBalances: any;
 
-  console.log(tokenAddress);
-
   let relativeDeployDate = moment.unix(deployDate as number).fromNow();
   let formattedDeployDate = moment
     .unix(deployDate as number)
@@ -143,7 +141,6 @@
   }
 
   function getPayoutHistory(isOwner: boolean) {
-    console.log(withdrawalHistory);
     let payoutHistoryMap: any = {};
     let payoutHistory: any[] = [];
 
@@ -175,8 +172,6 @@
         });
       }
     }
-
-    console.log(payoutHistory);
 
     return payoutHistory;
   }

@@ -101,9 +101,7 @@ export async function getBaseContractData(
 
   try {
     reconfigurable = await contract.isReconfigurable();
-    console.log(reconfigurable);
   } catch (err) {
-    console.log(err);
     // Older contracts don't have this function
 
     // Exception for Miss O Cool Girls
@@ -194,6 +192,8 @@ export async function getWithdrawalData(
   );
 
   withdrawalEvents = withdrawalEvents.concat(newerWithdrawalEvents);
+
+  console.log(withdrawalEvents);
 
   let retEvents = [];
 

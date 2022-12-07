@@ -10,8 +10,6 @@
 
   export let data: any;
 
-  console.log(data);
-
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D;
   let formattedData;

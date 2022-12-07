@@ -77,8 +77,6 @@ export async function GET({ url }) {
       console.log(err);
     }
 
-    console.log(tokenAddress);
-
     return json({
       agreementType: contractType,
       chartData: cappedSplits,
