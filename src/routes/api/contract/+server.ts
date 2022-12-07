@@ -77,10 +77,14 @@ export async function GET({ url }) {
       console.log(err);
     }
 
+    let amountTransferred = await contract.amountTransferred();
+    amountTransferred = parseFloat(formatEther(amountTransferred));
+
     return json({
       agreementType: contractType,
       chartData: cappedSplits,
       tokenAddress,
+      amountTransferred,
       addressMappings,
       ...(await getBaseContractData(
         contractType,

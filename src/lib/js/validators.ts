@@ -70,7 +70,8 @@ function validateCost(cost) {
 export function validateSplits(splits) {
   let errorMessages = [];
   let totalPercentages = 0;
-  let nameMap = {}, addressMap = {};
+  let nameMap = {},
+    addressMap = {};
 
   if (!splits || splits.length == 0) {
     return errorMessages;
@@ -82,12 +83,7 @@ export function validateSplits(splits) {
     }
 
     errorMessages.push({
-      name: validateName(
-        split.name,
-        nameMap,
-        split.address,
-        split.percentage
-      ),
+      name: validateName(split.name, nameMap, split.address, split.percentage),
       address: validateSplitAddress(
         split.address,
         addressMap,
@@ -107,10 +103,7 @@ export function validateSplits(splits) {
   }
 
   for (let i = splits.length - 1; i >= 0; i--) {
-    let hasDuplicateNameAddress = splits.some(function (
-      item,
-      index
-    ) {
+    let hasDuplicateNameAddress = splits.some(function (item, index) {
       return (
         item.address == splits[i].address &&
         item.name == splits[i].name &&
@@ -187,6 +180,14 @@ export function validateCappedSplits(cappedSplits: any) {
     if (i != 0) {
       errorMessages[i].cap = validateCap(cappedSplits[i].cap);
     }
+  }
+
+  let prevCap = 0;
+  for (let i = 1; i < cappedSplits.length; i++) {
+    if (cappedSplits[i].cap <= prevCap) {
+      errorMessages[i].cap = "Must be > previous milestone";
+    }
+    prevCap = cappedSplits[i].cap;
   }
 
   return errorMessages;

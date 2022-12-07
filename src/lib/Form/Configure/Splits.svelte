@@ -19,6 +19,7 @@
   ];
   export let formPrefix = "";
   export let doughnut: any = null;
+  export let disabled = false;
 
   let initializedDoughnut = false;
 
@@ -75,12 +76,14 @@
         listIndex={i}
         formPrefix={`${formPrefix}.${i}.`}
         inputCallback={updateListItem}
+        {disabled}
         bind:name={item.name}
         bind:address={item.address}
         bind:percentage={item.percentage}
       />
       <Button
         on:click={() => remove(i)}
+        {disabled}
         color="accent"
         outline={true}
         class="!p-2 h-10"><X size="20" /></Button
@@ -91,6 +94,7 @@
   <Button
     color="primary"
     on:click={add}
+    {disabled}
     outline={true}
     class="focus:ring-0 border-dashed w-full"><Plus size="20" /></Button
   >

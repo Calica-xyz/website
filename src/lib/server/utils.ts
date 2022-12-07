@@ -121,7 +121,18 @@ export async function getBaseContractData(
     .timestamp;
   let withdrawalHistory = await getWithdrawalData(address, provider);
 
-  let tokenBalances = await getTokenBalances(address, provider, chain);
+  let tokenAddress = ethers.constants.AddressZero;
+  try {
+    tokenAddress = await contract.tokenAddress();
+  } catch (err) {
+    // Older contracts don't have this function
+  }
+  let tokenBalances = await getTokenBalances(
+    address,
+    provider,
+    chain,
+    tokenAddress
+  );
 
   return {
     ownerAddress,
@@ -137,15 +148,22 @@ export async function getBaseContractData(
 export async function getTokenBalances(
   address: string,
   provider: Provider | Signer,
-  chain: string
+  chain: string,
+  tokenAddress: string = ethers.constants.AddressZero
 ) {
-  let nativeTokenBalance = await provider.getBalance(address);
-  let tokenBalances = {
-    [ethers.constants.AddressZero]: {
+  let tokenBalances = {};
+
+  if (tokenAddress == ethers.constants.AddressZero) {
+    tokenBalances[tokenAddress] = {
       symbol: chain == "homestead" || "goerli" ? "ETH" : "MATIC",
-      balance: convertWei(nativeTokenBalance),
-    },
-  };
+      balance: convertWei(await provider.getBalance(address)),
+    };
+  } else {
+    tokenBalances[tokenAddress] = {
+      symbol: SUPPORTED_TOKENS[chain][tokenAddress],
+      balance: 0,
+    };
+  }
 
   for (let [tokenAddress, token] of Object.entries(SUPPORTED_TOKENS[chain])) {
     let tokenContract = new ethers.Contract(
@@ -192,8 +210,6 @@ export async function getWithdrawalData(
   );
 
   withdrawalEvents = withdrawalEvents.concat(newerWithdrawalEvents);
-
-  console.log(withdrawalEvents);
 
   let retEvents = [];
 

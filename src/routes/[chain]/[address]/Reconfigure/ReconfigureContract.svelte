@@ -6,7 +6,6 @@
   import { ethers } from "ethers";
   import { signer } from "svelte-ethers-store";
   import { page } from "$app/stores";
-  import Expense from "$lib/Form/Configure/Expense.svelte";
   import { TOKEN_DECIMALS } from "$lib/js/globals";
 
   export let reconfigurable: boolean = false;
@@ -14,6 +13,8 @@
   export let contractName: string;
   export let chartData: any;
   export let profitAddress: string = "";
+  export let tokenAddress: string = ethers.constants.AddressZero;
+  export let amountTransferred: number = 0;
 
   let currentPage = 0;
   let pages = [ReconfigureSelection, Configure, ReviewDeploy];
@@ -27,6 +28,7 @@
       name: contractName,
       profitAddress: new String(profitAddress),
       reconfigurable: reconfigurable.toString(),
+      tokenAddress,
       [agreementType]: JSON.parse(JSON.stringify(chartData)),
     },
     {},
@@ -239,6 +241,7 @@
     <svelte:component
       this={pages[currentPage]}
       reconfiguring={true}
+      {amountTransferred}
       bind:showMessage
       bind:isDeploying
       {onSubmit}

@@ -8,6 +8,7 @@
   import { Helper } from "flowbite-svelte";
   import { signerAddress, chainId } from "svelte-ethers-store";
 
+  export let amountTransferred = 0;
   export let formPrefix: string = "";
   export let formData: any;
   export let cappedSplits: any = [
@@ -27,6 +28,16 @@
       ],
     },
   ];
+
+  let caps: number[] = [];
+  for (let i = 0; i < cappedSplits.length; i++) {
+    caps.push(cappedSplits[i].cap);
+  }
+
+  function shouldDisable(cap: number, amountTransferred: number) {
+    if (cap == null || amountTransferred == 0) return false;
+    return cap <= amountTransferred;
+  }
 
   let doughnuts: Doughnut[] = [];
   $: chain = getChainFromId($chainId as number);
@@ -70,16 +81,13 @@
                     name={`${formPrefix}.${i}.cap`}
                     id={`${formPrefix}.${i}.cap`}
                     type="number"
+                    disabled={shouldDisable(caps[i], amountTransferred)}
                     bind:value={cappedSplit.cap}
                   />
+
                   <div
                     class="h-11 border border-l-0 p-2 grid place-items-center rounded-lg rounded-l-none"
                   >
-                    <!-- {#if chainIconName == "Polygon"}
-                      <Polygon size="18" />
-                    {:else if chainIconName == "Eth"}
-                      <Eth size="18" />
-                    {/if} -->
                     <p>{getTokenSymbol(formData.tokenAddress, chain)}</p>
                   </div>
                 </div>
@@ -90,15 +98,16 @@
               </div>
             </ValidationMessage>
           </div>
-          <Button
-            class="h-10"
-            outline
-            color="accent"
-            on:click={() => deleteCappedSplit(i)}
-          >
-            Remove
-          </Button>
         {/if}
+        <Button
+          class="h-10"
+          outline
+          color="accent"
+          on:click={() => deleteCappedSplit(i)}
+          disabled={shouldDisable(caps[i], amountTransferred)}
+        >
+          Remove
+        </Button>
       </div>
 
       <div class="flex-1 w-full bg-gray-200 h-[0.2rem] dark:bg-gray-700" />
@@ -110,6 +119,7 @@
           class="my-10 flex-1 min-w-[min(300px,100%)]"
           formPrefix={`${formPrefix}.${i}.splits`}
           bind:list={cappedSplit.splits}
+          disabled={shouldDisable(caps[i], amountTransferred)}
         />
 
         <Doughnut

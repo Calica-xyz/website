@@ -12,13 +12,12 @@
   } from "$lib/js/validators";
   import TokenDropdown from "./TokenDropdown.svelte";
   import { ethers } from "ethers";
-  import { getChainFromId } from "$lib/js/utils";
-  import { chainId } from "svelte-ethers-store";
 
   export let initialValues: any;
   export let onSubmit: (values: any) => void;
   export let onBack: (values: any) => void;
   export let reconfiguring = false;
+  export let amountTransferred = 0;
 
   let name = initialValues.name;
   let reconfigurable = initialValues.reconfigurable || "false";
@@ -88,8 +87,12 @@
 
       <div class="mt-6 flex gap-3">
         <p class="text-gray-600">Automatically distribute ETH when received?</p>
-        <Radio color="primary" name="pushETH" bind:group={pushETH} value="true"
-          >Yes</Radio
+        <Radio
+          color="primary"
+          name="pushETH"
+          bind:group={pushETH}
+          value="true"
+          disabled={reconfiguring}>Yes</Radio
         >
         <Radio name="pushETH" bind:group={pushETH} value="false">No</Radio>
       </div>
@@ -100,6 +103,7 @@
       cappedSplits={initialValues.capped}
       formData={$data}
       formPrefix="capped"
+      {amountTransferred}
     />
 
     <ButtonGroup

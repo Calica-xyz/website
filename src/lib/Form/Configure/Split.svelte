@@ -13,6 +13,7 @@
   export let name: string = "";
   export let address: string = "";
   export let percentage: string = "";
+  export let disabled: boolean = false;
 </script>
 
 <div class={`${$$props.class} flex flex-1 flex-wrap`}>
@@ -27,6 +28,7 @@
         type="text"
         label="Name"
         size="small"
+        {disabled}
         bind:value={name}
         on:change={() => inputCallback(listIndex, "percentage", percentage)}
       />
@@ -52,6 +54,7 @@
           type="number"
           label="Split"
           size="small"
+          {disabled}
           bind:value={percentage}
           on:change={() => inputCallback(listIndex, "percentage", percentage)}
         />
@@ -85,6 +88,7 @@
         type="text"
         label="Address"
         size="small"
+        {disabled}
         bind:value={address}
         on:change={() => inputCallback(listIndex, "address", address)}
       />

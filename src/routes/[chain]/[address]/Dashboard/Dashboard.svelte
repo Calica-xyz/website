@@ -17,6 +17,7 @@
   import ExpenseSubmission from "./ExpenseSubmission.svelte";
   import TokenBalance from "./TokenBalance.svelte";
   import TokensPaid from "./TokensPaid.svelte";
+  import { ethers } from "ethers";
 
   export let ownerAddress: string;
   export let tokenAddress: string;
@@ -102,7 +103,10 @@
     };
   }
 
-  function getTotalAmountsPaid(withdrawalHistory: any) {
+  function getTotalAmountsPaid(
+    withdrawalHistory: any,
+    tokenAddress: string = ethers.constants.AddressZero
+  ) {
     let totalAmountsPaid = {};
     for (let withdrawal of withdrawalHistory) {
       let symbol = getTokenSymbol(withdrawal.tokenAddress, $page.params.chain);
@@ -112,6 +116,10 @@
       } else {
         totalAmountsPaid[symbol] = withdrawal.amount;
       }
+    }
+
+    if (Object.keys(totalAmountsPaid).length === 0) {
+      totalAmountsPaid[getTokenSymbol(tokenAddress, $page.params.chain)] = 0;
     }
 
     return totalAmountsPaid;
@@ -299,7 +307,7 @@
     <div class="flex flex-row gap-8 flex-wrap w-full">
       <TokensPaid
         class="flex-auto min-w-[200px]"
-        totalAmountsPaid={getTotalAmountsPaid(withdrawalHistory)}
+        totalAmountsPaid={getTotalAmountsPaid(withdrawalHistory, tokenAddress)}
       />
       <TokenBalance
         class="flex-auto min-w-[250px]"

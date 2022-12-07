@@ -87,7 +87,8 @@
             color="primary"
             name="pushETH"
             bind:group={pushETH}
-            value="true">Yes</Radio
+            value="true"
+            disabled={reconfiguring}>Yes</Radio
           >
           <Radio name="pushETH" bind:group={pushETH} value="false">No</Radio>
         </div>

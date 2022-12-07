@@ -3,8 +3,6 @@
   import TokenIcon from "$lib/Icons/TokenIcon.svelte";
 
   export let totalAmountsPaid: any;
-
-  console.log(totalAmountsPaid);
 </script>
 
 <Card class={`${$$props.class}`}>
