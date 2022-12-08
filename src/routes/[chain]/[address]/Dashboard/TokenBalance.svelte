@@ -107,7 +107,10 @@
 
   function canReimburseExpenses() {
     for (let [tokenAddress, tokenBalance] of Object.entries(tokenBalances)) {
-      if (tokenBalance.balance > 0 && hasExpenseBalanceForToken(tokenAddress)) {
+      if (
+        parseFloat(tokenBalance.balance) > 0 &&
+        hasExpenseBalanceForToken(tokenAddress)
+      ) {
         return true;
       }
     }
@@ -117,7 +120,7 @@
 
   function hasContractBalance() {
     for (let [tokenAddress, tokenBalance] of Object.entries(tokenBalances)) {
-      if (tokenBalance.balance > 0) {
+      if (parseFloat(tokenBalance.balance) > 0) {
         return true;
       }
     }
@@ -150,7 +153,9 @@
     <Dropdown triggeredBy=".dots-menu">
       <div on:click={distributeAllTokens}>
         <DropdownItem
-          class={!canReimburseExpenses() ? "cursor-not-allowed " : ""}
+          class={contractType == "expense" && !canReimburseExpenses()
+            ? "cursor-not-allowed "
+            : ""}
           >{contractType == "expense"
             ? "Reimburse All Expenses"
             : "Distribute All"}</DropdownItem
