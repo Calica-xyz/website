@@ -8,11 +8,13 @@ export const prerender = "auto";
 export async function load({ params, url, fetch }) {
   // TODO: Check local storage first
 
-  let contractRequest = await fetch(
-    `/api/contract?address=${params.address}&chain=${
-      params.chain
-    }&type=${url.searchParams.get("type")}`
-  );
+  let contractType = url.searchParams.get("type");
+  let contractRequestURL = `/api/contract?address=${params.address}&chain=${params.chain}`;
+  if (contractType) {
+    contractRequestURL += `&type=${contractType}`;
+  }
+
+  let contractRequest = await fetch(contractRequestURL);
 
   let integrationRequest = await fetch(
     `/api/integrations?address=${params.address}`

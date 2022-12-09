@@ -1,3 +1,4 @@
+import { CONTRACT_TYPES } from "$lib/js/globals";
 import { getRollupDetails } from "$lib/js/rollups";
 import { getContractInstance, getFactoryContract } from "$lib/js/utils";
 import {
@@ -20,7 +21,13 @@ import { formatEther } from "ethers/lib/utils";
 export async function GET({ url }) {
   const address = url.searchParams.get("address");
   const chain = url.searchParams.get("chain");
-  const contractType = url.searchParams.get("type");
+  let contractType = url.searchParams.get("type");
+
+  if (!contractType) {
+    contractType = await findContractType(address, chain);
+  }
+
+  console.log(address, chain, contractType);
 
   let nodeProvider = getAlchemyProvider(chain);
   // let nodeProvider = getValidationCloudProvider(chain);
@@ -160,4 +167,39 @@ export async function GET({ url }) {
   }
 
   throw error(500, "Unrecognized contract type");
+}
+
+async function findContractType(address: string, chain: string) {
+  let nodeProvider = getAlchemyProvider(chain);
+
+  for (let contractType of CONTRACT_TYPES) {
+    try {
+      let factoryName =
+        contractType == "expense"
+          ? "expenseSubmissionFactory"
+          : contractType + "RevShareFactory";
+      let factoryContract = getFactoryContract(
+        factoryName,
+        nodeProvider,
+        chain
+      );
+
+      let filter = factoryContract.filters.ContractDeployed(
+        null,
+        address,
+        null
+      );
+      let events = await factoryContract.queryFilter(filter);
+
+      if (events.length) return contractType;
+    } catch (err) {
+      let errorMessage =
+        "There was a problem looking up deploy events for contractType: " +
+        contractType +
+        " on chain: " +
+        chain;
+      console.log(errorMessage);
+      // throw error(500, errorMessage);
+    }
+  }
 }
