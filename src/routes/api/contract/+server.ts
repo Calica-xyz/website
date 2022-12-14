@@ -27,8 +27,6 @@ export async function GET({ url }) {
     contractType = await findContractType(address, chain);
   }
 
-  console.log(address, chain, contractType);
-
   let nodeProvider = getAlchemyProvider(chain);
   // let nodeProvider = getValidationCloudProvider(chain);
 
