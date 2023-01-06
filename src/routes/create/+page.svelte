@@ -11,6 +11,7 @@
     convertCappedFormData,
     convertExpenseFormData,
     convertSimpleFormData,
+    convertSwapFormData,
   } from "./+page";
   import { goto } from "$app/navigation";
 
@@ -126,6 +127,40 @@
               showMessage("There was a problem deploying the contract.", "red");
             }
             break;
+
+          case "swap":
+            console.log("we out here", pagesState);
+
+            contractData = convertSwapFormData(pagesState[1]);
+
+            factoryContract = getFactoryContract(
+              "tokenSwapFactory",
+              $signer,
+              chain
+            );
+
+            console.log(contractData);
+
+            try {
+              let res = await factoryContract.createNewTokenSwap(
+                contractData,
+                pagesState[1].reconfigurable == "true",
+                pagesState[1].pushETH == "true",
+                0
+              );
+              let receipt = await res.wait();
+              deployAddress = receipt.events[0].args[1];
+
+              if (oceanAddress) {
+                goto(
+                  `/ocean/integrate?oceanAddress=${oceanAddress}&calicaAddress=${deployAddress}&contractType=simple`
+                );
+              }
+              pageIndex += 1;
+            } catch (err) {
+              console.log(err);
+              showMessage("There was a problem deploying the contract.", "red");
+            }
         }
       } catch (err) {
         console.log(err);

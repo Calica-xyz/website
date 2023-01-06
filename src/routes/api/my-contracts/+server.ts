@@ -19,10 +19,7 @@ export async function GET({ url }) {
 
     for (let contractType of CONTRACT_TYPES) {
       try {
-        let factoryName =
-          contractType == "expense"
-            ? "expenseSubmissionFactory"
-            : contractType + "RevShareFactory";
+        let factoryName = getFactoryName(contractType);
         let factoryContract = getFactoryContract(
           factoryName,
           nodeProvider,
@@ -59,4 +56,17 @@ export async function GET({ url }) {
   });
 
   return json(deployedContracts);
+}
+
+function getFactoryName(contractName: string) {
+  switch (contractName) {
+    case "expense":
+      return "expenseSubmissionFactory";
+    case "simple":
+      return "simpleRevShareFactory";
+    case "capped":
+      return "cappedRevShareFactory";
+    case "swap":
+      return "tokenSwapFactory";
+  }
 }

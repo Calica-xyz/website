@@ -41,19 +41,22 @@ export async function GET({ url }) {
     let splits = await contract.getSplits();
     splits = translateSplits(splits);
 
-    return json({
-      agreementType: contractType,
-      chartData: splits,
-      addressMappings: getAddressMappings(splits, contractType),
-      ...(await getBaseContractData(
-        contractType,
-        contract,
-        factoryContract,
-        nodeProvider,
-        address,
-        chain
-      )),
-    });
+    return json(
+      {
+        agreementType: contractType,
+        chartData: splits,
+        addressMappings: getAddressMappings(splits, contractType),
+        ...(await getBaseContractData(
+          contractType,
+          contract,
+          factoryContract,
+          nodeProvider,
+          address,
+          chain
+        )),
+      },
+      {}
+    );
   } else if (contractType == "capped") {
     let contract = getContractInstance(address, "cappedRevShare", nodeProvider);
     let factoryContract = getFactoryContract(
@@ -151,6 +154,34 @@ export async function GET({ url }) {
     return json({
       agreementType: contractType,
       chartData: expenses,
+      addressMappings,
+      ...(await getBaseContractData(
+        contractType,
+        contract,
+        factoryContract,
+        nodeProvider,
+        address,
+        chain
+      )),
+      profitAddress,
+    });
+  } else if (contractType == "swap") {
+    let contract = getContractInstance(address, "tokenSwap", nodeProvider);
+    let factoryContract = getFactoryContract(
+      "tokenSwapFactory",
+      nodeProvider,
+      chain
+    );
+
+    let tokenIn = await contract.tokenIn();
+    let tokenOut = await contract.tokenOut();
+
+    let profitAddress = await contract.profitAddress();
+    let addressMappings = {};
+
+    return json({
+      agreementType: contractType,
+      chartData: [tokenIn, tokenOut],
       addressMappings,
       ...(await getBaseContractData(
         contractType,

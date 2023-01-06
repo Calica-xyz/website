@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { Calculator, ChartBar, ChartPie, Collection } from "svelte-heros";
+  import {
+    Calculator,
+    ChartBar,
+    ChartPie,
+    Collection,
+    Refresh,
+  } from "svelte-heros";
 
   export let size: string;
   export let contractType: string;
@@ -9,6 +15,7 @@
     capped: ChartBar,
     expense: Calculator,
     rollup: Collection,
+    swap: Refresh,
   };
 </script>
 

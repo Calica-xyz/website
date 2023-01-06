@@ -4,6 +4,8 @@ import cappedRevShareABI from "$lib/ABIs/CappedRevenueShare.json";
 import cappedRevShareFactoryABI from "$lib/ABIs/CappedRevenueShareFactory.json";
 import expenseSubmissionABI from "$lib/ABIs/ExpenseSubmission.json";
 import expenseSubmissionFactoryABI from "$lib/ABIs/ExpenseSubmissionFactory.json";
+import tokenSwapABI from "$lib/ABIs/TokenSwap.json";
+import tokenSwapFactoryABI from "$lib/ABIs/TokenSwapFactory.json";
 
 export const CONTRACT_ABIS = {
   simpleRevShare: simpleRevShareABI,
@@ -12,6 +14,8 @@ export const CONTRACT_ABIS = {
   cappedRevShareFactory: cappedRevShareFactoryABI,
   expenseSubmission: expenseSubmissionABI,
   expenseSubmissionFactory: expenseSubmissionFactoryABI,
+  tokenSwap: tokenSwapABI,
+  tokenSwapFactory: tokenSwapFactoryABI,
 };
 
 export const CONTRACT_ADDRESSES = {
@@ -27,11 +31,14 @@ export const CONTRACT_ADDRESSES = {
   expenseSubmissionFactory: {
     maticmum: "0x07964ccC51b105CBbC23Dc19859F290cfF75d7fc",
     goerli: "0x4bb53A186B7B78475D0A95796CdcF5dA9823D9cb",
-    homestead: "0xF4D5c4996288B9171299E25082E2C977A5fdB5C0"
+    homestead: "0xF4D5c4996288B9171299E25082E2C977A5fdB5C0",
+  },
+  tokenSwapFactory: {
+    goerli: "0x41E7FC33e7ceB99f5A345e91C4f638cCFFD46962",
   },
 };
 
-export const CONTRACT_TYPES = ["simple", "capped", "expense"];
+export const CONTRACT_TYPES = ["simple", "capped", "expense", "swap"];
 
 export const SUPPORTED_NETWORKS = [
   "maticmum",
@@ -54,6 +61,18 @@ export const SUPPORTED_TOKENS = {
     "0xdac17f958d2ee523a2206206994597c13d831ec7": "USDT",
     "0x967da4048cd07ab37855c090aaf366e4ce1b9f48": "OCEAN",
   },
+};
+
+// Format for key is {{TOKEN0}}-{{TOKEN1}} where TOKEN0 is first alphanumerically
+// Value is the pool fee
+export const SUPPORTED_TOKEN_SWAPS = {
+  matic: {},
+  maticmum: {},
+  goerli: {
+    "0x07865c6E87B9F70255377e024ace6630C1Eaa37F-0x0000000000000000000000000000000000000000": 10000, // USDC-ETH
+    "0xBA62BCfcAaFc6622853cca2BE6Ac7d845BC0f2Dc-0x0000000000000000000000000000000000000000": 3000, // FAU-ETH
+  },
+  homestead: {},
 };
 
 export const TOKEN_DECIMALS = {

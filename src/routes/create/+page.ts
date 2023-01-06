@@ -80,3 +80,16 @@ export function convertExpenseFormData(formData: any) {
 
   return contractData;
 }
+
+export function convertSwapFormData(formData: any) {
+  console.log(formData);
+  let contractName = formData.name;
+  let tokenIn = formData.swap["0tokenAddress"];
+  let tokenOut = formData.swap["1tokenAddress"];
+  let profitAddress = formData.profitAddress;
+
+  // TODO: Pull this from the SUPPORTED_TOKEN_SWAPS
+  let poolFee = 10000;
+
+  return [contractName, tokenIn, tokenOut, profitAddress, poolFee];
+}

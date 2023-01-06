@@ -4,11 +4,7 @@
   import TableHead from "$lib/Flowbite/utils/TableHead.svelte";
   import { page } from "$app/stores";
   import { signer } from "svelte-ethers-store";
-  import {
-    getContractInstance,
-    getCurrency,
-    getTokenSymbol,
-  } from "$lib/js/utils";
+  import { getContractInstance, getTokenSymbol } from "$lib/js/utils";
   import {
     TableBody,
     TableBodyCell,

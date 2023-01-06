@@ -41,12 +41,12 @@
       type: "expense",
     },
     {
-      title: "Primary & Secondary Splits",
-      subtitle: "Create separate splits for primary and secondary NFT sales",
+      title: "Token Swap Contract",
+      subtitle: "Swap ETH automatically for USDC or any other token",
       icon: Cash,
-      color: "bg-gray-300",
-      enabled: false,
-      type: "nft",
+      color: "bg-accent-500",
+      enabled: true,
+      type: "swap",
     },
     {
       title: "Distribute Revenue to NFT Holders",

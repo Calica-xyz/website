@@ -2,6 +2,7 @@
   import ConfigureCapped from "./ConfigureCapped.svelte";
   import ConfigureSimple from "./ConfigureSimple.svelte";
   import ConfigureExpense from "./ConfigureExpense.svelte";
+  import ConfigureSwap from "./ConfigureSwap.svelte";
 
   export let reconfiguring: boolean = false;
   export let amountTransferred = 0;
@@ -23,4 +24,6 @@
   />
 {:else if pagesState[0].type == "expense"}
   <ConfigureExpense {initialValues} {onSubmit} {onBack} {reconfiguring} />
+{:else if pagesState[0].type == "swap"}
+  <ConfigureSwap {initialValues} {onSubmit} {onBack} {reconfiguring} />
 {/if}

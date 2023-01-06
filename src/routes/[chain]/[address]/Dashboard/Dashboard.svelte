@@ -18,6 +18,7 @@
   import TokenBalance from "./TokenBalance.svelte";
   import TokensPaid from "./TokensPaid.svelte";
   import { ethers } from "ethers";
+  import TokenSwap from "./TokenSwap.svelte";
 
   export let ownerAddress: string;
   export let tokenAddress: string;
@@ -345,6 +346,13 @@
         class="flex-1 order-1"
         data={chartData}
         {tokenBalances}
+      />
+    {:else if agreementType === "swap"}
+      <TokenSwap
+        {isOwner}
+        chain={$page.params.chain}
+        class="flex-1"
+        data={chartData}
       />
     {/if}
 
