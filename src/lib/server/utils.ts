@@ -98,9 +98,11 @@ export async function getBaseContractData(
   let ownerAddress = await contract.owner();
   let contractName = await contract.contractName();
   let reconfigurable = contractType == "expense";
+  let pushETH = false;
 
   try {
     reconfigurable = await contract.isReconfigurable();
+    pushETH = await contract.isPush();
   } catch (err) {
     // Older contracts don't have this function
 
@@ -141,6 +143,7 @@ export async function getBaseContractData(
     withdrawalHistory,
     reconfigurable,
     tokenBalances,
+    pushETH,
   };
 }
 

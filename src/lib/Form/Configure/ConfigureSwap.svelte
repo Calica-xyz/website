@@ -20,6 +20,8 @@
   export let onBack: (values: any) => void;
   export let reconfiguring = false;
 
+  console.log(initialValues);
+
   let name = initialValues.name;
   let profitAddress = initialValues.profitAddress;
   let tokenAddress0 =
@@ -146,7 +148,12 @@
             value="true"
             disabled={reconfiguring}>Yes</Radio
           >
-          <Radio name="pushETH" bind:group={pushETH} value="false">No</Radio>
+          <Radio
+            name="pushETH"
+            bind:group={pushETH}
+            value="false"
+            disabled={reconfiguring}>No</Radio
+          >
         </div>
       </div>
 

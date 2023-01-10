@@ -184,7 +184,10 @@ export async function GET({ url }) {
 
     return json({
       agreementType: contractType,
-      chartData: [tokenIn, tokenOut],
+      chartData: {
+        "0tokenAddress": tokenIn,
+        "1tokenAddress": tokenOut,
+      },
       addressMappings,
       ...(await getBaseContractData(
         contractType,

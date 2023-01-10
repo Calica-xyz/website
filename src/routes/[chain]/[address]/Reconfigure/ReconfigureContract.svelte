@@ -9,6 +9,7 @@
   import { TOKEN_DECIMALS } from "$lib/js/globals";
 
   export let reconfigurable: boolean = false;
+  export let pushETH: boolean = false;
   export let agreementType: string;
   export let contractName: string;
   export let chartData: any;
@@ -28,6 +29,7 @@
       name: contractName,
       profitAddress: new String(profitAddress),
       reconfigurable: reconfigurable.toString(),
+      pushETH: pushETH.toString(),
       tokenAddress,
       [agreementType]: JSON.parse(JSON.stringify(chartData)),
     },
@@ -125,6 +127,17 @@
     return contractData;
   }
 
+  function convertSwapFormData(formData: any) {
+    let tokenIn = formData.swap["0tokenAddress"];
+    let tokenOut = formData.swap["1tokenAddress"];
+    let profitAddress = formData.profitAddress;
+
+    // TODO: Pull this from the SUPPORTED_TOKEN_SWAPS
+    let poolFee = 10000;
+
+    return [profitAddress, tokenIn, tokenOut, poolFee];
+  }
+
   async function onSubmit(values: any) {
     if (currentPage == pages.length - 1) {
       // On our final page, we transact with the smart contract factory
@@ -216,6 +229,36 @@
               );
             }
             break;
+
+          case "swap":
+            contractData = convertSwapFormData(pagesState[1]);
+
+            contract = getContractInstance(
+              $page.params.address,
+              "tokenSwap",
+              $signer
+            );
+
+            try {
+              let res = await contract.reconfigure(
+                contractData[0],
+                contractData[1],
+                contractData[2],
+                contractData[3]
+              );
+              await res.wait();
+
+              showMessage(
+                "Transaction was successful. Refresh to see the new terms.",
+                "green"
+              );
+            } catch (err) {
+              console.log(err);
+              showMessage(
+                "There was a problem while reconfiguring the contract.",
+                "red"
+              );
+            }
         }
       } catch (err) {
         console.log(err);

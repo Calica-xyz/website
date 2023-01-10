@@ -197,7 +197,7 @@
 
         <div class="flex flex-row items-center gap-x-5">
           <p>{tokenBalance.balance}</p>
-          {#if hasExpenseBalanceForToken(tokenAddress)}
+          {#if contractType == "expense" && hasExpenseBalanceForToken(tokenAddress)}
             <Button
               on:click={async () => {
                 if (contractType == "expense") {

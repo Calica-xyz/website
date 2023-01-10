@@ -9,10 +9,14 @@
   export let isOwner: boolean;
   export let data: any;
 
-  console.log(data);
-
-  let tokenSymbol0 = getTokenSymbol(data[0], getChainFromId($chainId));
-  let tokenSymbol1 = getTokenSymbol(data[1], getChainFromId($chainId));
+  let tokenSymbol0 = getTokenSymbol(
+    data["0tokenAddress"],
+    getChainFromId($chainId)
+  );
+  let tokenSymbol1 = getTokenSymbol(
+    data["1tokenAddress"],
+    getChainFromId($chainId)
+  );
 </script>
 
 <Card class={`${$$props.class}`} style="min-width: min(250px, 100%);">
