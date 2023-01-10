@@ -21,6 +21,8 @@
   export let reconfiguring: boolean = false;
   export let tokenAddress: string;
 
+  let calicaFee = agreement == "swap" ? 1 : 0;
+
   function getAgreementTitles() {
     switch (agreement) {
       case "simple":
@@ -34,6 +36,11 @@
         return [
           "Expense Reimbursement",
           "Funds are distributed to cover costs first.",
+        ];
+      case "swap":
+        return [
+          "Token Swap Contract",
+          "Swap received tokens for another token",
         ];
       default:
         return ["Agreement", ""];
@@ -118,6 +125,21 @@
         return cappedStr + "</div>";
       case "expense":
         return getExpenseText(terms, profitAddress);
+      case "swap":
+        return `<div class='flex flex-col gap-6'>
+          <div class='flex flex-col gap-1'>
+            <p class='mb-0.5 text-gray-800 underline'>Profit Address</p>
+            <p class="subtitle-text text-gray-400">${profitAddress}</p>
+          </div>
+          <div class='flex flex-col gap-1'>
+            <p class='mb-0.5 text-gray-800 underline'>Input Token Address</p>
+            <p class="subtitle-text text-gray-400">${terms["0tokenAddress"]}</p>
+          </div>
+          <div class='flex flex-col gap-1'>
+            <p class='mb-0.5 text-gray-800 underline'>Output Token Address</p>
+            <p class="subtitle-text text-gray-400">${terms["1tokenAddress"]}</p>
+          </div>
+        </div>`;
       default:
         return "";
     }
@@ -202,7 +224,9 @@
       {#if !reconfiguring}
         <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">Calica Fee</dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">0%</dd>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            {calicaFee}%
+          </dd>
         </div>
 
         <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

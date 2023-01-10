@@ -92,6 +92,16 @@
     await contract.sendToProfitAddress(tokenAddresses);
   }
 
+  async function swap() {
+    let contract = getContractInstance(
+      $page.params.address,
+      "tokenSwap",
+      $signer
+    );
+
+    contract.swap();
+  }
+
   function hasExpenseBalanceForToken(tokenAddress: string) {
     for (let expense of expenses) {
       if (
@@ -158,7 +168,7 @@
             : ""}
           >{contractType == "expense"
             ? "Reimburse All Expenses"
-            : "Distribute All"}</DropdownItem
+            : "Withdraw All"}</DropdownItem
         >
       </div>
       {#if contractType == "expense"}
@@ -169,7 +179,11 @@
           >
         </div>
       {/if}
-      <!-- <DropdownItem class="cursor-not-allowed">Swap Tokens</DropdownItem> -->
+      <div on:click={swap}>
+        <DropdownItem class={!hasContractBalance() ? "cursor-not-allowed " : ""}
+          >Swap</DropdownItem
+        >
+      </div>
     </Dropdown>
   </div>
 

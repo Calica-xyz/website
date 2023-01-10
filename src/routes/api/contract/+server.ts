@@ -1,4 +1,4 @@
-import { CONTRACT_TYPES } from "$lib/js/globals";
+import { CALICA_FEE_ADDRESS, CONTRACT_TYPES } from "$lib/js/globals";
 import { getRollupDetails } from "$lib/js/rollups";
 import { getContractInstance, getFactoryContract } from "$lib/js/utils";
 import {
@@ -177,7 +177,10 @@ export async function GET({ url }) {
     let tokenOut = await contract.tokenOut();
 
     let profitAddress = await contract.profitAddress();
-    let addressMappings = {};
+    let addressMappings = {
+      [profitAddress]: "Profit Address",
+      [CALICA_FEE_ADDRESS]: "Calica",
+    };
 
     return json({
       agreementType: contractType,

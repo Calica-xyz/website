@@ -129,9 +129,7 @@
             break;
 
           case "swap":
-            console.log("we out here", pagesState);
-
-            contractData = convertSwapFormData(pagesState[1]);
+            contractData = convertSwapFormData(pagesState[1], chain);
 
             factoryContract = getFactoryContract(
               "tokenSwapFactory",
@@ -146,14 +144,14 @@
                 contractData,
                 pagesState[1].reconfigurable == "true",
                 pagesState[1].pushETH == "true",
-                0
+                100 // 1% Calica Fee
               );
               let receipt = await res.wait();
               deployAddress = receipt.events[0].args[1];
 
               if (oceanAddress) {
                 goto(
-                  `/ocean/integrate?oceanAddress=${oceanAddress}&calicaAddress=${deployAddress}&contractType=simple`
+                  `/ocean/integrate?oceanAddress=${oceanAddress}&calicaAddress=${deployAddress}&contractType=swap`
                 );
               }
               pageIndex += 1;

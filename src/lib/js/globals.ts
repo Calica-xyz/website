@@ -7,6 +7,8 @@ import expenseSubmissionFactoryABI from "$lib/ABIs/ExpenseSubmissionFactory.json
 import tokenSwapABI from "$lib/ABIs/TokenSwap.json";
 import tokenSwapFactoryABI from "$lib/ABIs/TokenSwapFactory.json";
 
+export const CALICA_FEE_ADDRESS = "0xAb0279E49891416EADA65e36aE1AEd1A67A15d24";
+
 export const CONTRACT_ABIS = {
   simpleRevShare: simpleRevShareABI,
   simpleRevShareFactory: simpleRevShareFactoryABI,
@@ -34,7 +36,7 @@ export const CONTRACT_ADDRESSES = {
     homestead: "0xF4D5c4996288B9171299E25082E2C977A5fdB5C0",
   },
   tokenSwapFactory: {
-    goerli: "0x41E7FC33e7ceB99f5A345e91C4f638cCFFD46962",
+    goerli: "0x19df3e174AD80ca2882aDeAbCf4F81e0306704d4",
   },
 };
 
@@ -83,4 +85,11 @@ export const TOKEN_DECIMALS = {
   "0xdac17f958d2ee523a2206206994597c13d831ec7": 6,
   "0x967da4048cd07ab37855c090aaf366e4ce1b9f48": 18,
   "0xCfDdA22C9837aE76E0faA845354f33C62E03653a": 18,
+};
+
+export const WETH_ADDRESS = {
+  maticmum: "0x062f24cb618e6ba873EC1C85FD08B8D2Ee9bF23e",
+  matic: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+  goerli: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+  homestead: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
 };
