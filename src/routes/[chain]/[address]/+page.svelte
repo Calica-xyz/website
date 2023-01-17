@@ -12,6 +12,8 @@
   let integrationData = data.integrationData;
   let contractData = data.contractData;
   let currentPage = 0;
+
+  console.log("CONTRACT DATA", contractData);
 </script>
 
 <svelte:head>

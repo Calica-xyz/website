@@ -1,22 +1,17 @@
 <script lang="ts">
   import Card from "$lib/Flowbite/Card.svelte";
   import { chainId } from "svelte-ethers-store";
-  import { getChainFromId, getTokenSymbol } from "$lib/js/utils";
+  import { getTokenSymbol } from "$lib/js/utils";
   import TokenIcon from "$lib/Icons/TokenIcon.svelte";
   import TokenDropdown from "$lib/Form/Configure/TokenDropdown.svelte";
   import { ArrowRight } from "svelte-heros";
 
   export let isOwner: boolean;
   export let data: any;
+  export let chain: string;
 
-  let tokenSymbol0 = getTokenSymbol(
-    data["0tokenAddress"],
-    getChainFromId($chainId)
-  );
-  let tokenSymbol1 = getTokenSymbol(
-    data["1tokenAddress"],
-    getChainFromId($chainId)
-  );
+  let tokenSymbol0 = getTokenSymbol(data["0tokenAddress"], chain);
+  let tokenSymbol1 = getTokenSymbol(data["1tokenAddress"], chain);
 </script>
 
 <Card class={`${$$props.class}`} style="min-width: min(250px, 100%);">

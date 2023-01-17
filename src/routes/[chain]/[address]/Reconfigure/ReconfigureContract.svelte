@@ -6,7 +6,7 @@
   import { ethers } from "ethers";
   import { signer } from "svelte-ethers-store";
   import { page } from "$app/stores";
-  import { TOKEN_DECIMALS } from "$lib/js/globals";
+  import { SUPPORTED_TOKEN_SWAPS, TOKEN_DECIMALS } from "$lib/js/globals";
 
   export let reconfigurable: boolean = false;
   export let pushETH: boolean = false;
@@ -128,12 +128,17 @@
   }
 
   function convertSwapFormData(formData: any) {
+    let chain = $page.params.chain;
     let tokenIn = formData.swap["0tokenAddress"];
     let tokenOut = formData.swap["1tokenAddress"];
     let profitAddress = formData.profitAddress;
 
-    // TODO: Pull this from the SUPPORTED_TOKEN_SWAPS
-    let poolFee = 10000;
+    let swapKey =
+      tokenIn.localeCompare(tokenOut) < 0
+        ? tokenIn + "-" + tokenOut
+        : tokenOut + "-" + tokenIn;
+
+    let poolFee = SUPPORTED_TOKEN_SWAPS[chain][swapKey].poolFee;
 
     return [profitAddress, tokenIn, tokenOut, poolFee];
   }

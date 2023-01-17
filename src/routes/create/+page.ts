@@ -1,4 +1,8 @@
-import { TOKEN_DECIMALS, WETH_ADDRESS } from "$lib/js/globals";
+import {
+  SUPPORTED_TOKEN_SWAPS,
+  TOKEN_DECIMALS,
+  WETH_ADDRESS,
+} from "$lib/js/globals";
 import { ethers } from "ethers";
 
 /** @type {import('./$types').PageLoad} */
@@ -82,16 +86,21 @@ export function convertExpenseFormData(formData: any) {
 }
 
 export function convertSwapFormData(formData: any, chain: string) {
-  console.log(formData);
+  console.log(chain);
   let contractName = formData.name;
   let tokenIn = formData.swap["0tokenAddress"];
   let tokenOut = formData.swap["1tokenAddress"];
   let wethAddress = WETH_ADDRESS[chain];
   let profitAddress = formData.profitAddress;
 
-  // TODO: Pull this from the SUPPORTED_TOKEN_SWAPS
-  let poolFee = 10000;
+  let swapKey =
+    tokenIn.localeCompare(tokenOut) < 0
+      ? tokenIn + "-" + tokenOut
+      : tokenOut + "-" + tokenIn;
 
+  console.log(swapKey);
+
+  let poolFee = SUPPORTED_TOKEN_SWAPS[chain][swapKey];
   let slippage = getSlippage(chain);
 
   return [
