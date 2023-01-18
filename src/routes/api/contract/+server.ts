@@ -55,7 +55,11 @@ export async function GET({ url }) {
           chain
         )),
       },
-      {}
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
     );
   } else if (contractType == "capped") {
     let contract = getContractInstance(address, "cappedRevShare", nodeProvider);
@@ -88,21 +92,28 @@ export async function GET({ url }) {
     let amountTransferred = await contract.amountTransferred();
     amountTransferred = parseFloat(formatEther(amountTransferred));
 
-    return json({
-      agreementType: contractType,
-      chartData: cappedSplits,
-      tokenAddress,
-      amountTransferred,
-      addressMappings,
-      ...(await getBaseContractData(
-        contractType,
-        contract,
-        factoryContract,
-        nodeProvider,
-        address,
-        chain
-      )),
-    });
+    return json(
+      {
+        agreementType: contractType,
+        chartData: cappedSplits,
+        tokenAddress,
+        amountTransferred,
+        addressMappings,
+        ...(await getBaseContractData(
+          contractType,
+          contract,
+          factoryContract,
+          nodeProvider,
+          address,
+          chain
+        )),
+      },
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
   } else if (contractType == "rollup") {
     let rollupDetails = getRollupDetails(address);
     let addressMappings = getAddressMappings(
@@ -122,15 +133,22 @@ export async function GET({ url }) {
       return a.timestamp - b.timestamp;
     });
 
-    return json({
-      contractName: address,
-      ownerAddress: rollupDetails.ownerAddress,
-      withdrawalHistory: withdrawals,
-      agreementType: rollupDetails.agreementType,
-      chartData: rollupDetails.chartData,
-      addressMappings,
-      reconfigurable: false,
-    });
+    return json(
+      {
+        contractName: address,
+        ownerAddress: rollupDetails.ownerAddress,
+        withdrawalHistory: withdrawals,
+        agreementType: rollupDetails.agreementType,
+        chartData: rollupDetails.chartData,
+        addressMappings,
+        reconfigurable: false,
+      },
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
   } else if (contractType == "expense") {
     let contract = getContractInstance(
       address,
@@ -151,20 +169,27 @@ export async function GET({ url }) {
       profitAddress
     );
 
-    return json({
-      agreementType: contractType,
-      chartData: expenses,
-      addressMappings,
-      ...(await getBaseContractData(
-        contractType,
-        contract,
-        factoryContract,
-        nodeProvider,
-        address,
-        chain
-      )),
-      profitAddress,
-    });
+    return json(
+      {
+        agreementType: contractType,
+        chartData: expenses,
+        addressMappings,
+        ...(await getBaseContractData(
+          contractType,
+          contract,
+          factoryContract,
+          nodeProvider,
+          address,
+          chain
+        )),
+        profitAddress,
+      },
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
   } else if (contractType == "swap") {
     let contract = getContractInstance(address, "tokenSwap", nodeProvider);
     let factoryContract = getFactoryContract(
@@ -182,23 +207,30 @@ export async function GET({ url }) {
       [CALICA_FEE_ADDRESS]: "Calica",
     };
 
-    return json({
-      agreementType: contractType,
-      chartData: {
-        "0tokenAddress": tokenIn,
-        "1tokenAddress": tokenOut,
+    return json(
+      {
+        agreementType: contractType,
+        chartData: {
+          "0tokenAddress": tokenIn,
+          "1tokenAddress": tokenOut,
+        },
+        addressMappings,
+        ...(await getBaseContractData(
+          contractType,
+          contract,
+          factoryContract,
+          nodeProvider,
+          address,
+          chain
+        )),
+        profitAddress,
       },
-      addressMappings,
-      ...(await getBaseContractData(
-        contractType,
-        contract,
-        factoryContract,
-        nodeProvider,
-        address,
-        chain
-      )),
-      profitAddress,
-    });
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
   }
 
   throw error(500, "Unrecognized contract type");
@@ -209,10 +241,8 @@ async function findContractType(address: string, chain: string) {
 
   for (let contractType of CONTRACT_TYPES) {
     try {
-      let factoryName =
-        contractType == "expense"
-          ? "expenseSubmissionFactory"
-          : contractType + "RevShareFactory";
+      let factoryName = getFactoryContractName(contractType);
+
       let factoryContract = getFactoryContract(
         factoryName,
         nodeProvider,
@@ -237,4 +267,11 @@ async function findContractType(address: string, chain: string) {
       // throw error(500, errorMessage);
     }
   }
+}
+
+function getFactoryContractName(contractType: string) {
+  if (contractType == "capped") return "cappedRevShareFactory";
+  if (contractType == "expense") return "expenseSubmissionFactory";
+  if (contractType == "swap") return "tokenSwapFactory";
+  return "impleRevShareFactory";
 }
