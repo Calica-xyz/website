@@ -12,7 +12,10 @@ const config = {
 	],
 	define: {
 		global: {}
-	}
+	},
+	// server: {
+	// 	cors: true
+	// }
 };
 
 export default config;
