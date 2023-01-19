@@ -56,9 +56,9 @@ export async function GET({ url }) {
         )),
       },
       {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
+        headers: [
+          ["Access-Control-Allow-Origin", "*"],
+        ],
       }
     );
   } else if (contractType == "capped") {
@@ -109,9 +109,9 @@ export async function GET({ url }) {
         )),
       },
       {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
+        headers: [
+          ["Access-Control-Allow-Origin", "*"],
+        ],
       }
     );
   } else if (contractType == "rollup") {
@@ -144,9 +144,9 @@ export async function GET({ url }) {
         reconfigurable: false,
       },
       {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
+        headers: [
+          ["Access-Control-Allow-Origin", "*"],
+        ]
       }
     );
   } else if (contractType == "expense") {
@@ -185,9 +185,9 @@ export async function GET({ url }) {
         profitAddress,
       },
       {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
+        headers: [
+          ["Access-Control-Allow-Origin", "*"],
+        ]
       }
     );
   } else if (contractType == "swap") {
@@ -226,9 +226,9 @@ export async function GET({ url }) {
         profitAddress,
       },
       {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
+        headers: [
+          ["Access-Control-Allow-Origin", "*"],
+        ]
       }
     );
   }
